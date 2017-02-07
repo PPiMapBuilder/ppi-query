@@ -15,15 +15,18 @@
 
 (s/def ::interaction (s/keys :req-un [::interactorA ::interactorB]))
 
+; List of APIs
 (def registry
   [{:name "IntAct"
     :url  "http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/"}])
 
+; Psicquic Clients
 (def registry-clients
   (map (fn [service]
          (new PsicquicSimpleClient (:url service)))
        registry))
 
+; Psimi Reader
 (def reader (new PsimiTabReader))
 
 (defn get-by-query [client query]
@@ -37,6 +40,27 @@
   :args (s/cat :client class? :query string?)
   :ret (s/coll-of ::interactions))
 
+(comment
+  (binding [*print-level* 3]
+    (let [client (first registry-clients)
+          query  "P04040 or Q14145"]
+      (println (take 2 (get-by-query client query))))))
+
+;({:detectionMethods (#), :updateDate (), :publications (# #),
+;  :negativeInteraction false, :xrefs (), :checksums (),
+;  :interactorA {
+;    :features #, :organism #, :alternativeIdentifiers #,
+;    :identifiers #, :xrefs #, :checksums #, :interactorTypes #,
+;    :stoichiometry #, :empty false, :participantIdentificationMethods #,
+;    :annotations #, :aliases #, :experimentalRoles #, :biologicalRoles #
+;  },
+;  :interactorB {
+;    :features #, ###},
+;  :complexExpansion (), :interactionAcs (# #),
+;  :annotations (), :authors (#), :parameters (), :confidenceValues (#),
+;  :creationDate (), :sourceDatabases (#), :interactionTypes (#), :hostOrganism nil
+;}
+;{:detectionMethods (#), ###})
 
 (defn get-interactor-database-ids [database interactor]
   "Get interactor identifiers for a specific database"
@@ -49,6 +73,16 @@
   :args (s/cat :database string? :interactor ::interactor)
   :ret (s/coll-of string?))
 
+(comment
+  (binding [*print-level* 3]
+    (let [client (first registry-clients)
+          query  "P04040"]
+      (println
+        (get-interactor-database-ids
+          "uniprotkb"
+          (:interactorA
+            (first (get-by-query client query))))))))
+; (P04040)
 
 (def get-interactor-uniprotid
   (comp first (partial get-interactor-database-ids "uniprotkb")))
@@ -57,6 +91,7 @@
   :args (s/cat :database string?)
   :ret (s/coll-of ::identifier))
 
+; See above
 
 (def get-interactors-uniprotids
   (juxt
@@ -66,3 +101,15 @@
 (s/fdef get-interactors-uniprotids
   :args (s/cat :interaction ::interaction)
   :ret (s/coll-of ::identifier))
+
+(comment
+  (binding [*print-level* 3]
+    (let [client (first registry-clients)
+          query  "P04040 or Q14145"]
+      (println
+        (take 6
+          (map get-interactors-uniprotids
+            (get-by-query client query)))))))
+
+; ([P04040 Q14145] [P04040 P29991-PRO_0000037946] [P04040 P04040]
+;  [B4DYC6 Q14145] [Q14145 Q8IVD9] [Q14145 Q96BE0] ###)
