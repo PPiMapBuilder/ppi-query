@@ -70,7 +70,7 @@
     (map :identifier)))
 
 (s/fdef get-interactor-database-ids
-  :args (s/cat :database string? :interactor ::interactor)
+  :args (s/cat :database ::database :interactor ::interactor)
   :ret (s/coll-of string?))
 
 (comment
@@ -88,7 +88,7 @@
   (comp first (partial get-interactor-database-ids "uniprotkb")))
 
 (s/fdef get-interactor-uniprotid
-  :args (s/cat :database string?)
+  :args (s/cat :database ::database)
   :ret (s/coll-of ::identifier))
 
 ; See above
@@ -113,3 +113,18 @@
 
 ; ([P04040 Q14145] [P04040 P29991-PRO_0000037946] [P04040 P04040]
 ;  [B4DYC6 Q14145] [Q14145 Q8IVD9] [Q14145 Q96BE0] ###)
+
+(defn get-query-by-taxon
+  "Returns query filtering interaction for which the taxonomic ID of the two proteins and
+   the species is the `taxId` parameter"
+  [taxId]
+  [:and [:taxidA taxId] [:taxidB taxId] [:species taxId]])
+
+(s/fdef get-query-by-taxon
+  :args (s/cat :taxId int?)
+  :ret (s/coll-of vector?))
+
+(comment
+  (get-query-by-taxon 9606))
+
+; [:and [:taxidA 9606] [:taxidB 9606] [:species 9606]]
