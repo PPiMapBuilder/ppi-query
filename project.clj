@@ -14,6 +14,7 @@
                  [org.hupo.psi.mi.psicquic/psicquic-simple-client "1.3.3"]
                  [org.hupo.psi.mi.psicquic/psicquic-registry-client "1.1.0"]]
 
+  :plugins [[lein-auto "0.1.3"]]
   :profiles {:dev
               {:dependencies
                 [[proto-repl "0.3.1"]
