@@ -113,18 +113,3 @@
 
 ; ([P04040 Q14145] [P04040 P29991-PRO_0000037946] [P04040 P04040]
 ;  [B4DYC6 Q14145] [Q14145 Q8IVD9] [Q14145 Q96BE0] ###)
-
-(defn get-query-by-taxon
-  "Returns query filtering interaction for which the taxonomic ID of the two proteins and
-   the species is the `taxId` parameter"
-  [taxId]
-  [:and [:taxidA taxId] [:taxidB taxId] [:species taxId]])
-
-(s/fdef get-query-by-taxon
-  :args (s/cat :taxId int?)
-  :ret (s/coll-of vector?))
-
-(comment
-  (get-query-by-taxon 9606))
-
-; [:and [:taxidA 9606] [:taxidB 9606] [:species 9606]]
