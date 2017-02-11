@@ -29,12 +29,18 @@
 ; Psimi Reader
 (def reader (new PsimiTabReader))
 
-(defn get-by-query [client query]
+(defn get-by-query
   "Get lazy sequence of interactions by query (with psicquic client)"
-  (let [result-stream (.getByQuery client query)
-        result-java   (.read reader result-stream)
-        result-clj    (from-java result-java)]
-    result-clj))
+  ([client query]
+   (let [result-stream (.getByQuery client query)
+         result-java   (.read reader result-stream)
+         result-clj    (from-java result-java)]
+     result-clj))
+  ([client query max-results first-result]
+   (let [result-stream (.getByQuery client query PsicquicSimpleClient/MITAB25 first-result max-results)
+         result-java   (.read reader result-stream)
+         result-clj    (from-java result-java)]
+     result-clj)))
 
 (s/fdef get-by-query
   :args (s/cat :client class? :query string?)
@@ -61,6 +67,24 @@
 ;  :creationDate (), :sourceDatabases (#), :interactionTypes (#), :hostOrganism nil
 ;}
 ;{:detectionMethods (#), ###})
+
+(comment
+  (let [client (first registry-clients)
+        query  "P04040 or Q14145"]
+    (println (.countByQuery client query))))
+
+; https://github.com/PSICQUIC/psicquic-simple-client/blob/master/src/example/java/org/hupo/psi/mi/psicquic/wsclient/PsicquicSimpleExampleLimited.java
+(defn fetch-by-query
+  "Handle pagination doing get-by-query (with psicquic client)"
+  ([client query] (fetch-by-query client query 100))
+  ([client query pagesize]
+   (apply concat
+     (map (partial get-by-query client query pagesize)
+          (range 0 (.countByQuery client query) pagesize)))))
+
+(s/fdef fetch-by-query
+  :args (s/cat :client class? :query string? :optional-pagesize int?)
+  :ret (s/coll-of ::interactions))
 
 (defn get-interactor-database-ids [database interactor]
   "Get interactor identifiers for a specific database"

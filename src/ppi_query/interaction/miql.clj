@@ -38,7 +38,7 @@
     (case fst
       (:or :and) (str "("
                       (clojure.string/join
-                         ({:or " or " :and " and "} fst)
+                         ({:or " OR " :and " AND "} fst)
                          (map to-miql rest))
                       ")")
       (str (name fst) ":" (str (first rest))))))
@@ -50,4 +50,4 @@
 (comment
   (to-miql [:species 9606])
   (to-miql [:and [:id "value"] [:or [:idA "value2"] [:idB "value3"]]]))
-  ; "(id:value and (idA:value2 or idB:value3))"
+  ; "(id:value AND (idA:value2 OR idB:value3))"

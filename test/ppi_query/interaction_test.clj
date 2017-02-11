@@ -1,6 +1,7 @@
 (ns ppi-query.interaction-test
   (:require [clojure.test :refer :all]
-            [ppi-query.interaction :refer :all]))
+            [ppi-query.interaction :refer :all]
+            [ppi-query.interaction.miql :refer :all]))
 
 (defn trace [x]
   (println "trace" x)
@@ -25,6 +26,15 @@
       "Psicquic interactions"
       {:nodes nodes :edges edges})))
 
+(deftest test-fetch-by-query
+  (let [client (first registry-clients)
+        query  "P04040 or Q14145"
+        getby  (get-by-query client query)]
+    (is (= getby
+           (fetch-by-query client query)))
+    (is (= getby
+           (fetch-by-query client query 50)))))
+
 ; Interactome Tests
 (deftest test-get-query-by-taxon
    (is (=
@@ -35,6 +45,6 @@
   (is (= (to-miql [:key1 "value"])
          "key1:value"))
   (is (= (to-miql [:and [:key1 "value"] [:or [:key2 "value2"] [:key3 "value3"]]])
-         "(key1:value and (key2:value2 or key3:value3))"))
+         "(key1:value AND (key2:value2 OR key3:value3))"))
   (is (not (= (to-miql [:and [:key1 "value"] [:or [:key2 "value2"] [:key3 "value3"]]])
-              "key1:value and (key2:value2 or key3:value3)"))))
+              "key1:value AND (key2:value2 OR key3:value3)"))))
