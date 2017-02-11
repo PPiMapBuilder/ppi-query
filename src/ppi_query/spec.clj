@@ -1,5 +1,6 @@
 (ns ppi-query.spec
-  (:require [clojure.spec :as s]))
+  (:require [clojure.spec :as s]
+            [clojure.set :refer [union]]))
 
 (defn genkw [ns name]
   "Same as gensym but for namespaced keywords."
@@ -38,3 +39,46 @@
                  ; resursivly nested sub-queries
                 :operand (s/cat :operator #{:or :and}
                                 :queries (s/+ ~query-spec-kw)))))))
+
+(defn char-range-set [start end]
+  "Generate a range set of characters between two given characters"
+  (->> (range (int start) (inc (int end)))
+       (map (comp #(get (str %) 0) char))
+       (into #{})))
+
+;[0-9]
+(def digit-set
+  (char-range-set \0 \9))
+
+;[A-Z]
+(def alpha-set
+  (char-range-set \A \Z))
+
+; [A-Z0-9]
+(def digit-alpha-set
+  (union digit-set alpha-set))
+
+; [a-zA-Z0-9_]
+(def word-set
+  (union digit-set alpha-set (char-range-set \a \z) #{\_}))
+
+
+(defn- s-repeat-size [spec size]
+  (let [body (interleave
+               (->> (range size) (map (comp keyword str)))
+               (repeat size spec))]
+    `(s/cat ~@body)))
+
+(defn- s-repeat-range [spec start end]
+  (let [rrange (range start end)
+        s-repeat (partial s-repeat-size spec)
+        body (interleave
+               (->> rrange (map (comp keyword str)))
+               (->> rrange (map (comp s-repeat inc))))]
+    `(s/alt ~@body)))
+
+(defmacro s-repeat
+  "Example:
+    (s-repeat alpha-set 2 4) ;equivalent to [A-Z]{2,4}"
+  ([spec start end] (s-repeat-range spec start end))
+  ([spec size] (s-repeat-size spec size)))
