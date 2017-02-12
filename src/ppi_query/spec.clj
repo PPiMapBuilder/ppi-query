@@ -79,6 +79,7 @@
 
 (defmacro s-repeat
   "Example:
+    (s-repeat alpha-set 2) ;equivalent to [A-Z]{2}
     (s-repeat alpha-set 2 4) ;equivalent to [A-Z]{2,4}"
   ([spec start end] (s-repeat-range spec start end))
   ([spec size] (s-repeat-size spec size)))

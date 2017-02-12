@@ -1,5 +1,6 @@
 (ns ppi-query.protein.uniprot
          (:require [clojure.spec :as s]
+                   [clojure.spec.gen :as gen]
                    [clojure.set :refer [union]]
                    [ppi-query.spec :as ps]))
 
@@ -32,25 +33,30 @@
     :1 (s/? (s/cat :0 #{\- \.}
                    :1 (s/+ ps/word-set)))))
 
+(def str-to-seq seq)
+(def seq-to-str (partial apply str))
+
 ; strict Uniprot ID spec on strings
 (s/def ::uniprotid-strict
   (s/with-gen
     (s/and
+      string?
       ; if string: convert to seq
-      (s/conformer seq)
+      (s/conformer str-to-seq seq-to-str)
       ; unirpot id RegExp
       ::uniprotid-strict-seq)
-    #(s/gen ::uniprotid-strict-seq)))
+    #(gen/fmap seq-to-str (s/gen ::uniprotid-strict-seq))))
 
 ; Uniprot ID spec on strings (with optional revision suffix)
 (s/def ::uniprotid
   (s/with-gen
     (s/and
+      string?
       ; if string: convert to seq
-      (s/conformer seq)
+      (s/conformer str-to-seq seq-to-str)
       ; unirpot id RegExp
       ::uniprotid-seq)
-    #(s/gen ::uniprotid-seq)))
+    #(gen/fmap seq-to-str (s/gen ::uniprotid-seq))))
 
 (defn get-strict-uniprotid [id]
   "Extract a strict UniProt id from an id potentially containing a
@@ -58,7 +64,3 @@
 
    Example: (get-strict-uniprotid \"P04040-1\") ;=> \"P04040\""
    (get (re-matches uniprotid-regexp id) 1))
-
-(s/fdef get-strict-uniprotid
-  :args (s/cat :id ::uniprotid)
-  :ret ::uniprotid-strict)

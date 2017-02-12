@@ -1,16 +1,21 @@
 (ns ppi-query.protein-test
   (:require [clojure.test :refer :all]
+            [clojure.spec :as s]
             [clojure.spec.test :as stest]
-            [ppi-query.test.utils :refer [are-valid are-invalid]]
-            [ppi-query.protein.uniprot :refer :all]))
+            [ppi-query.test.utils :refer :all]
+            [ppi-query.protein.uniprot :as uni]))
+(stest/instrument)
 
-(stest/instrument `get-strict-uniprotid)
-(stest/check `get-strict-uniprotid)
+(s/fdef uni/get-strict-uniprotid
+  :args (s/cat :id ::uni/uniprotid)
+  :ret ::uni/uniprotid-strict)
+(check `uni/get-strict-uniprotid)
+
 (deftest test-extract-strcti-uniprotid
-  (is (= (get-strict-uniprotid "P04040-1")
+  (is (= (uni/get-strict-uniprotid "P04040-1")
          "P04040")))
 
 (deftest test-valid-uniprotid-specs
-  (are-valid ::ppi-query.protein.uniprot/uniprotid
+  (are-valid ::uni/uniprotid
     "P04040-1"
     "P04040"))
