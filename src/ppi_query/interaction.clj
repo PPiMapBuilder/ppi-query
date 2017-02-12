@@ -2,7 +2,8 @@
   (:import (org.hupo.psi.mi.psicquic.wsclient PsicquicSimpleClient)
            (psidev.psi.mi.tab PsimiTabReader))
   (:require [clojure.java.data :refer :all]
-            [clojure.spec :as s]))
+            [clojure.spec :as s]
+            [ppi-query.interaction.miql :refer :all]))
 
 
 (s/def ::identifier string?)
@@ -44,14 +45,14 @@
 
 (s/fdef get-by-query
   :args (s/cat :client class? :query string?)
-  :ret (s/coll-of ::interactions))
+  :ret (s/coll-of ::interaction))
 
 (comment
   (binding [*print-level* 3]
     (let [client (first registry-clients)
-          query  "P04040 or Q14145"]
-      (println (take 2 (get-by-query client query))))))
-
+          query  (to-miql (get-query-by-taxon 6239))]
+      (println (take 2 (get-by-query client query)))))
+  (get-by-query (first registry-clients) "taxidA:6239 AND taxidB:6239 AND species:6239"))
 ;({:detectionMethods (#), :updateDate (), :publications (# #),
 ;  :negativeInteraction false, :xrefs (), :checksums (),
 ;  :interactorA {
@@ -69,22 +70,24 @@
 ;{:detectionMethods (#), ###})
 
 (comment
-  (let [client (first registry-clients)
-        query  "P04040 or Q14145"]
-    (println (.countByQuery client query))))
+  (binding [*print-level* 3]
+    (let [client (first registry-clients)
+          ;query  "P04040 or Q14145"
+          query  (to-miql (get-query-by-taxon 6239))]
+      (println (.countByQuery client query))
+      (println (take 10 (get-by-query client query))))))
 
 ; https://github.com/PSICQUIC/psicquic-simple-client/blob/master/src/example/java/org/hupo/psi/mi/psicquic/wsclient/PsicquicSimpleExampleLimited.java
 (defn fetch-by-query
   "Handle pagination doing get-by-query (with psicquic client)"
   ([client query] (fetch-by-query client query 100))
   ([client query pagesize]
-   (apply concat
-     (map (partial get-by-query client query pagesize)
-          (range 0 (.countByQuery client query) pagesize)))))
+   (mapcat (partial get-by-query client query pagesize)
+      (range 0 (.countByQuery client query) pagesize))))
 
 (s/fdef fetch-by-query
   :args (s/cat :client class? :query string? :optional-pagesize int?)
-  :ret (s/coll-of ::interactions))
+  :ret (s/coll-of ::interaction))
 
 (defn get-interactor-database-ids [database interactor]
   "Get interactor identifiers for a specific database"

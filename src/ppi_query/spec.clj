@@ -20,7 +20,7 @@
         ; Lucene term
         ; Examples: "A", [:or "A" "B"], [:and "A" "B"]
        (s/def ~term-kw
-         (s/or :str string?
+         (s/or :value (s/or :str string? :num number?)
                :operand (s/cat :operator #{:or :and}
                                :terms (s/+ ~term-kw))))
 
