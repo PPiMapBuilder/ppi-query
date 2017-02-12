@@ -1,6 +1,5 @@
 (ns ppi-query.protein.uniprot
   (:require [clojure.spec :as s]
-            [clojure.spec.gen :as gen]
             [clojure.set :refer [union]]
             [ppi-query.spec :as ps]))
 
@@ -40,23 +39,47 @@
       ::uniprotid-seq)
     #(s/gen ::uniprotid-seq)))
 
+(defn get-strict-uniprotid [id]
+  "Extract a strict UniProt id from an id potentially containing a
+   UniProt revision number.
+
+   Example: (get-strict-uniprotid \"P04040-1\") ;=> \"P04040\""
+  (let [c (s/conform ::uniprotid id)
+        search-char (fn search-char [c]
+                      (cond
+                        (seqable? c) (mapcat search-char (seq c))
+                        (char? c) [c]
+                        :else []))]
+    (if (= s/invalid? c)
+      nil
+      (apply str (search-char (:0 c))))))
+
 (comment
-  (s/conform ::uniprotid "O73")
+  ;
+  ; Benchmark extracting strict UniProt ID from a thousand generated IDs
+  ; Compare clojure.spec parsing with string RegEpx parsing
+  ;
+  (require '[clojure.core.async :refer [thread]])
+  (dotimes [n 1]
+    (let [uniprot-ids (doall
+                        (->> (s/exercise ::uniprotid-seq 100)
+                             (map first)
+                             (map (partial apply str))))]
+      (thread
+        (time
+          (doall
+            (for [uid uniprot-ids]
+              #_
+              (doall (s/conform ::uniprotid uid))
+              (get-strict-uniprotid uid))))
+        (println "Spec parse\n"))
 
-  (dotimes [n 10]
-    (let [uniprot-ids (->> (s/exercise ::uniprotid-seq 100)
-                           (map first)
-                           (map (partial apply str)))]
-      (println "RegExp parse")
-      (time
-        (doall
-          (for [uid uniprot-ids]
-            (doall (re-matches uniprotid-regexp uid)))))
-
-      (println "Spec parse")
-      (time
-        (doall
-          (for [uid uniprot-ids]
-            (doall (s/conform ::uniprotid uid)))))
-
+      (thread
+        (time
+          (doall
+            (for [uid uniprot-ids]
+              #_
+              (doall (re-matches uniprotid-regexp uid))
+              (get (re-matches uniprotid-regexp uid) 1))))
+        (println "RegExp parse\n"))
       nil)))
