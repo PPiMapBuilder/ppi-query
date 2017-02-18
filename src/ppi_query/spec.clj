@@ -21,8 +21,8 @@
         ; Lucene term
         ; Examples: "A", [:or "A" "B"], [:and "A" "B"]
        (s/def ~term-kw
-         (s/or :str string?
-               :operand (s/cat :operator #{:or :an}
+         (s/or :value (s/or :str string? :num number?)
+               :operand (s/cat :operator #{:or :and}
                                :terms (s/+ ~term-kw))))
 
         ; Lucene field search ("field:value")

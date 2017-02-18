@@ -2,7 +2,8 @@
   (:import (org.hupo.psi.mi.psicquic.wsclient PsicquicSimpleClient)
            (psidev.psi.mi.tab PsimiTabReader))
   (:require [clojure.java.data :refer :all]
-            [clojure.spec :as s]))
+            [clojure.spec :as s]
+            [ppi-query.interaction.miql :refer :all]))
 
 
 (s/def ::identifier string?)
@@ -29,23 +30,29 @@
 ; Psimi Reader
 (def reader (new PsimiTabReader))
 
-(defn get-by-query [client query]
+(defn get-by-query
   "Get lazy sequence of interactions by query (with psicquic client)"
-  (let [result-stream (.getByQuery client query)
-        result-java   (.read reader result-stream)
-        result-clj    (from-java result-java)]
-    result-clj))
+  ([client query]
+   (let [result-stream (.getByQuery client query)
+         result-java   (.read reader result-stream)
+         result-clj    (from-java result-java)]
+     result-clj))
+  ([client query max-results first-result]
+   (let [result-stream (.getByQuery client query PsicquicSimpleClient/MITAB25 first-result max-results)
+         result-java   (.read reader result-stream)
+         result-clj    (from-java result-java)]
+     result-clj)))
 
 (s/fdef get-by-query
   :args (s/cat :client class? :query string?)
-  :ret (s/coll-of ::interactions))
+  :ret (s/coll-of ::interaction))
 
 (comment
   (binding [*print-level* 3]
     (let [client (first registry-clients)
-          query  "P04040 or Q14145"]
-      (println (take 2 (get-by-query client query))))))
-
+          query  (to-miql (get-query-by-taxon 6239))]
+      (println (take 2 (get-by-query client query)))))
+  (get-by-query (first registry-clients) "taxidA:6239 AND taxidB:6239 AND species:6239"))
 ;({:detectionMethods (#), :updateDate (), :publications (# #),
 ;  :negativeInteraction false, :xrefs (), :checksums (),
 ;  :interactorA {
@@ -61,6 +68,26 @@
 ;  :creationDate (), :sourceDatabases (#), :interactionTypes (#), :hostOrganism nil
 ;}
 ;{:detectionMethods (#), ###})
+
+(comment
+  (binding [*print-level* 3]
+    (let [client (first registry-clients)
+          ;query  "P04040 or Q14145"
+          query  (to-miql (get-query-by-taxon 6239))]
+      (println (.countByQuery client query))
+      (println (take 10 (get-by-query client query))))))
+
+; https://github.com/PSICQUIC/psicquic-simple-client/blob/master/src/example/java/org/hupo/psi/mi/psicquic/wsclient/PsicquicSimpleExampleLimited.java
+(defn fetch-by-query
+  "Handle pagination doing get-by-query (with psicquic client)"
+  ([client query] (fetch-by-query client query 100))
+  ([client query pagesize]
+   (mapcat (partial get-by-query client query pagesize)
+      (range 0 (.countByQuery client query) pagesize))))
+
+(s/fdef fetch-by-query
+  :args (s/cat :client class? :query string? :optional-pagesize int?)
+  :ret (s/coll-of ::interaction))
 
 (defn get-interactor-database-ids [database interactor]
   "Get interactor identifiers for a specific database"
@@ -113,18 +140,3 @@
 
 ; ([P04040 Q14145] [P04040 P29991-PRO_0000037946] [P04040 P04040]
 ;  [B4DYC6 Q14145] [Q14145 Q8IVD9] [Q14145 Q96BE0] ###)
-
-(defn get-query-by-taxon
-  "Returns query filtering interaction for which the taxonomic ID of the two proteins and
-   the species is the `taxId` parameter"
-  [taxId]
-  [:and [:taxidA taxId] [:taxidB taxId] [:species taxId]])
-
-(s/fdef get-query-by-taxon
-  :args (s/cat :taxId int?)
-  :ret (s/coll-of vector?))
-
-(comment
-  (get-query-by-taxon 9606))
-
-; [:and [:taxidA 9606] [:taxidB 9606] [:species 9606]]
