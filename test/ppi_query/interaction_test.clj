@@ -69,7 +69,7 @@
                   [:and [:idA "Q9D2V5"] [:idB "P04040"]]]])))
 
 (s/exercise-fn `get-queries-by-taxon-and-prot-pool)
-(stest/check 'get-queries-by-taxon-and-prot-pool)
+(stest/check `get-queries-by-taxon-and-prot-pool)
 (deftest test-get-queries-by-taxon-and-prot-pool
   (is
    (=

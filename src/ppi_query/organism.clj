@@ -21,14 +21,14 @@
        (map (juxt :taxon-id identity))
        (into {})))
 
-(defn get-species [organism]
-  (if-let [matches (re-matches #"(\w+ \w+).*"
-                               (:scientific-name organism))]
-    (str (second matches))))
+(defn get-shortname [organism]
+  (if-let [[_ [S] genus] (re-matches #"(\w+) (\w+).*"
+                             (:scientific-name organism))]
+    (str S \. genus)))
 
-(def inparanoid-organism-by-species
+(def inparanoid-organism-by-shortname
   (->> inparanoid-organism-repository
-       (map (juxt get-species identity))
+       (map (juxt get-shortname identity))
        (into {})))
 
 (s/def ::organism
