@@ -86,7 +86,7 @@
       (range 0 (.countByQuery client query) pagesize))))
 
 (s/fdef fetch-by-query
-  :args (s/cat :client class? :query string? :optional-pagesize int?)
+  :args (s/cat :client class? :query string? :optional-pagesize pos-int?)
   :ret (s/coll-of ::interaction))
 
 (defn get-interactor-database-ids [database interactor]
