@@ -32,17 +32,21 @@
 
 ; [:and [:taxidA 9606] [:taxidB 9606] [:species 9606]]
 
-(defn get-query-by-taxon-and-prot
+(defn get-query-by-taxon-and-prots
   "Same as above but with restriction on interactor identifiers"
-  [taxId protId]
-  [:and [:taxidA taxId] [:taxidB taxId] [:species taxId] [:or [:idA protId] [:idB protId]]])
+  [taxId & protIds]
+  [:and [:taxidA taxId] [:taxidB taxId] [:species taxId]
+    (concat [:or]
+      (map #(vector :id %)
+           protIds))])
 
-(s/fdef get-query-by-taxon-and-prot
-  :args (s/cat :taxId pos-int? :protId string?)
+(s/fdef get-query-by-taxon-and-prots
+  :args (s/cat :taxId pos-int? :protIds (s/+ string?))
   :ret ::query)
 
 (comment
-  (get-query-by-taxon-and-prot 9606 "P04040"))
+  (get-query-by-taxon-and-prots 9606 "P04040")
+  (get-query-by-taxon-and-prots 9606 "P04040" "Q8368"))
 
 ; [:and [:taxidA 9606] [:taxIdB 9606] [:species 9606] [:or [:idA "P04040"] [:idB "P04040"]]]
 
