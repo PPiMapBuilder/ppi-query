@@ -1,5 +1,7 @@
 (ns ppi-query.interaction.miql
   (:require [clojure.spec :as s]
+            [ppi-query.protein.uniprot :as uni]
+            [ppi-query.organism :as org]
             [ppi-query.spec :refer [def-lucene-syntax]]))
 
 ; Clojure data structure representation of the MIQL query syntax
@@ -24,7 +26,7 @@
   [:and [:taxidA taxId] [:taxidB taxId] [:species taxId]])
 
 (s/fdef get-query-by-taxon
-  :args (s/cat :taxId int?)
+  :args (s/cat :taxId ::org/taxon-id)
   :ret ::query)
 
 (comment
@@ -41,12 +43,12 @@
            protIds))])
 
 (s/fdef get-query-by-taxon-and-prots
-  :args (s/cat :taxId pos-int? :protIds (s/+ string?))
+  :args (s/cat :taxId ::org/taxon-id :protIds (s/+ ::uni/uniprotid))
   :ret ::query)
 
 (comment
   (get-query-by-taxon-and-prots 9606 "P04040")
-  (get-query-by-taxon-and-prots 9606 "P04040" "Q8368"))
+  (get-query-by-taxon-and-prots 9606 "P04040" "O64HD2" "J1D0B7FO54"))
 
 ; [:and [:taxidA 9606] [:taxIdB 9606] [:species 9606] [:or [:idA "P04040"] [:idB "P04040"]]]
 
@@ -59,10 +61,10 @@
            protCouples))])
 
 (s/fdef get-queries-by-taxon-and-prot-couples
-  :args (s/cat :taxId pos-int?
+  :args (s/cat :taxId ::org/taxon-id
                :protCouples
                  (s/coll-of
-                   (s/tuple string? string?)))
+                   (s/tuple ::uni/uniprotid ::uni/uniprotid)))
   :ret ::query)
 
 #_
@@ -81,8 +83,8 @@
          (for [x protPool, y protPool] [x y]))))
 
 (s/fdef get-queries-by-taxon-and-prot-pool
-  :args (s/cat :taxId    pos-int?
-               :protPool (s/coll-of string? :distinct true)
+  :args (s/cat :taxId    ::org/taxon-id
+               :protPool (s/coll-of ::uni/uniprotid :distinct true)
                :limit    pos-int?)
   :ret (s/coll-of ::query))
 
