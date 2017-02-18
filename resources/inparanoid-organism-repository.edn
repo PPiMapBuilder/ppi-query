@@ -1,0 +1,272 @@
+[{:taxon-id 1001064, :common-name "Yeast", :scientific-name "Rhodotorula glutinis (strain ATCC 204091 / IIP 30 / MTCC 1151)"}
+ {:taxon-id 10029, :common-name "Chinese hamster", :scientific-name "Cricetulus griseus"}
+ {:taxon-id 1003232, :common-name "Microsporidian parasite", :scientific-name "Edhazardia aedis (strain USNM 41457)"}
+ {:taxon-id 10181, :common-name "Naked mole rat", :scientific-name "Heterocephalus glaber"}
+ {:taxon-id 1028729, :common-name "Wheat and barley crown-rot fungus", :scientific-name "Fusarium pseudograminearum (strain CS3096)"}
+ {:taxon-id 1033177, :common-name "White koji mold", :scientific-name "Aspergillus kawachii (strain NBRC 4308)"}
+ {:taxon-id 103372, :common-name "Panamanian leafcutter ant", :scientific-name "Acromyrmex echinatior"}
+ {:taxon-id 104421, :common-name "Florida carpenter ant", :scientific-name "Camponotus floridanus"}
+ {:taxon-id 1064592, :common-name "Yeast", :scientific-name "Naumovozyma castellii (strain ATCC 76901 / CBS 4309 / NBRC 1992 / NRRL Y-12630)"}
+ {:taxon-id 1071380, :common-name "Yeast", :scientific-name "Tetrapisispora blattae (strain ATCC 34711 / CBS 6284 / DSM 70876 / NBRC 10599 / NRRL Y-10934 / UCD 77-7)"}
+ {:taxon-id 1071382, :common-name "Yeast", :scientific-name "Kazachstania africana (strain ATCC 22294 / BCRC 22015 / CBS 2517 / CECT 1963 / NBRC 1671 / NRRL Y-8276)"}
+ {:taxon-id 1072389, :common-name "Marssonina leaf spot fungus", :scientific-name "Marssonina brunnea f. sp. multigermtubi (strain MB_m1)"}
+ {:taxon-id 1076872, :common-name "Yeast", :scientific-name "Torulaspora delbrueckii (strain ATCC 10662 / CBS 1146 / NBRC 0425 / NCYC 2629 / NRRL Y-866)"}
+ {:taxon-id 1078123, :common-name "Brown rot fungus", :scientific-name "Fibroporia radiculosa (strain TFFH 294)"}
+ {:taxon-id 1094619, :common-name "Soybean stem and root rot agent", :scientific-name "Phytophthora sojae (strain P6497)"}
+ {:taxon-id 1104152, :scientific-name "Glarea lozoyensis (strain ATCC 74030 / MF5533)"}
+ {:taxon-id 1109443, :scientific-name "Piriformospora indica (strain DSM 11827)"}
+ {:taxon-id 112509, :common-name "Two-rowed barley", :scientific-name "Hordeum vulgare var. distichum"}
+ {:taxon-id 1126212, :common-name "Charcoal rot fungus", :scientific-name "Macrophomina phaseolina (strain MS6)"}
+ {:taxon-id 1170229, :common-name "Green mold", :scientific-name "Penicillium digitatum (strain PHI26 / CECT 20796)"}
+ {:taxon-id 1186058, :common-name "Yeast", :scientific-name "Trichosporon asahii var. asahii (strain ATCC 90039 / CBS 2479 / JCM 2466 / KCTC 7840 / NCYC 2677 / UAMH 7654)"}
+ {:taxon-id 1206466, :common-name "Yeast", :scientific-name "Wickerhamomyces ciferrii (strain F-60-10 / ATCC 14091 / CBS 111 / JCM 3599 / NBRC 0793 / NRRL Y-1031)"}
+ {:taxon-id 1209962, :common-name "Pneumocystis pneumonia agent", :scientific-name "Pneumocystis jiroveci (strain SE8)"}
+ {:taxon-id 1213859, :common-name "Anthracnose fungus", :scientific-name "Colletotrichum gloeosporioides (strain Nara gc5)"}
+ {:taxon-id 12968, :scientific-name "Blastocystis hominis"}
+ {:taxon-id 13037, :common-name "Monarch butterfly", :scientific-name "Danaus plexippus"}
+ {:taxon-id 135651, :common-name "Nematode worm", :scientific-name "Caenorhabditis brenneri"}
+ {:taxon-id 13686, :common-name "Red imported fire ant", :scientific-name "Solenopsis invicta"}
+ {:taxon-id 242507, :common-name "Rice blast fungus", :scientific-name "Magnaporthe oryzae (strain 70-15 / ATCC MYA-4617 / FGSC 8958)"}
+ {:taxon-id 246437, :common-name "Chinese tree shrew", :scientific-name "Tupaia chinensis"}
+ {:taxon-id 284590, :common-name "Yeast", :scientific-name "Kluyveromyces lactis (strain ATCC 8585 / CBS 2359 / DSM 70799 / NBRC 1267 / NRRL Y-1140 / WM37)"}
+ {:taxon-id 284592, :common-name "Yeast", :scientific-name "Debaryomyces hansenii (strain ATCC 36239 / CBS 767 / JCM 1990 / NBRC 0083 / IGC 2968)"}
+ {:taxon-id 284593, :common-name "Yeast", :scientific-name "Candida glabrata (strain ATCC 2001 / CBS 138 / JCM 3761 / NBRC 0622 / NRRL Y-65)"}
+ {:taxon-id 2880, :common-name "Brown alga", :scientific-name "Ectocarpus siliculosus"}
+ {:taxon-id 29159, :common-name "Pacific oyster", :scientific-name "Crassostrea gigas"}
+ {:taxon-id 294746, :common-name "Yeast", :scientific-name "Meyerozyma guilliermondii (strain ATCC 6260 / CBS 566 / DSM 6381 / JCM 1539 / NBRC 10279 / NRRL Y-324)"}
+ {:taxon-id 296587, :common-name "Picoplanktonic green alga", :scientific-name "Micromonas sp. (strain RCC299 / NOUM17)"}
+ {:taxon-id 3067, :common-name "Green alga", :scientific-name "Volvox carteri"}
+ {:taxon-id 306901, :common-name "Soil fungus", :scientific-name "Chaetomium globosum (strain ATCC 6205 / CBS 148.51 / DSM 1962 / NBRC 6347 / NRRL 1970)"}
+ {:taxon-id 306902, :common-name "Yeast", :scientific-name "Clavispora lusitaniae (strain ATCC 42720)"}
+ {:taxon-id 31234, :scientific-name "Caenorhabditis remanei"}
+ {:taxon-id 322104, :common-name "Yeast", :scientific-name "Scheffersomyces stipitis (strain ATCC 58785 / CBS 6054 / NBRC 10063 / NRRL Y-11545)"}
+ {:taxon-id 336722, :common-name "Speckled leaf blotch fungus", :scientific-name "Mycosphaerella graminicola (strain CBS 115943 / IPO323)"}
+ {:taxon-id 336963, :scientific-name "Uncinocarpus reesii (strain UAMH 1704)"}
+ {:taxon-id 34765, :common-name "Tunicate", :scientific-name "Oikopleura dioica"}
+ {:taxon-id 353152, :scientific-name "Cryptosporidium parvum (strain Iowa II)"}
+ {:taxon-id 379508, :common-name "Yeast", :scientific-name "Lodderomyces elongisporus (strain ATCC 11503 / CBS 2605 / JCM 1781 / NBRC 1676 / NRRL YB-4239)"}
+ {:taxon-id 3988, :common-name "Castor bean", :scientific-name "Ricinus communis"}
+ {:taxon-id 413071, :common-name "Gliocladium virens", :scientific-name "Hypocrea virens (strain Gv29-8 / FGSC 10586)"}
+ {:taxon-id 423536, :scientific-name "Perkinsus marinus (strain ATCC 50983 / TXsc)"}
+ {:taxon-id 425265, :common-name "Dandruff-associated fungus", :scientific-name "Malassezia globosa (strain ATCC MYA-4612 / CBS 7966)"}
+ {:taxon-id 426418, :common-name "Wheat tan spot fungus", :scientific-name "Pyrenophora tritici-repentis (strain Pt-1C-BFP)"}
+ {:taxon-id 436907, :scientific-name "Vanderwaltozyma polyspora (strain ATCC 22028 / DSM 70294)"}
+ {:taxon-id 44056, :common-name "Harmful bloom alga", :scientific-name "Aureococcus anophagefferens"}
+ {:taxon-id 441959, :scientific-name "Talaromyces stipitatus (strain ATCC 10500 / CBS 375.48 / QM 6759 / NRRL 1006)"}
+ {:taxon-id 4555, :common-name "Foxtail millet", :scientific-name "Setaria italica"}
+ {:taxon-id 481877, :common-name "Microsporidian parasite", :scientific-name "Enterocytozoon bieneusi (strain H348)"}
+ {:taxon-id 482561, :scientific-name "Paracoccidioides brasiliensis (strain Pb03)"}
+ {:taxon-id 486041, :common-name "Bicoloured deceiver", :scientific-name "Laccaria bicolor (strain S238N-H82 / ATCC MYA-4686)"}
+ {:taxon-id 498257, :common-name "Verticillium wilt", :scientific-name "Verticillium dahliae (strain VdLs.17 / ATCC MYA-4575 / FGSC 10137)"}
+ {:taxon-id 51351, :common-name "Chinese cabbage", :scientific-name "Brassica rapa subsp. pekinensis"}
+ {:taxon-id 535722, :scientific-name "Arthroderma gypseum (strain ATCC MYA-4604 / CBS 118893)"}
+ {:taxon-id 554065, :common-name "Green alga", :scientific-name "Chlorella variabilis"}
+ {:taxon-id 554373, :common-name "Witches'-broom disease fungus", :scientific-name "Moniliophthora perniciosa (strain FA553 / isolate CP02)"}
+ {:taxon-id 559295, :common-name "Yeast", :scientific-name "Lachancea thermotolerans (strain ATCC 56472 / CBS 6340 / NRRL Y-8284)"}
+ {:taxon-id 559304, :common-name "Hybrid yeast", :scientific-name "Pichia sorbitophila (strain ATCC MYA-4447 / BCRC 22081 / CBS 7064 / NBRC 10061 / NRRL Y-12695)"}
+ {:taxon-id 559305, :common-name "Athlete's foot fungus", :scientific-name "Trichophyton rubrum (strain ATCC MYA-4607 / CBS 118892)"}
+ {:taxon-id 559307, :scientific-name "Zygosaccharomyces rouxii (strain ATCC 2623 / CBS 732 / NBRC 1130 / NCYC 568 / NRRL Y-229)"}
+ {:taxon-id 559515, :common-name "Downy mildew agent", :scientific-name "Hyaloperonospora arabidopsidis (strain Emoy2)"}
+ {:taxon-id 561896, :common-name "Brown rot fungus", :scientific-name "Postia placenta (strain ATCC 44394 / Madison 698-R)"}
+ {:taxon-id 572307, :scientific-name "Neospora caninum (strain Liverpool)"}
+ {:taxon-id 573729, :scientific-name "Thielavia heterothallica (strain ATCC 42464 / BCRC 31852 / DSM 1799)"}
+ {:taxon-id 5762, :common-name "Amoeba", :scientific-name "Naegleria gruberi"}
+ {:taxon-id 578457, :common-name "Dry rot fungus", :scientific-name "Serpula lacrymans var. lacrymans (strain S7.9)"}
+ {:taxon-id 578458, :common-name "Split gill fungus", :scientific-name "Schizophyllum commune (strain H4-8 / FGSC 9210)"}
+ {:taxon-id 578460, :common-name "Microsporidian parasite", :scientific-name "Nosema ceranae (strain BRL01)"}
+ {:taxon-id 595528, :scientific-name "Capsaspora owczarzaki (strain ATCC 30864)"}
+ {:taxon-id 597362, :common-name "White button mushroom", :scientific-name "Agaricus bisporus var. burnettii (strain JB137-S8 / ATCC MYA-4627 / FGSC 10392)"}
+ {:taxon-id 610380, :common-name "Jerdon's jumping ant", :scientific-name "Harpegnathos saltator"}
+ {:taxon-id 619300, :scientific-name "Spathaspora passalidarum (strain NRRL Y-27907 / 11-Y1)"}
+ {:taxon-id 6279, :common-name "Filarial nematode worm", :scientific-name "Brugia malayi"}
+ {:taxon-id 6293, :scientific-name "Wuchereria bancrofti"}
+ {:taxon-id 6334, :common-name "Trichina worm", :scientific-name "Trichinella spiralis"}
+ {:taxon-id 644223, :common-name "Yeast", :scientific-name "Komagataella pastoris (strain GS115 / ATCC 20864)"}
+ {:taxon-id 644352, :common-name "Wheat and barley take-all root rot fungus", :scientific-name "Gaeumannomyces graminis var. tritici (strain R3-111a-1)"}
+ {:taxon-id 650164, :common-name "White-rot fungus", :scientific-name "Phanerochaete carnosa (strain HHB-10118-sp)"}
+ {:taxon-id 65071, :scientific-name "Pythium ultimum"}
+ {:taxon-id 655819, :common-name "White muscardine disease fungus", :scientific-name "Beauveria bassiana (strain ARSEF 2860)"}
+ {:taxon-id 655827, :scientific-name "Metarhizium acridum (strain CQMa 102)"}
+ {:taxon-id 655863, :common-name "Blue stain fungus", :scientific-name "Grosmannia clavigera (strain kw1407 / UAMH 11150)"}
+ {:taxon-id 658429, :common-name "Bat white-nose syndrome fungus", :scientific-name "Pseudogymnoascus destructans (strain ATCC MYA-4855 / 20631-21)"}
+ {:taxon-id 671144, :scientific-name "Wallemia sebi (strain ATCC MYA-4683 / CBS 633.66)"}
+ {:taxon-id 7029, :common-name "Pea aphid", :scientific-name "Acyrthosiphon pisum"}
+ {:taxon-id 70448, :scientific-name "Ostreococcus tauri"}
+ {:taxon-id 7070, :common-name "Red flour beetle", :scientific-name "Tribolium castaneum"}
+ {:taxon-id 7176, :common-name "Southern house mosquito", :scientific-name "Culex quinquefasciatus"}
+ {:taxon-id 717982, :common-name "White-rot fungus", :scientific-name "Auricularia delicata (strain TFB10046)"}
+ {:taxon-id 7209, :common-name "Eye worm", :scientific-name "Loa loa"}
+ {:taxon-id 7217, :common-name "Fruit fly", :scientific-name "Drosophila ananassae"}
+ {:taxon-id 7222, :common-name "Fruit fly", :scientific-name "Drosophila grimshawi"}
+ {:taxon-id 7230, :common-name "Fruit fly", :scientific-name "Drosophila mojavensis"}
+ {:taxon-id 72359, :common-name "Microsporidian parasite", :scientific-name "Trachipleistophora hominis"}
+ {:taxon-id 7244, :common-name "Fruit fly", :scientific-name "Drosophila virilis"}
+ {:taxon-id 7260, :common-name "Fruit fly", :scientific-name "Drosophila willistoni"}
+ {:taxon-id 7425, :common-name "Parasitic wasp", :scientific-name "Nasonia vitripennis"}
+ {:taxon-id 747676, :common-name "Poplar leaf rust fungus", :scientific-name "Melampsora larici-populina (strain 98AG31 / pathotype 3-4-7)"}
+ {:taxon-id 756982, :common-name "Nematode-trapping fungus", :scientific-name "Arthrobotrys oligospora (strain ATCC 24927 / CBS 115.81 / DSM 1491)"}
+ {:taxon-id 764103, :scientific-name "Mixia osmundae (strain CBS 9802 / IAM 14324 / JCM 22182 / KY 12970)"}
+ {:taxon-id 771870, :scientific-name "Sordaria macrospora (strain ATCC MYA-333 / DSM 997 / K(L3346) / K-hell)"}
+ {:taxon-id 79923, :common-name "Chinese liver fluke", :scientific-name "Clonorchis sinensis"}
+ {:taxon-id 8083, :common-name "Southern platyfish", :scientific-name "Xiphophorus maculatus"}
+ {:taxon-id 857967, :common-name "White spot disease agent", :scientific-name "Ichthyophthirius multifiliis (strain G5)"}
+ {:taxon-id 858893, :common-name "Black yeast", :scientific-name "Exophiala dermatitidis (strain ATCC 34100 / CBS 525.76 / NIH/UT8656)"}
+ {:taxon-id 88036, :common-name "Spikemoss", :scientific-name "Selaginella moellendorffii"}
+ {:taxon-id 881290, :common-name "Nematode killer fungus", :scientific-name "Nematocida parisii (strain ERTm1 / ATCC PRA-289)"}
+ {:taxon-id 931890, :common-name "Yeast", :scientific-name "Eremothecium cymbalariae (strain CBS 270.75 / DBVPG 7215 / KCTC 17166 / NRRL Y-17582)"}
+ {:taxon-id 9402, :common-name "Black flying fox", :scientific-name "Pteropus alecto"}
+ {:taxon-id 946362, :scientific-name "Salpingoeca rosetta (strain ATCC 50818 / BSB-021)"}
+ {:taxon-id 948595, :common-name "Microsporidian parasite", :scientific-name "Vavraia culicis (isolate floridensis)"}
+ {:taxon-id 9669, :common-name "European domestic ferret", :scientific-name "Mustela putorius furo"}
+ {:taxon-id 9685, :common-name "Cat", :scientific-name "Felis catus"}
+ {:taxon-id 983644, :common-name "Caterpillar fungus", :scientific-name "Cordyceps militaris (strain CM01)"}
+ {:taxon-id 985895, :common-name "Blackleg fungus", :scientific-name "Leptosphaeria maculans (strain JN3 / isolate v23.1.3 / race Av1-4-5-6-7-8)"}
+ {:taxon-id 993615, :common-name "Microsporidian parasite", :scientific-name "Vittaforma corneae (strain ATCC 50505)"}
+ {:taxon-id 999809, :common-name "Maize head smut fungus", :scientific-name "Sporisorium reilianum (strain SRZ2)"}
+ {:taxon-id 999810, :common-name "Noble rot fungus", :scientific-name "Botryotinia fuckeliana (strain T4)"}
+ {:taxon-id 100226, :scientific-name "Streptomyces coelicolor (strain ATCC BAA-471 / A3(2) / M145)"}
+ {:taxon-id 10090, :common-name "Mouse", :scientific-name "Mus musculus"}
+ {:taxon-id 10116, :common-name "Rat", :scientific-name "Rattus norvegicus"}
+ {:taxon-id 10141, :common-name "Guinea pig", :scientific-name "Cavia porcellus"}
+ {:taxon-id 10228, :scientific-name "Trichoplax adhaerens"}
+ {:taxon-id 1111708, :scientific-name "Synechocystis sp. (strain PCC 6803 / Kazusa)"}
+ {:taxon-id 121224, :common-name "Body louse", :scientific-name "Pediculus humanus subsp. corporis"}
+ {:taxon-id 126793, :scientific-name "Plasmodium vivax (strain Salvador I)"}
+ {:taxon-id 12957, :common-name "Leafcutter ant", :scientific-name "Atta cephalotes"}
+ {:taxon-id 13616, :common-name "Gray short-tailed opossum", :scientific-name "Monodelphis domestica"}
+ {:taxon-id 13642, :common-name "Cellular slime mold", :scientific-name "Polysphondylium pallidum"}
+ {:taxon-id 15368, :common-name "Purple false brome", :scientific-name "Brachypodium distachyon"}
+ {:taxon-id 164328, :common-name "Sudden oak death agent", :scientific-name "Phytophthora ramorum"}
+ {:taxon-id 1773, :scientific-name "Mycobacterium tuberculosis"}
+ {:taxon-id 178306, :scientific-name "Pyrobaculum aerophilum (strain ATCC 51768 / IM2 / DSM 7523 / JCM 9630 / NBRC 100827)"}
+ {:taxon-id 184922, :scientific-name "Giardia intestinalis (strain ATCC 50803 / WB clone C6)"}
+ {:taxon-id 188937, :scientific-name "Methanosarcina acetivorans (strain ATCC 35395 / DSM 2834 / JCM 12185 / C2A)"}
+ {:taxon-id 189518, :scientific-name "Leptospira interrogans serogroup Icterohaemorrhagiae serovar Lai (strain 56601)"}
+ {:taxon-id 190304, :scientific-name "Fusobacterium nucleatum subsp. nucleatum (strain ATCC 25586 / CIP 101130 / JCM 8532 / LMG 13131)"}
+ {:taxon-id 208964, :scientific-name "Pseudomonas aeruginosa (strain ATCC 15692 / PAO1 / 1C / PRS 101 / LMG 12228)"}
+ {:taxon-id 214684, :scientific-name "Cryptococcus neoformans var. neoformans serotype D (strain JEC21 / ATCC MYA-565)"}
+ {:taxon-id 224308, :scientific-name "Bacillus subtilis (strain 168)"}
+ {:taxon-id 224324, :scientific-name "Aquifex aeolicus (strain VF5)"}
+ {:taxon-id 224911, :scientific-name "Bradyrhizobium diazoefficiens (strain JCM 10833 / IAM 13628 / NBRC 14792 / USDA 110)"}
+ {:taxon-id 226186, :scientific-name "Bacteroides thetaiotaomicron (strain ATCC 29148 / DSM 2079 / NCTC 10582 / E50 / VPI-5482)"}
+ {:taxon-id 227321, :scientific-name "Emericella nidulans (strain FGSC A4 / ATCC 38163 / CBS 112.46 / NRRL 194 / M139)"}
+ {:taxon-id 229533, :common-name "Wheat head blight fungus", :scientific-name "Gibberella zeae (strain PH-1 / ATCC MYA-4620 / FGSC 9075 / NRRL 31084)"}
+ {:taxon-id 237561, :common-name "Yeast", :scientific-name "Candida albicans (strain SC5314 / ATCC MYA-2876)"}
+ {:taxon-id 237631, :common-name "Corn smut fungus", :scientific-name "Ustilago maydis (strain 521 / FGSC 9021)"}
+ {:taxon-id 237895, :scientific-name "Cryptosporidium hominis"}
+ {:taxon-id 240176, :common-name "Inky cap fungus", :scientific-name "Coprinopsis cinerea (strain Okayama-7 / 130 / ATCC MYA-4618 / FGSC 9003)"}
+ {:taxon-id 243090, :scientific-name "Rhodopirellula baltica (strain SH1)"}
+ {:taxon-id 243230, :scientific-name "Deinococcus radiodurans (strain ATCC 13939 / DSM 20539 / JCM 16871 / LMG 4051 / NBRC 15346 / NCIMB 9279 / R1 / VKM B-1422)"}
+ {:taxon-id 243231, :scientific-name "Geobacter sulfurreducens (strain ATCC 51573 / DSM 12127 / PCA)"}
+ {:taxon-id 243232, :scientific-name "Methanocaldococcus jannaschii (strain ATCC 43067 / DSM 2661 / JAL-1 / JCM 10045 / NBRC 100440)"}
+ {:taxon-id 243274, :scientific-name "Thermotoga maritima (strain ATCC 43589 / MSB8 / DSM 3109 / JCM 10099)"}
+ {:taxon-id 246409, :common-name "Mucormycosis agent", :scientific-name "Rhizopus delemar (strain RA 99-880 / ATCC MYA-4621 / FGSC 9543 / NRRL 43880)"}
+ {:taxon-id 246410, :common-name "Valley fever fungus", :scientific-name "Coccidioides immitis (strain RS)"}
+ {:taxon-id 251221, :scientific-name "Gloeobacter violaceus (strain PCC 7421)"}
+ {:taxon-id 272561, :scientific-name "Chlamydia trachomatis (strain D/UW-3/Cx)"}
+ {:taxon-id 273057, :scientific-name "Sulfolobus solfataricus (strain ATCC 35092 / DSM 1617 / JCM 11322 / P2)"}
+ {:taxon-id 281687, :scientific-name "Caenorhabditis japonica"}
+ {:taxon-id 28377, :common-name "Green anole", :scientific-name "Anolis carolinensis"}
+ {:taxon-id 284591, :common-name "Yeast", :scientific-name "Yarrowia lipolytica (strain CLIB 122 / E 150)"}
+ {:taxon-id 284811, :common-name "Yeast", :scientific-name "Ashbya gossypii (strain ATCC 10895 / CBS 109.51 / FGSC 9923 / NRRL Y-1056)"}
+ {:taxon-id 284812, :common-name "Fission yeast", :scientific-name "Schizosaccharomyces pombe (strain 972 / ATCC 24843)"}
+ {:taxon-id 284813, :common-name "Microsporidian parasite", :scientific-name "Encephalitozoon cuniculi (strain GB-M1)"}
+ {:taxon-id 289376, :scientific-name "Thermodesulfovibrio yellowstonii (strain ATCC 51303 / DSM 11347 / YP87)"}
+ {:taxon-id 29760, :common-name "Grape", :scientific-name "Vitis vinifera"}
+ {:taxon-id 3055, :scientific-name "Chlamydomonas reinhardtii"}
+ {:taxon-id 30611, :common-name "Small-eared galago", :scientific-name "Otolemur garnettii"}
+ {:taxon-id 31033, :common-name "Japanese pufferfish", :scientific-name "Takifugu rubripes"}
+ {:taxon-id 312017, :scientific-name "Tetrahymena thermophila (strain SB210)"}
+ {:taxon-id 321614, :common-name "Glume blotch fungus", :scientific-name "Phaeosphaeria nodorum (strain SN15 / ATCC MYA-4574 / FGSC 10173)"}
+ {:taxon-id 324602, :scientific-name "Chloroflexus aurantiacus (strain ATCC 29366 / DSM 635 / J-10-fl)"}
+ {:taxon-id 330879, :scientific-name "Neosartorya fumigata (strain ATCC MYA-4609 / Af293 / CBS 101355 / FGSC A1100)"}
+ {:taxon-id 35128, :common-name "Marine diatom", :scientific-name "Thalassiosira pseudonana"}
+ {:taxon-id 36329, :scientific-name "Plasmodium falciparum (isolate 3D7)"}
+ {:taxon-id 367110, :scientific-name "Neurospora crassa (strain ATCC 24698 / 74-OR23-1A / CBS 708.71 / DSM 1257 / FGSC 987)"}
+ {:taxon-id 3694, :common-name "Western balsam poplar", :scientific-name "Populus trichocarpa"}
+ {:taxon-id 3702, :common-name "Mouse-ear cress", :scientific-name "Arabidopsis thaliana"}
+ {:taxon-id 374847, :scientific-name "Korarchaeum cryptofilum (strain OPF8)"}
+ {:taxon-id 3847, :common-name "Soybean", :scientific-name "Glycine max"}
+ {:taxon-id 39947, :common-name "Rice", :scientific-name "Oryza sativa subsp. japonica"}
+ {:taxon-id 400682, :common-name "Sponge", :scientific-name "Amphimedon queenslandica"}
+ {:taxon-id 403677, :common-name "Potato late blight fungus", :scientific-name "Phytophthora infestans (strain T30-4)"}
+ {:taxon-id 4081, :common-name "Tomato", :scientific-name "Solanum lycopersicum"}
+ {:taxon-id 4113, :common-name "Potato", :scientific-name "Solanum tuberosum"}
+ {:taxon-id 418459, :common-name "Black stem rust fungus", :scientific-name "Puccinia graminis f. sp. tritici (strain CRL 75-36-700-3 / race SCCL)"}
+ {:taxon-id 43151, :common-name "Mosquito", :scientific-name "Anopheles darlingi"}
+ {:taxon-id 43179, :common-name "Thirteen-lined ground squirrel", :scientific-name "Spermophilus tridecemlineatus"}
+ {:taxon-id 44689, :common-name "Slime mold", :scientific-name "Dictyostelium discoideum"}
+ {:taxon-id 447093, :common-name "Darling's disease fungus", :scientific-name "Ajellomyces capsulatus (strain G186AR / H82 / ATCC MYA-2454 / RMSCC 2432)"}
+ {:taxon-id 45351, :common-name "Starlet sea anemone", :scientific-name "Nematostella vectensis"}
+ {:taxon-id 4558, :common-name "Sorghum", :scientific-name "Sorghum bicolor"}
+ {:taxon-id 46245, :common-name "Fruit fly", :scientific-name "Drosophila pseudoobscura pseudoobscura"}
+ {:taxon-id 51511, :common-name "Pacific transparent sea squirt", :scientific-name "Ciona savignyi"}
+ {:taxon-id 515635, :scientific-name "Dictyoglomus turgidum (strain Z-1310 / DSM 6724)"}
+ {:taxon-id 54126, :common-name "Parasitic nematode", :scientific-name "Pristionchus pacificus"}
+ {:taxon-id 556484, :scientific-name "Phaeodactylum tricornutum (strain CCAP 1055/1)"}
+ {:taxon-id 559292, :common-name "Baker's yeast", :scientific-name "Saccharomyces cerevisiae (strain ATCC 204508 / S288c)"}
+ {:taxon-id 5660, :scientific-name "Leishmania braziliensis"}
+ {:taxon-id 5664, :scientific-name "Leishmania major"}
+ {:taxon-id 5671, :scientific-name "Leishmania infantum"}
+ {:taxon-id 5693, :scientific-name "Trypanosoma cruzi"}
+ {:taxon-id 5722, :scientific-name "Trichomonas vaginalis"}
+ {:taxon-id 5759, :scientific-name "Entamoeba histolytica"}
+ {:taxon-id 5786, :common-name "Slime mold", :scientific-name "Dictyostelium purpureum"}
+ {:taxon-id 5811, :scientific-name "Toxoplasma gondii"}
+ {:taxon-id 5823, :scientific-name "Plasmodium berghei (strain Anka)"}
+ {:taxon-id 5825, :scientific-name "Plasmodium chabaudi"}
+ {:taxon-id 5851, :scientific-name "Plasmodium knowlesi (strain H)"}
+ {:taxon-id 5865, :scientific-name "Babesia bovis"}
+ {:taxon-id 5874, :scientific-name "Theileria annulata"}
+ {:taxon-id 5875, :common-name "East coast fever infection agent", :scientific-name "Theileria parva"}
+ {:taxon-id 5888, :scientific-name "Paramecium tetraurelia"}
+ {:taxon-id 59463, :common-name "Little brown bat", :scientific-name "Myotis lucifugus"}
+ {:taxon-id 59729, :common-name "Zebra finch", :scientific-name "Taeniopygia guttata"}
+ {:taxon-id 6183, :common-name "Blood fluke", :scientific-name "Schistosoma mansoni"}
+ {:taxon-id 61853, :common-name "Northern white-cheeked gibbon", :scientific-name "Nomascus leucogenys"}
+ {:taxon-id 6238, :scientific-name "Caenorhabditis briggsae"}
+ {:taxon-id 6239, :scientific-name "Caenorhabditis elegans"}
+ {:taxon-id 64091, :scientific-name "Halobacterium salinarum (strain ATCC 700922 / JCM 11081 / NRC-1)"}
+ {:taxon-id 656061, :common-name "Perigord black truffle", :scientific-name "Tuber melanosporum (strain Mel28)"}
+ {:taxon-id 660122, :scientific-name "Nectria haematococca (strain 77-13-4 / ATCC MYA-4622 / FGSC 9596 / MPVI)"}
+ {:taxon-id 665079, :common-name "White mold", :scientific-name "Sclerotinia sclerotiorum (strain ATCC 18683 / 1980 / Ss-1)"}
+ {:taxon-id 6669, :common-name "Water flea", :scientific-name "Daphnia pulex"}
+ {:taxon-id 684364, :common-name "Frog chytrid fungus", :scientific-name "Batrachochytrium dendrobatidis (strain JAM81 / FGSC 10211)"}
+ {:taxon-id 69014, :scientific-name "Thermococcus kodakaraensis (strain ATCC BAA-918 / JCM 12380 / KOD1)"}
+ {:taxon-id 69293, :common-name "Three-spined stickleback", :scientific-name "Gasterosteus aculeatus"}
+ {:taxon-id 6945, :common-name "Black-legged tick", :scientific-name "Ixodes scapularis"}
+ {:taxon-id 7091, :common-name "Silk moth", :scientific-name "Bombyx mori"}
+ {:taxon-id 7159, :common-name "Yellowfever mosquito", :scientific-name "Aedes aegypti"}
+ {:taxon-id 7165, :common-name "African malaria mosquito", :scientific-name "Anopheles gambiae"}
+ {:taxon-id 7227, :common-name "Fruit fly", :scientific-name "Drosophila melanogaster"}
+ {:taxon-id 73239, :scientific-name "Plasmodium yoelii yoelii"}
+ {:taxon-id 7460, :common-name "Honeybee", :scientific-name "Apis mellifera"}
+ {:taxon-id 7668, :common-name "Purple sea urchin", :scientific-name "Strongylocentrotus purpuratus"}
+ {:taxon-id 7719, :common-name "Transparent sea squirt", :scientific-name "Ciona intestinalis"}
+ {:taxon-id 7739, :common-name "Florida lancelet", :scientific-name "Branchiostoma floridae"}
+ {:taxon-id 7897, :common-name "West Indian ocean coelacanth", :scientific-name "Latimeria chalumnae"}
+ {:taxon-id 7955, :common-name "Zebrafish", :scientific-name "Danio rerio"}
+ {:taxon-id 8090, :common-name "Medaka fish", :scientific-name "Oryzias latipes"}
+ {:taxon-id 8128, :common-name "Nile tilapia", :scientific-name "Oreochromis niloticus"}
+ {:taxon-id 81824, :common-name "Choanoflagellate", :scientific-name "Monosiga brevicollis"}
+ {:taxon-id 83333, :scientific-name "Escherichia coli (strain K12)"}
+ {:taxon-id 8364, :common-name "Western clawed frog", :scientific-name "Xenopus tropicalis"}
+ {:taxon-id 9031, :common-name "Chicken", :scientific-name "Gallus gallus"}
+ {:taxon-id 9103, :common-name "Common turkey", :scientific-name "Meleagris gallopavo"}
+ {:taxon-id 9258, :common-name "Duckbill platypus", :scientific-name "Ornithorhynchus anatinus"}
+ {:taxon-id 9305, :common-name "Tasmanian devil", :scientific-name "Sarcophilus harrisii"}
+ {:taxon-id 9483, :common-name "White-tufted-ear marmoset", :scientific-name "Callithrix jacchus"}
+ {:taxon-id 9544, :common-name "Rhesus macaque", :scientific-name "Macaca mulatta"}
+ {:taxon-id 9595, :common-name "Lowland gorilla", :scientific-name "Gorilla gorilla gorilla"}
+ {:taxon-id 9598, :common-name "Chimpanzee", :scientific-name "Pan troglodytes"}
+ {:taxon-id 9601, :common-name "Sumatran orangutan", :scientific-name "Pongo abelii"}
+ {:taxon-id 9606, :common-name "Human", :scientific-name "Homo sapiens"}
+ {:taxon-id 9615, :common-name "Dog", :scientific-name "Canis familiaris"}
+ {:taxon-id 9646, :common-name "Giant panda", :scientific-name "Ailuropoda melanoleuca"}
+ {:taxon-id 9785, :common-name "African elephant", :scientific-name "Loxodonta africana"}
+ {:taxon-id 9796, :common-name "Horse", :scientific-name "Equus caballus"}
+ {:taxon-id 9823, :common-name "Pig", :scientific-name "Sus scrofa"}
+ {:taxon-id 9913, :common-name "Bovine", :scientific-name "Bos taurus"}
+ {:taxon-id 9986, :common-name "Rabbit", :scientific-name "Oryctolagus cuniculus"}
+ {:taxon-id 99883, :common-name "Spotted green pufferfish", :scientific-name "Tetraodon nigroviridis"}
+ {:taxon-id 999953, :scientific-name "Trypanosoma brucei brucei (strain 927/4 GUTat10.1)"}]

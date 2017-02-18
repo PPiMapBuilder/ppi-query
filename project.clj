@@ -9,6 +9,9 @@
   :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
                  [org.clojure/java.data "0.1.1"]
 
+                 ; HTTP client
+                 [clj-http "2.3.0"]
+
                  ; PSICQUIC
                  [psidev.psi.mi/psimitab "1.8.4"]
                  [org.hupo.psi.mi.psicquic/psicquic-simple-client "1.3.3"]

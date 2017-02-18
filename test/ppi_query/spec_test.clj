@@ -1,5 +1,6 @@
 (ns ppi-query.spec-test
   (:require [clojure.test :refer :all]
+            [clojure.spec :as s]
             [ppi-query.test.utils :refer :all]
             [ppi-query.spec :refer [def-lucene-syntax]]))
 
@@ -30,3 +31,8 @@
     [:field1 "A" "B"]
     ; invalid field name
     [:foo "A"]))
+
+(s/fdef char-range-set
+  :args (s/cat :start char? :end char?)
+  :ret (s/coll-of char? :distinct true)
+  :fn #(some #{(-> % :args :start) (-> % :args :end)} (:ret %)))
