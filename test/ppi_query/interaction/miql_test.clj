@@ -18,11 +18,11 @@
 (check `get-query-by-taxon-and-prots)
 (deftest test-get-query-by-taxon-and-prots
    (is (=
-          (get-query-by-taxon-and-prots 9606 "P04040")
+          (get-query-by-taxon-and-prots 9606 ["P04040"])
           [:and [:taxidA 9606] [:taxidB 9606] [:species 9606]
                 [:or [:id "P04040"]]]))
    (is (=
-          (get-query-by-taxon-and-prots 9606 "P04040" "O64HD2" "J1D0B7FO54")
+          (get-query-by-taxon-and-prots 9606 ["P04040" "O64HD2" "J1D0B7FO54"])
           [:and [:taxidA 9606] [:taxidB 9606] [:species 9606]
                 [:or [:id "P04040"] [:id "O64HD2"] [:id "J1D0B7FO54"]]])))
 

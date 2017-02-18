@@ -6,4 +6,4 @@
 ; Simple identification of a protein
 (defrecord Protein [organism uniprotid])
 (s/def ::protein
-  (s/keys :req [::org/organism ::uni/uniprotid]))
+  (s/keys :req-un [::org/organism ::uni/uniprotid]))

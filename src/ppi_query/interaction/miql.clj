@@ -36,19 +36,20 @@
 
 (defn get-query-by-taxon-and-prots
   "Same as above but with restriction on interactor identifiers"
-  [taxId & protIds]
+  [taxId protIds]
   [:and [:taxidA taxId] [:taxidB taxId] [:species taxId]
     (concat [:or]
       (map #(vector :id %)
            protIds))])
 
 (s/fdef get-query-by-taxon-and-prots
-  :args (s/cat :taxId ::org/taxon-id :protIds (s/+ ::uni/uniprotid))
+  :args (s/cat :taxId ::org/taxon-id
+               :protIds (s/coll-of ::uni/uniprotid))
   :ret ::query)
 
 (comment
-  (get-query-by-taxon-and-prots 9606 "P04040")
-  (get-query-by-taxon-and-prots 9606 "P04040" "O64HD2" "J1D0B7FO54"))
+  (get-query-by-taxon-and-prots 9606 ["P04040"])
+  (get-query-by-taxon-and-prots 9606 ["P04040" "O64HD2" "J1D0B7FO54"]))
 
 ; [:and [:taxidA 9606] [:taxIdB 9606] [:species 9606] [:or [:idA "P04040"] [:idB "P04040"]]]
 
@@ -77,15 +78,16 @@
   The queries have the same taxid restrictions
   but different interactor identifier restrictions (in \"or\" section).
   limit is the number of couples in \"or\" section."
-  [taxId protPool limit]
-  (map (partial get-queries-by-taxon-and-prot-couples taxId)
-       (partition limit limit nil
-         (for [x protPool, y protPool] [x y]))))
+  ([taxId protPool] (get-queries-by-taxon-and-prot-pool taxId protPool 100))
+  ([taxId protPool limit]
+   (map (partial get-queries-by-taxon-and-prot-couples taxId)
+      (partition limit limit nil
+        (for [x protPool, y protPool] [x y])))))
 
 (s/fdef get-queries-by-taxon-and-prot-pool
   :args (s/cat :taxId    ::org/taxon-id
                :protPool (s/coll-of ::uni/uniprotid :distinct true)
-               :limit    pos-int?)
+               :limit    (s/? pos-int?))
   :ret (s/coll-of ::query))
 
 (get-queries-by-taxon-and-prot-pool 9606 ["P04040" "Q9D2V5"] 2)

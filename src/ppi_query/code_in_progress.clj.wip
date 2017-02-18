@@ -1,0 +1,116 @@
+(defn get-interactors-proteins)
+  ;TODO Code it, bitch
+
+
+; TODO -> Define in Protein
+(defn get-interactor-protein [interactor] (println "TODO get-interactor-protein"))
+
+(defn merge-interactions [interactions]
+  ; with mi-cluster or by hand
+  (apply concat interactions))
+(defn fetch-by-query-all-clients [clients query]
+  (merge-interactions
+    (map #(fetch-by-query % query)
+         clients)))
+; Global functions
+(defn get-proteins-in-ref-organism
+  [organism proteins]
+  proteins) ; TODO : Really code it, or not bitch
+; interaction / interaction.miql
+(defn get-taxon-interactions [clients organism]
+  (->> (get-query-by-taxon (:taxon-id organism))
+       to-miql
+       (fetch-by-query-all-clients clients)))
+(defn get-direct-interactions [clients organism proteins]
+  (->> (get-query-by-taxon-and-prots
+         (:taxon-id organism)
+         (map :unitprotid proteins))
+       to-miql
+       (fetch-by-query-all-clients clients)))
+; interaction / interaction.miql
+(defn get-interactors [interactions]
+  (-> (mapcat get-interactors-proteins interactions)
+      (into #{})))
+; interaction / interaction.miql
+(defn get-secondary-interactions [clients organism proteins]
+  (map #(fetch-by-query-all-clients clients (to-miql %))
+       (get-queries-by-taxon-and-prot-pool
+          (:taxon-id taxonId)
+          (map :uniprotid proteins))))
+; protein / protein.orthology
+(defn get-protein-orthologs [organism protein]
+  (=> proteins)) ; TODO by gcornut
+(defn get-proteins-orthologs [organism proteins]
+  (mapcat #(get-protein-orthologs organism %)
+          proteins))
+(defn get-orthologs-interactions [clients organism proteins]
+  (let [orthologs ; parallel to direct-interactions
+          (into #{} (get-proteins-orthologs organism proteins))
+          ; -> proteins
+        interactions
+          (get-direct-interactions clients organism orthologs)]
+          ; -> interactions
+    [organism orthologs interactions]))
+
+(defn merge-proteins-and-get-secondary-interactions
+    [clients ref-organism proteins
+     direct-interactions orthologs-interactions]
+  (let [orthologs
+        (into #{}
+          (concat
+            (get-interactors direct-interactions)
+            (mapcat (fn [organism orthologs interactions]
+                        (->> interactions
+                             get-interactors
+                             (get-proteins-in-ref-organism organism))
+                     orthologs-interactions))))]))
+
+
+
+
+(defn fetch-interactome [databases organism]
+  (let [clients (get-clients databases)]
+    (get-taxon-interactions clients organism)))
+
+
+(defn fetch-protein-network
+  [databases ; PSICQUIC databases to query
+   ref-organism  ; Organism of Interest
+   proteins ; Proteins of Interest
+   other-organisms] ; Other Organisms to check
+
+  (let [clients (get-clients databases)
+
+        ; Get proteins in reference organism
+        cleaned-proteins
+          (into #{} (get-proteins-in-ref-organism ref-organism proteins))
+
+        ; Get Direct Interactions (left arrow)
+        direct-interactions
+          (future (get-direct-interactions clients ref-organism cleaned-proteins))
+
+        ; Get proteins orthologs + Get direct interactors
+        orthologs-interactions
+          ; potentially parallellized
+          (map (fn [organism]
+                  (get-orthologs-interactions clients organism cleaned-proteins))
+               other-organisms)
+
+
+        ; Three blue arrows + left secondary interactions
+        [return-proteins secondary-interactions]
+        (future (merge-proteins-and-get-secondary-interactions
+                   clients cleaned-proteins
+                   direct-interactions orthologs-interactions))
+
+        ; Two violet arrows + right secondary arrows
+        orthologs-secondary-interactions
+           ; Potentially parallellized
+           (map (fn [organism orthologs interactions]
+                    (->> interactions
+                         get-interactors ; Set of Proteins
+                         (#(disj % orthologs))
+                         (get-secondary-interactions client organism)))
+                orthologs-interactions)]
+
+    [secondary-interactions return-proteins orthologs-secondary-interactions]))
