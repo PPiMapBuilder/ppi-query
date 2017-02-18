@@ -7,80 +7,103 @@
             [ppi-query.protein.uniprot :as uni]
             [clj-http.client :as client]))
 
+(def inparanoid-url "http://inparanoid.sbc.su.se/cgi-bin/gene_search.cgi")
+(def ^:dynamic cache-location (str "/tmp/" *ns*))
+(def ortholog-cache (atom {}))
+
 (s/def ::ortholog-score double?)
 
 (s/def ::ortholog-scored-protein
-  (s/keys :req [::org/organism ::uni/uniprotid ::ortholog-score]))
+  (s/keys :req-un [::org/organism ::uni/uniprotid ::ortholog-score]))
 
 (s/def ::ortholog-group
   (s/map-of ::org/organism (s/coll-of ::ortholog-scored-protein)))
 
-(def inparanoid-url "http://inparanoid.sbc.su.se/cgi-bin/gene_search.cgi")
+(s/def ::ortholog-cache
+  (s/map-of ::org/organism (s/map-of ::prot/protein ::ortholog-group)))
+
+(defprotocol OrthologClient
+  (get-ortholog-group [this protein]))
+
+(defprotocol OrthologCache
+  (add-ortholog-group [this protein ortholog-group]))
 
 (defn- fetch-xml-by-prot [uniprotid]
-  (->
-    (client/get inparanoid-url
-                {:query-params {"id" uniprotid
-                                "idtype" "proteinid"
-                                "all_or_selection" "all"
-                                "rettype" "xml"}
-                 :as :stream})
+  "Fetch inparanoid search by protein id response (& parse body xml)"
+  (-> (client/get inparanoid-url
+        {:query-params {"id" uniprotid
+                        "idtype" "proteinid"
+                        "all_or_selection" "all"
+                        "rettype" "xml"}
+         :as :stream})
     (update :body xml/parse)))
 
-(def fetch-xml-by-prot (memoize fetch-xml-by-prot))
+(defn trace [x]
+  (binding [*print-level* 2]
+    (println "trace" x))
+  x)
 
-(defn valid-node [node tag]
-  (= (-> node first :tag) tag))
+(defn- get-taxon-id [uniprot-taxonomy-url]
+  "Get taxonomy id from uniprot taxonomy url."
+  (-> (re-matches #"\D*(\d+)$" uniprot-taxonomy-url)
+    second
+    Long/parseLong))
 
-(defn trace [x] (println "trace" x) x)
-(defn- select [zxml tag]
-  "List nodes from an xml zipper for the specified tag"
-  (let [valid-node #(= (-> % first :tag) tag)]
-    (loop [node zxml
-           selected []]
-      (let [r (z/right node)
-            d (z/down node)
-            valid (valid-node node)]
-        (cond
-          (z/end? node) selected
-          (not valid) (recur (if d d r) selected)
-          :else (->>  (z/rights node)
-                      (filter valid-node)
-                      (concat selected)))))))
+(defn- get-ortholog-scored-protein [prot-nodes]
+  "Convert xml protein nodes into ortholog-scored-protein."
+  (->> prot-nodes
+    ; get prot attributes
+    (map :attrs)
+    ; convert to ortholog-scored-protein
+    (map #(hash-map
+           :organism (org/inparanoid-organism-by-id
+                       (get-taxon-id (:speclink %)))
+           :uniprotid (:prot_id %)
+           :ortholog-score (Double/parseDouble (:score %))))))
 
-(defn fetch-inparanoid-ortholog-group [protein target-organism]
+(defn fetch-ortholog-group [protein]
+  "Fetch ortholog group for a protein"
   (let [inparanoid-xml (fetch-xml-by-prot (:uniprotid protein))
-        ztree (z/xml-zip (:body inparanoid-xml))]
+        ztree (z/xml-zip (:body inparanoid-xml))
+        ref-organism (:organism protein)]
     (loop [speciespair-node (z/down ztree)
            ortholog-group {}]
       (if (nil? (z/right speciespair-node))
         ortholog-group
-        (let [species1-node (z/down speciespair-node)
-              org1 (org/inparanoid-organism-by-species
-                     (-> species1-node first :attrs :speclong))
+        (let [prot-node (-> speciespair-node
+                            ;species->species->clusters->cluster->protein
+                            z/down z/right z/right z/down z/down)
 
-              species2-node (z/right species1-node)
-              org2 (org/inparanoid-organism-by-species
-                     (-> species2-node first :attrs :speclong))
+              prot-nodes (concat [(first prot-node)] (z/rights prot-node))
 
-              prot-nodes (-> species2-node z/right z/down z/down)])))))
+              proteins (->> (get-ortholog-scored-protein prot-nodes)
+                            ; remove proteins from ref-organism of nil organisms
+                            (remove (comp
+                                      #(or (nil? %) (= ref-organism %))
+                                      :organism)))]
+          (recur
+            ; next speciespair xml node
+            (z/right speciespair-node)
+            (if-let [target-organism (:organism (first proteins))]
+              (assoc ortholog-group target-organism proteins)
+              ortholog-group)))))))
 
-(s/fdef fetch-inparanoid-ortholog-group
-  :args (s/cat :protein ::prot/protein :target-organism ::org/organism)
+(s/fdef fetch-ortholog-group
+  :args (s/cat :protein ::prot/protein)
   :ret ::ortholog-group)
 
 (comment
-  (def b
-    (let [human (org/inparanoid-organism-by-id 9606)
-          mouse (org/inparanoid-organism-by-id 10090)
-          catalase  (prot/->Protein human "P04040")]
-      (->
-        (fetch-xml-by-prot (:uniprotid catalase))
-        :body
-        z/xml-zip
-        first :tag)
-      #_
-      (fetch-inparanoid-ortholog-group catalase human)))
+  (let [human (org/inparanoid-organism-by-id 9606)
+        catalase  (prot/->Protein human "P04040")]
+    (fetch-ortholog-group catalase)
+    #_
+    (->
+      (fetch-xml-by-prot (:uniprotid catalase))
+      :body
+      z/xml-zip
+      first :tag)
+    #_
+    (fetch-ortholog-group catalase human))
 
   (require '[clojure.spec.gen :as gen])
   (gen/sample (s/gen ::ortholog-group)))
