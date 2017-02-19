@@ -1,8 +1,8 @@
 (defproject ppi-query "0.1.0-SNAPSHOT"
-  :description "PPiMapBuilder network generation lib"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :description "PPiMapBuilder network generation library"
+  :url "https://github.com/Soaring-Outliers/ppi-query"
+  :license {:name "GNU GENERAL PUBLIC LICENSE Version 3"
+            :url "http://www.gnu.org/licenses/gpl.txt"}
 
   :repositories {"EBI-IntAct" "http://www.ebi.ac.uk/intact/maven/nexus/content/groups/public"}
 
