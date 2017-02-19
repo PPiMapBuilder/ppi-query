@@ -39,7 +39,7 @@
   :ret  (s/coll-of ::intr/interaction))
 
 (defn merge-proteins-and-get-secondary-interactions
-    [clients ref-organism proteins
+    [clients ref-organism
      direct-interactions orthologs-direct-interactions]
   (let [orthologs
          (into #{}
@@ -48,13 +48,12 @@
              (mapcat (fn [organism orthologs interactions]
                          (->> interactions
                               intr/get-proteins
-                              (fetch/get-proteins-in-ref-organism organism))
+                              (fetch/get-proteins-in-ref-organism ref-organism))
                       orthologs-direct-interactions))))]))
 
 (s/fdef merge-proteins-and-get-secondary-interactions
   :args (s/cat :clients      (s/coll-of any?)
                :ref-organism ::orgn/organism
-               :proteins     (s/coll-of ::prot/proteins)
                :direct-interactions (s/coll-of ::intr/interaction)
                :orthologs-direct-interactions (s/coll-of ::intr/interaction))
   :ret  (s/coll-of ::intr/interaction))
@@ -67,6 +66,12 @@
   :args (s/cat :databases (s/coll-of ::intr/database)
                :organism ::orgn/organism)
   :ret  (s/coll-of ::intr/interaction))
+
+(comment
+  (binding [*print-level* 3]
+    (let [organism (orgn/inparanoid-organism-by-shortname "C.elegans")]
+      (println
+        (take 2 (fetch-interactome ["IntAct"] organism))))))
 
 (defn fetch-protein-network
   [databases ; PSICQUIC databases to query
@@ -98,7 +103,7 @@
         ; Three blue arrows + left secondary interactions
         proteins-and-secondary-interactions
           (future (merge-proteins-and-get-secondary-interactions
-                     clients cleaned-proteins
+                     clients ref-organism
                      direct-interactions orthologs-direct-interactions))
 
         ; Two violet arrows + right secondary arrows
@@ -115,10 +120,25 @@
     [direct-interactions secondary-interactions return-proteins orthologs-secondary-interactions]))
 
 
-(s/fdef fetch-interactome
+(s/fdef fetch-protein-network
   :args (s/cat :databases       (s/coll-of ::intr/database)
                :ref-organism    ::orgn/organism
-               :proteins        (s/coll-of ::prot/proteins)
+               :proteins        (s/coll-of ::prot/protein)
                :other-organisms (s/coll-of ::orgn/organism))
   :ret  (s/coll-of any?))
         ;(s/coll-of ::intr/interaction))
+
+(comment
+  (binding [*print-level* 3]
+    (let [databases ["IntAct"]
+          ref-organism (orgn/inparanoid-organism-by-shortname "C.elegans")
+          proteins [(prot/->Protein ref-organism "Q18688")
+                    (prot/->Protein ref-organism "Q20646")]
+          other-organisms [(orgn/inparanoid-organism-by-shortname "M.musculus")
+                           (orgn/inparanoid-organism-by-shortname "S.pombe")]]
+      (println
+        (take 4 (fetch-protein-network
+                    databases ; PSICQUIC databases to query
+                    ref-organism  ; Organism of Interest
+                    proteins ; Proteins of Interest
+                    other-organisms)))))) ; Other Organisms to check

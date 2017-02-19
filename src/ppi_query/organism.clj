@@ -36,8 +36,8 @@
     ; restrict organisms to be in this set:
     (s/spec inparanoid-organism-repository)
     ; and having the following keys
-    (s/keys :req-un [::common-name ::taxon-id ::scientific-name])))
+    (s/keys :req-un [::taxon-id ::scientific-name] :opt-un [::common-name])))
 
-(s/def ::common-name string?)
+(s/def ::common-name (s/or :nil nil? :str string?))
 (s/def ::taxon-id pos-int?)
 (s/def ::scientific-name string?)

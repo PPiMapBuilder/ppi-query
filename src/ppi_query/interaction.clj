@@ -5,7 +5,8 @@
             [clojure.spec :as s]
             [ppi-query.protein :as prot]
             [ppi-query.protein.uniprot :as unip]
-            [ppi-query.organism :as orgn]))
+            [ppi-query.organism :as orgn]
+            [ppi-query.interaction.miql :refer :all]))
 
 
 (s/def ::identifier string?)
@@ -97,8 +98,8 @@
   (apply concat interactions))
 
 (s/fdef merge-interactions
-  :args (s/cat :interactions (s/coll-of (s/coll-of ::interactions)))
-  :ret  (s/coll-of ::interactions))
+  :args (s/cat :interactions (s/coll-of (s/coll-of ::interaction)))
+  :ret  (s/coll-of ::interaction))
 
 (defn fetch-by-query-all-clients [clients query]
   "Apply the same query on all the clients and merge the result in
@@ -108,10 +109,14 @@
          clients)))
 
 (s/fdef fetch-by-query-all-clients
-  :args (s/cat :query string?)
-  :ret  (s/coll-of ::interactions))
+  :args (s/cat :clients (s/coll-of any?) :query string?)
+  :ret  (s/coll-of ::interaction))
 
-
+(comment
+  (binding [*print-level* 3]
+    (let [query " ( taxidA:9606 AND taxidB:9606 AND species:9606 AND id:P04040 ) "]
+      (println
+        (take 2 (fetch-by-query-all-clients registry-clients query))))))
 
 
 (defn get-interactor-database-ids [database interactor]
@@ -268,4 +273,4 @@
 
 (s/fdef proteins-couples->proteins-set
   :args (s/cat :interactions (s/coll-of ::interaction))
-  :ret  (s/coll-of ::protein :ditinct true))
+  :ret  (s/coll-of ::protein :distinct true))
