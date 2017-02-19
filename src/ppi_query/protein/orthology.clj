@@ -132,7 +132,7 @@
 
 (s/fdef get-best-orthologs
   :args (s/cat :target-organism ::org/organism :protein ::prot/protein)
-  :ret (coll-of ::ortholog-scored-protein))
+  :ret  (s/coll-of ::ortholog-scored-protein))
 
 (comment
   (let [human (org/inparanoid-organism-by-id 9606)
