@@ -271,6 +271,6 @@
       interactions->proteins-couples
       proteins-couples->proteins-set))
 
-(s/fdef proteins-couples->proteins-set
+(s/fdef get-proteins
   :args (s/cat :interactions (s/coll-of ::interaction))
   :ret  (s/coll-of ::protein :distinct true))

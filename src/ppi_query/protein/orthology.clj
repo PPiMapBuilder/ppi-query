@@ -123,9 +123,12 @@
     OrthologClient
     (get-best-orthologs [this target-organism protein]
       (let [ortholog-group (get-ortholog-group this protein)
-            orthologs (get ortholog-group target-organism)
-            best-score (apply max (map :ortholog-score orthologs))]
-        (filter #(= best-score (:ortholog-score %)) orthologs)))))
+            orthologs (get ortholog-group target-organism)]
+        (if (seq orthologs)
+            (let [best-score
+                   (apply max (map :ortholog-score orthologs))]
+              (filter #(= best-score (:ortholog-score %)) orthologs))
+            [])))))
 
 (def get-best-orthologs
   (partial get-best-orthologs cached-ortholog-client))

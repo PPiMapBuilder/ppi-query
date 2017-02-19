@@ -35,11 +35,12 @@
                :organism ::orgn/organism)
   :ret  (s/coll-of ::intr/interaction))
 
+
 (defn get-direct-interactions [clients organism proteins]
   "Fetch direct interactions between proteins into organism"
   (->> (miql/get-query-by-taxon-and-prots
          (:taxon-id organism)
-         (map :unitprotid proteins))
+         (into #{} (map :uniprotid proteins)))
        miql/to-miql
        (intr/fetch-by-query-all-clients clients)))
 
@@ -54,7 +55,7 @@
   (map #(intr/fetch-by-query-all-clients clients (miql/to-miql %))
        (miql/get-queries-by-taxon-and-prot-pool
           (:taxon-id organism)
-          (map :uniprotid proteins))))
+          (into #{} (map :uniprotid proteins)))))
 
 (s/fdef get-secondary-interactions
   :args (s/cat :clients (s/coll-of any?)
