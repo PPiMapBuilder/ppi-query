@@ -21,12 +21,6 @@
 (s/def ::ortholog-cache
   (s/map-of ::org/organism (s/map-of ::prot/protein ::ortholog-group)))
 
-(defprotocol OrthologGroupClient
-  (get-ortholog-group [this protein]))
-
-(defprotocol OrthologGroupCache
-  (add-ortholog-group [this protein ortholog-group]))
-
 (defn- fetch-xml-by-prot [uniprotid]
   "Fetch inparanoid search by protein id response (& parse body xml)"
   (-> (client/get inparanoid-url
@@ -60,6 +54,9 @@
            :uniprotid (:prot_id %)
            :ortholog-score (Double/parseDouble (:score %))))))
 
+(defprotocol OrthologGroupClient
+  (get-ortholog-group [this protein]))
+
 (def inparanoid-ortholog-group-client
   (reify
     OrthologGroupClient
@@ -79,7 +76,7 @@
                   prot-nodes (concat [(first prot-node)] (z/rights prot-node))
 
                   proteins (->> (get-ortholog-scored-protein prot-nodes)
-                                ; remove proteins from ref-organism of nil organisms
+                                ; remove proteins from ref-organism or nil
                                 (remove (comp
                                           #(or (nil? %) (= ref-organism %))
                                           :organism)))]
@@ -89,6 +86,9 @@
                 (if-let [target-organism (:organism (first proteins))]
                   (assoc ortholog-group target-organism proteins)
                   ortholog-group)))))))))
+
+(defprotocol OrthologGroupCache
+  (add-ortholog-group [this protein ortholog-group]))
 
 (def cache (atom {}))
 (def ortholog-group-cache
@@ -108,9 +108,9 @@
       (let [organism (:organism protein)]
         (get-in @cache [organism protein])))))
 
-
 (defprotocol OrthologClient
   (get-best-orthologs [this target-organism protein]))
+
 (def cached-ortholog-client
   (reify
     OrthologGroupClient
@@ -123,16 +123,22 @@
     OrthologClient
     (get-best-orthologs [this target-organism protein]
       (let [ortholog-group (get-ortholog-group this protein)
-            orthologs (get ortholog-group target-organism)]))))
+            orthologs (get ortholog-group target-organism)
+            best-score (apply max (map :ortholog-score orthologs))]
+        (filter #(= best-score (:ortholog-score %)) orthologs)))))
 
-(s/fdef fetch-ortholog-group
-  :args (s/cat :protein ::prot/protein)
-  :ret ::ortholog-group)
+(def get-best-orthologs
+  (partial get-best-orthologs cached-ortholog-client))
+
+(s/fdef get-best-orthologs
+  :args (s/cat :target-organism ::org/organism :protein ::prot/protein)
+  :ret (coll-of ::ortholog-scored-protein))
 
 (comment
   (let [human (org/inparanoid-organism-by-id 9606)
+        mouse (org/inparanoid-organism-by-id 15368)
         catalase  (prot/->Protein human "P04040")]
-    (fetch-ortholog-group catalase)
+    (get-best-orthologs cached-ortholog-client mouse catalase)
     #_
     (->
       (fetch-xml-by-prot (:uniprotid catalase))
