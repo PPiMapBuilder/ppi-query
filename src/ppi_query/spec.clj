@@ -62,7 +62,6 @@
 (def word-set
   (union digit-set alpha-set (char-range-set \a \z) #{\_}))
 
-
 (defn- s-repeat-size [spec size]
   (let [body (interleave
                (->> (range size) (map (comp keyword str)))
@@ -70,11 +69,11 @@
     `(s/cat ~@body)))
 
 (defn- s-repeat-range [spec start end]
-  (let [rrange (range start end)
+  (let [rrange (range start (inc end))
         s-repeat (partial s-repeat-size spec)
         body (interleave
                (->> rrange (map (comp keyword str)))
-               (->> rrange (map (comp s-repeat inc))))]
+               (->> rrange (map s-repeat)))]
     `(s/alt ~@body)))
 
 (defmacro s-repeat

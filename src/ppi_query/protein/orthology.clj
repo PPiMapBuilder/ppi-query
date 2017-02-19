@@ -9,7 +9,6 @@
 
 (def inparanoid-url "http://inparanoid.sbc.su.se/cgi-bin/gene_search.cgi")
 (def ^:dynamic cache-location (str "/tmp/" *ns*))
-(def ortholog-cache (atom {}))
 
 (s/def ::ortholog-score double?)
 
@@ -22,10 +21,10 @@
 (s/def ::ortholog-cache
   (s/map-of ::org/organism (s/map-of ::prot/protein ::ortholog-group)))
 
-(defprotocol OrthologClient
+(defprotocol OrthologGroupClient
   (get-ortholog-group [this protein]))
 
-(defprotocol OrthologCache
+(defprotocol OrthologGroupCache
   (add-ortholog-group [this protein ortholog-group]))
 
 (defn- fetch-xml-by-prot [uniprotid]
@@ -61,32 +60,70 @@
            :uniprotid (:prot_id %)
            :ortholog-score (Double/parseDouble (:score %))))))
 
-(defn fetch-ortholog-group [protein]
-  "Fetch ortholog group for a protein"
-  (let [inparanoid-xml (fetch-xml-by-prot (:uniprotid protein))
-        ztree (z/xml-zip (:body inparanoid-xml))
-        ref-organism (:organism protein)]
-    (loop [speciespair-node (z/down ztree)
-           ortholog-group {}]
-      (if (nil? (z/right speciespair-node))
+(def inparanoid-ortholog-group-client
+  (reify
+    OrthologGroupClient
+    (get-ortholog-group [this protein]
+      "Fetch ortholog group for a protein"
+      (let [inparanoid-xml (fetch-xml-by-prot (:uniprotid protein))
+            ztree (z/xml-zip (:body inparanoid-xml))
+            ref-organism (:organism protein)]
+        (loop [speciespair-node (z/down ztree)
+               ortholog-group {}]
+          (if (nil? (z/right speciespair-node))
+            ortholog-group
+            (let [prot-node (-> speciespair-node
+                                ;species->species->clusters->cluster->protein
+                                z/down z/right z/right z/down z/down)
+
+                  prot-nodes (concat [(first prot-node)] (z/rights prot-node))
+
+                  proteins (->> (get-ortholog-scored-protein prot-nodes)
+                                ; remove proteins from ref-organism of nil organisms
+                                (remove (comp
+                                          #(or (nil? %) (= ref-organism %))
+                                          :organism)))]
+              (recur
+                ; next speciespair xml node
+                (z/right speciespair-node)
+                (if-let [target-organism (:organism (first proteins))]
+                  (assoc ortholog-group target-organism proteins)
+                  ortholog-group)))))))))
+
+(def cache (atom {}))
+(def ortholog-group-cache
+  (reify
+    OrthologGroupCache
+    (add-ortholog-group [this protein ortholog-group]
+      (if-let [organism (:organism protein)]
+        (swap!
+          cache
+          assoc-in
+          [organism protein]
+          (merge-with (comp (partial into #{}) concat)
+                  (get-ortholog-group this protein)
+                  ortholog-group))))
+    OrthologGroupClient
+    (get-ortholog-group [this protein]
+      (let [organism (:organism protein)]
+        (get-in @cache [organism protein])))))
+
+
+(defprotocol OrthologClient
+  (get-best-orthologs [this target-organism protein]))
+(def cached-ortholog-client
+  (reify
+    OrthologGroupClient
+    (get-ortholog-group [this protein]
+      (if-let [ortholog-group (get-ortholog-group ortholog-group-cache protein)]
         ortholog-group
-        (let [prot-node (-> speciespair-node
-                            ;species->species->clusters->cluster->protein
-                            z/down z/right z/right z/down z/down)
-
-              prot-nodes (concat [(first prot-node)] (z/rights prot-node))
-
-              proteins (->> (get-ortholog-scored-protein prot-nodes)
-                            ; remove proteins from ref-organism of nil organisms
-                            (remove (comp
-                                      #(or (nil? %) (= ref-organism %))
-                                      :organism)))]
-          (recur
-            ; next speciespair xml node
-            (z/right speciespair-node)
-            (if-let [target-organism (:organism (first proteins))]
-              (assoc ortholog-group target-organism proteins)
-              ortholog-group)))))))
+        (when-let [ortholog-group (get-ortholog-group inparanoid-ortholog-group-client protein)]
+          (add-ortholog-group ortholog-group-cache protein ortholog-group)
+          ortholog-group)))
+    OrthologClient
+    (get-best-orthologs [this target-organism protein]
+      (let [ortholog-group (get-ortholog-group this protein)
+            orthologs (get ortholog-group target-organism)]))))
 
 (s/fdef fetch-ortholog-group
   :args (s/cat :protein ::prot/protein)
