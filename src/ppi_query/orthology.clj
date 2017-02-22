@@ -18,12 +18,15 @@
   :args (s/cat :protein ::prot/protein)
   :ret ::orth/ortholog-group)
 
+(def default-ortholog-score-threshold 0.85)
+
 (defn get-best-orthologs [target-organism protein]
   "Get the best orthologs for a protein in a target organism."
-  (let [ortholog-group (get-ortholog-group protein)
-        orthologs (get ortholog-group target-organism)
-        best-score (apply max (map :ortholog-score orthologs))]
-    (filter #(= best-score (:ortholog-score %)) orthologs)))
+  (when-let [orthologs (get (get-ortholog-group protein) target-organism)]
+    (let [best-score (apply max (map :ortholog-score orthologs))]
+      (filter #(and (= best-score (:ortholog-score %))
+                    (>= (:ortholog-score %) default-ortholog-score-threshold))
+        orthologs))))
 
 (s/fdef get-best-orthologs
   :args (s/cat :target-organism ::org/organism :protein ::prot/protein)
@@ -32,5 +35,5 @@
 (comment
   (let [human (org/inparanoid-organism-by-id 9606)
         mouse (org/inparanoid-organism-by-id 15368)
-        catalase  (prot/->Protein human "P04040")]
+        catalase  (prot/->Protein human "P08246")]
     (get-best-orthologs mouse catalase)))
