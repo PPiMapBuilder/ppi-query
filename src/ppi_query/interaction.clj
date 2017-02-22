@@ -8,7 +8,6 @@
             [ppi-query.organism :as orgn]
             [ppi-query.interaction.miql :refer :all]))
 
-
 (s/def ::identifier string?)
 (s/def ::database string?)
 (s/def ::identifiers (s/coll-of (s/keys :req-un [::identifier ::database])))

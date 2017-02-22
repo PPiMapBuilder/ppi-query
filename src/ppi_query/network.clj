@@ -3,7 +3,7 @@
             [ppi-query.interaction :as intr]
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
-            [ppi-query.protein.orthology :as orth]
+            [ppi-query.orthology :as orth]
             [ppi-query.fetch :as fetch]))
 
 (defn trace-f [f m]

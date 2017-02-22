@@ -4,7 +4,7 @@
             [ppi-query.interaction.miql :as miql]
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
-            [ppi-query.protein.orthology :as orth]))
+            [ppi-query.orthology :as orth]))
 
 (defn get-clients
   [databases]
