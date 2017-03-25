@@ -90,9 +90,10 @@
                :limit    (s/? pos-int?))
   :ret (s/coll-of ::query))
 
-(get-queries-by-taxon-and-prot-pool 9606 ["P04040" "Q9D2V5"] 2)
-(let [protPool ["P04040" "Q9D2V5"]]
-  (partition 2 (for [x protPool, y protPool] [x y])))
+(comment
+  (get-queries-by-taxon-and-prot-pool 9606 ["P04040" "Q9D2V5"] 2)
+  (let [protPool ["P04040" "Q9D2V5"]]
+    (partition 2 (for [x protPool, y protPool] [x y]))))
 
 
 (defn to-miql

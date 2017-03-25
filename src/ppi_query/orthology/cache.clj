@@ -20,8 +20,7 @@
 
 (s/fdef get-ortholog-group
   :args (s/cat :protein ::prot/protein)
-  :ret (s/or :nil nil?
-             :result ::orth/ortholog-group))
+  :ret (s/nilable ::orth/ortholog-group))
 
 (defn add-ortholog-group [protein ortholog-group]
   "Add to memory cache an ortholog group for a protein."

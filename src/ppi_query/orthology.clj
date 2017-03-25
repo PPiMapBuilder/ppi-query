@@ -34,6 +34,6 @@
 
 (comment
   (let [human (org/inparanoid-organism-by-id 9606)
-        mouse (org/inparanoid-organism-by-id 15368)
-        catalase  (prot/->Protein human "P08246")]
+        mouse (org/inparanoid-organism-by-id 10090)
+        catalase  (prot/->Protein human "P04040")]
     (get-best-orthologs mouse catalase)))

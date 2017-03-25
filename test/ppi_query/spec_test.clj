@@ -1,11 +1,11 @@
 (ns ppi-query.spec-test
   (:require [clojure.test :refer :all]
-            [clojure.spec :as s]
+            [clojure.spec.test :as stest]
             [ppi-query.test.utils :refer :all]
-            [ppi-query.spec :refer [def-lucene-syntax]]))
+            [ppi-query.spec :as ps]))
 
 ; Generate lucene-like query syntax specs with two possible field search
-(def-lucene-syntax ::query #{:field1 :field2})
+(ps/def-lucene-syntax ::query #{:field1 :field2})
 
 ; Check that a list of examples does conforms to the generated
 ; lucene-like query syntax spec
@@ -32,7 +32,27 @@
     ; invalid field name
     [:foo "A"]))
 
-(s/fdef char-range-set
-  :args (s/cat :start char? :end char?)
-  :ret (s/coll-of char? :distinct true)
-  :fn #(some #{(-> % :args :start) (-> % :args :end)} (:ret %)))
+(deftest test-valid-s-repeat-size
+  (are-valid (ps/s-repeat int? 10)
+    (range 10)
+    [1 2 2 4 1 4 5 5 2 4]))
+
+(deftest test-invalid-s-repeat-size
+  (are-invalid (ps/s-repeat int? 4)
+    [nil nil nil nil]
+    (range 3)))
+
+(deftest test-valid-s-repeat-range
+  (are-valid (ps/s-repeat int? 5 10)
+    (range 10)
+    (range 7)
+    (range 5)))
+
+(deftest test-invalid-s-repeat-range
+  (are-invalid (ps/s-repeat int? 4 7)
+    (range 3)
+    (range 8)))
+
+#_
+(defspec-test test-functions
+  (stest/enumerate-namespace `ppi-query.spec))

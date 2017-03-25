@@ -217,7 +217,7 @@
 
 (s/fdef get-interactors-proteins
   :args (s/cat :interaction ::interaction)
-  :ret (s/coll-of (s/or :nil nil? :prot ::prot/protein) :count 2))
+  :ret (s/coll-of (s/nilable ::prot/protein) :count 2))
 
 (comment
   (binding [*print-level* 3]

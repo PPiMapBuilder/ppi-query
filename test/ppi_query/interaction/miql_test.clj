@@ -4,18 +4,13 @@
             [clojure.spec.test :as stest]
             [ppi-query.test.utils :refer :all]
             [ppi-query.interaction.miql :refer :all]))
-(stest/instrument)
 
 ; Interactome Tests
-(s/exercise-fn `get-query-by-taxon)
-(check `get-query-by-taxon)
 (deftest test-get-query-by-taxon
    (is (=
           (get-query-by-taxon 9606)
           [:and [:taxidA 9606] [:taxidB 9606] [:species 9606]])))
 
-(s/exercise-fn `get-query-by-taxon-and-prots)
-(check `get-query-by-taxon-and-prots)
 (deftest test-get-query-by-taxon-and-prots
    (is (=
           (get-query-by-taxon-and-prots 9606 ["P04040"])
@@ -26,8 +21,6 @@
           [:and [:taxidA 9606] [:taxidB 9606] [:species 9606]
                 [:or [:id "P04040"] [:id "O64HD2"] [:id "J1D0B7FO54"]]])))
 
-(s/exercise-fn `get-queries-by-taxon-and-prot-couples)
-(check 'get-queries-by-taxon-and-prot-couples)
 (deftest test-get-queries-by-taxon-and-prot-couples
   (is (= (get-queries-by-taxon-and-prot-couples 9606 [["P04040" "Q9D2V5"] ["Q9D2V5" "P04040"]])
          [:and
@@ -38,8 +31,6 @@
                   [:and [:idA "P04040"] [:idB "Q9D2V5"]]
                   [:and [:idA "Q9D2V5"] [:idB "P04040"]]]])))
 
-(s/exercise-fn `get-queries-by-taxon-and-prot-pool)
-(check 'get-queries-by-taxon-and-prot-pool)
 (deftest test-get-queries-by-taxon-and-prot-pool
   (is
    (=
@@ -59,9 +50,6 @@
                 [:and [:idA "Q9D2V5"] [:idB "P04040"]]
                 [:and [:idA "Q9D2V5"] [:idB "Q9D2V5"]]]]))))
 
-;(s/exercise ::ppi-query.interaction.miql/query)]]))))
-;(s/exercise-fn `to-miql)
-;(check `to-miql)
 (deftest test-to-miql
   (is (= (to-miql [:taxidA "value"])
          "taxidA:\"value\""))

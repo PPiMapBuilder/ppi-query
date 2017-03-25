@@ -64,3 +64,7 @@
 
    Example: (get-strict-uniprotid \"P04040-1\") ;=> \"P04040\""
    (get (re-matches uniprotid-regexp id) 1))
+
+(s/fdef get-strict-uniprotid
+  :args (s/cat :id ::uniprotid)
+  :ret ::uniprotid-strict)

@@ -6,6 +6,11 @@
   "Same as gensym but for namespaced keywords."
   (keyword (str ns) (str (gensym name))))
 
+(s/fdef genkw
+  :args (s/cat :ns #(instance? clojure.lang.Namespace %)
+               :name string?)
+  :ret keyword?)
+
 (defmacro def-lucene-syntax [query-spec-kw fields-set]
   "Macro generating specs for lucene-like syntax in clojure data structure given
   a set of search fields keywords and 'query' namespaced keyword used to name
@@ -40,11 +45,18 @@
                 :operand (s/cat :operator #{:or :and}
                                 :queries (s/+ ~query-spec-kw)))))))
 
+
 (defn char-range-set [start end]
   "Generate a range set of characters between two given characters"
   (->> (range (int start) (inc (int end)))
        (map (comp #(get (str %) 0) char))
        (into #{})))
+
+(s/fdef char-range-set
+  :args (s/and (s/cat :start char? :end char?)
+               #(< (-> % :start int) (-> % :end int)))
+  :ret (s/coll-of char? :distinct true)
+  :fn #(some #{(-> % :args :start) (-> % :args :end)} (:ret %)))
 
 ;[0-9]
 (def digit-set
@@ -68,6 +80,13 @@
                (repeat size spec))]
     `(s/cat ~@body)))
 
+(s/fdef s-repeat-size
+  :args (s/cat :spec any? :size pos-int?)
+  :ret (s/cat :cat #{`s/cat}
+              :parts (s/+ (s/cat :kw keyword?
+                                 :spec any?)))
+  :fn #(= (* 2 (-> % :ret count) (-> % :args :parts count))))
+
 (defn- s-repeat-range [spec start end]
   (let [rrange (range start (inc end))
         s-repeat (partial s-repeat-size spec)
@@ -75,6 +94,14 @@
                (->> rrange (map (comp keyword str)))
                (->> rrange (map s-repeat)))]
     `(s/alt ~@body)))
+
+(s/fdef s-repeat-range
+  :args (s/and (s/cat :spec any? :start pos-int? :end pos-int?)
+               #(< (:start %) (:end %)))
+  :ret (s/cat :cat #{`s/alt}
+              :parts (s/+ (s/cat :kw keyword?
+                                 :spec any?)))
+  :fn #(= (* 2 (-> % :ret count) (-> % :args :parts count))))
 
 (defmacro s-repeat
   "Example:

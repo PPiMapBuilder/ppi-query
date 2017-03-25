@@ -11,8 +11,6 @@
         :else (or b a)))
     map1 map2))
 
-(s/def ::map-or-nil (s/or :nil nil? :map map?))
-
 (s/fdef merge-distinct
-  :args (s/cat :map1 ::map-or-nil :map2 ::map-or-nil)
-  :ret ::map-or-nil)
+  :args (s/cat :map1 (s/nilable map?) :map2 (s/nilable map?))
+  :ret (s/nilable map?))
