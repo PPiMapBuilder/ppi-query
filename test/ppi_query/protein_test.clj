@@ -1,18 +1,29 @@
 (ns ppi-query.protein-test
   (:require [clojure.test :refer :all]
-            [clojure.spec.test :as stest]
             [ppi-query.test.utils :refer :all]
             [ppi-query.protein.uniprot :as uni]))
 
-(deftest test-extract-strcti-uniprotid
-  (is (= (uni/get-strict-uniprotid "P04040-1")
-         "P04040")))
+(deftest test-uniprotid-spec
+  (are-spec ::uni/uniprotid
+    :valid ["P04040-1"
+            "P9WIE5-PRO_007"
+            "P24270"]
 
-(deftest test-valid-uniprotid-specs
-  (are-valid ::uni/uniprotid
-    "P04040-1"
-    "P04040"))
+    :invalid ["fooP04040"
+              ""
+              nil]))
 
-;; Generative testing on all functions of ppi-query.protein.uniprot
-(defspec-test test-uniprot
-  (stest/enumerate-namespace `ppi-query.protein.uniprot))
+(deftest test-strict-uniprotid-spec
+  (are-spec ::uni/uniprotid-strict
+    :valid ["P04040"
+            "P9WIE5"
+            "P24270"]
+
+    :invalid ["fooP04040"
+              ""
+              nil
+              "P04040-1"
+              "P9WIE5-PRO_007"]))
+
+(deftest test-get-strict-uniprotid
+  (check' `uni/get-strict-uniprotid))

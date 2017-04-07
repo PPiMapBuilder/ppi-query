@@ -8,6 +8,7 @@
 
   :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
                  [org.clojure/java.data "0.1.1"]
+                 [org.clojure/data.zip "0.1.2"]
 
                  ; HTTP client
                  [clj-http "2.3.0"]
@@ -31,4 +32,5 @@
                :dependencies
                 [[proto-repl "0.3.1"]
                  [proto-repl-charts "0.3.2"]
+                 [aprint "0.1.3"]
                  [org.clojure/test.check "0.9.0"]]}})
