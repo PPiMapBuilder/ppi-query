@@ -6,6 +6,9 @@
 
   :repositories {"EBI-IntAct" "http://www.ebi.ac.uk/intact/maven/nexus/content/groups/public"}
 
+  ; Avoid random exception when using clojure.spec.test/check with clojure.test
+  :monkeypatch-clojure-test false
+
   :dependencies [[org.clojure/clojure "1.9.0-alpha14"]
                  [org.clojure/java.data "0.1.1"]
                  [org.clojure/data.zip "0.1.2"]
