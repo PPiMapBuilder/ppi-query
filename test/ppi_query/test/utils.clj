@@ -4,6 +4,8 @@
             [clojure.spec :as s]
             [clojure.spec.test :as stest]
             [clojure.template :as temp]
+            [clojure.test.check.generators :as gen]
+            [io.aviso.exception :refer :all]
             [aprint.core :refer :all]))
 
 (defmacro are-spec [spec & {:keys [valid invalid]}]
@@ -40,61 +42,61 @@
   (swap! trace-i inc)
   x)
 
+(defn xml-gen [& {:keys [tag attrs content]}]
+  "Creates an xml node generator.
+   Example: (gen/sample (xml-gen :tag :a :content (gen/tuple gen/int)))
+            => ({:tag :a, :content [9], :attrs nil}, ...)"
+  (let [to-gen #(if (gen/generator? %) % (gen/return %))]
+    (gen/hash-map :tag (to-gen tag)
+                  :attrs (to-gen attrs)
+                  :content (to-gen content))))
+
 ;;; Utility functions combining clojure spec test check and clojure test
 ;;; inspired by: https://gist.github.com/Risto-Stevcev/dc628109abd840c7553de1c5d7d55608
 
-; Summarize exceptions
-(def summarize-exception
-  (comp #(apply str %)
-        (juxt
-          (constantly "\n")
-          (comp #(str "Error type:    " %) class :failure)
-          (constantly "\n")
-          (comp #(str "Error message: " %) (memfn getMessage) :failure)
-          (constantly "\n"))))
-
-; Summarize failures
-(def summarize-failure
-  (comp #(apply str %)
-        (juxt
-          (constantly "\n")
-          (comp #(str "Input args:\t" %) #(into [] %) :clojure.spec.test/args :failure)
-          (constantly "\n")
-          (comp #(str "Ouput ret:\t" %) :clojure.spec.test/val :failure)
-          (constantly "\n")
-          (comp #(str "Failure:\t" %) :clojure.spec/failure :failure)
-          (constantly "\n")
-          (constantly "\n")
-          (constantly "Problems:\n")
-          ; Pretty print problems
-          #(-> % :failure :clojure.spec/problems
-               (aprint)
-               (with-out-str)))))
-
-(defn summarize-result [spec-check-result]
+(defn summarize-result [abbr-result]
   (str
     "\n"
-    "[ " (:sym spec-check-result) " ]"
-    (if (-> spec-check-result :failure :clojure.spec/failure)
-      (summarize-failure spec-check-result)
-      (summarize-exception spec-check-result))))
+    "[ " (:sym abbr-result) " ]"
+    "\n"
+    (let [failure (:failure abbr-result)]
+      (if (-> failure :clojure.spec/failure)
+        ; Pretty print spec problems
+        (->> failure
+             (aprint)
+             (with-out-str)
+             (apply str))
+        ; Pretty print exception
+        (->> failure
+             (format-exception)
+             (apply str))))))
 
 ;; Utility functions to intergrate clojure.spec.test/check with clojure.test
-(defn summarize-results' [spec-check]
+(defn summarize-results' [results]
   "Generate summary of spec test check results"
-  (->> spec-check
+  (->> results
        (map (comp summarize-result stest/abbrev-result))
        (apply str)))
 
 (defn succeded? [results]
   "Check if the clojure spec check test results are sucessful"
-  (nil? (-> results first :failure)))
+  (every? (comp nil? :failure) results))
 
-(defn check' [fn]
+; Limit number of generative tests for now
+; TODO: find a way to keep 100 tests in cache and only re-run them on
+;       modification of functions and specs (implies also re-run
+;       on modification of functions and specs depended on)
+(def num-tests 5)
+
+(defn check'
   "Combine clojure.test/is and clojure.spec.test/check"
-  (stest/instrument fn)
-  (let [spec-check (stest/check fn)
-        spec-check-successful? (succeded? spec-check)]
-    (t/is spec-check-successful?
-          (when-not spec-check-successful?
-            (summarize-results' spec-check)))))
+  ([sfn] (check' sfn {}))
+  ([sfn opts]
+   (stest/instrument sfn)
+   (let [xopts (assoc opts :clojure.spec.test.check/opts
+                           {:num-tests num-tests})
+         results (stest/check sfn xopts)
+         results-successful? (succeded? results)]
+     (t/is results-successful?
+           (when-not results-successful?
+             (summarize-results' results))))))

@@ -36,4 +36,5 @@
                 [[proto-repl "0.3.1"]
                  [proto-repl-charts "0.3.2"]
                  [aprint "0.1.3"]
+                 [io.aviso/pretty "0.1.33"]
                  [org.clojure/test.check "0.9.0"]]}})
