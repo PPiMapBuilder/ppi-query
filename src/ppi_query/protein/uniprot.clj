@@ -11,19 +11,19 @@
 ; strict Uniprot ID spec on sequence of characters
 (s/def ::uniprotid-strict-seq
   (s/alt :0 (s/cat :0 #{\P \O \Q}
-                   :1 ps/digit-set
-                   :2 (ps/s-repeat ps/digit-alpha-set 3)
-                   :3 ps/digit-set)
+                   :1 ::ps/digit-char
+                   :2 (ps/s-repeat ::ps/digit-maj-alpha-char 3)
+                   :3 ::ps/digit-char)
          :1 (s/cat :0 (union ;[A-NR-Z]
                         ;[A-N]
                         (ps/char-range-set \A \N)
                         ;[R-Z]
                         (ps/char-range-set \R \Z))
-                   :1 ps/digit-set
+                   :1 ::ps/digit-char
                    :2 (ps/s-repeat
-                        (s/cat :0 ps/alpha-set
-                               :1 (ps/s-repeat ps/digit-alpha-set 2)
-                               :2 ps/digit-set)
+                        (s/cat :0 ::ps/maj-alpha-char
+                               :1 (ps/s-repeat ::ps/digit-maj-alpha-char 2)
+                               :2 ::ps/digit-char)
                         1 2))))
 
 ; Uniprot ID spec on sequence of characters (with optional revision suffix)
@@ -31,39 +31,20 @@
   (s/cat
     :0 ::uniprotid-strict-seq
     :1 (s/? (s/cat :0 #{\- \.}
-                   :1 (s/+ ps/word-set)))))
+                   :1 (s/+ ::ps/word-char)))))
 
-(def str-to-seq seq)
-(def seq-to-str (partial apply str))
-
-; strict Uniprot ID spec on strings
-(s/def ::uniprotid-strict
-  (s/with-gen
-    (s/and
-      string?
-      ; if string: convert to seq
-      (s/conformer str-to-seq seq-to-str)
-      ; unirpot id RegExp
-      ::uniprotid-strict-seq)
-    #(gen/fmap seq-to-str (s/gen ::uniprotid-strict-seq))))
+; Strict Uniprot ID spec on strings
+(s/def ::uniprotid-strict (ps/string-spec ::uniprotid-strict-seq))
 
 ; Uniprot ID spec on strings (with optional revision suffix)
-(s/def ::uniprotid
-  (s/with-gen
-    (s/and
-      string?
-      ; if string: convert to seq
-      (s/conformer str-to-seq seq-to-str)
-      ; unirpot id RegExp
-      ::uniprotid-seq)
-    #(gen/fmap seq-to-str (s/gen ::uniprotid-seq))))
+(s/def ::uniprotid (ps/string-spec ::uniprotid-seq))
 
 (defn get-strict-uniprotid [id]
   "Extract a strict UniProt id from an id potentially containing a
    UniProt revision number.
 
    Example: (get-strict-uniprotid \"P04040-1\") ;=> \"P04040\""
-   (get (re-matches uniprotid-regexp id) 1))
+  (get (re-matches uniprotid-regexp id) 1))
 
 (s/fdef get-strict-uniprotid
   :args (s/cat :id ::uniprotid)

@@ -32,7 +32,22 @@
       (:body)
       (xml/parse)))
 
-(s/def ::inparanoid-xml ::pxml/document)
+(s/def ::inparanoid-xml
+  (ps/xml-spec
+    :tag :cluster_list
+    :content (s/coll-of
+               (ps/xml-spec
+                 :tag :speciespair
+                 :content (s/tuple
+                            (ps/xml-spec :tag :species)
+                            (ps/xml-spec :tag :species)
+                            (ps/xml-spec
+                              :tag :clusters
+                              :content (s/tuple
+                                         (ps/xml-spec
+                                           :tag :cluster
+                                           :content (s/coll-of ::protein-xml)))))))))
+
 (s/fdef fetch-xml-by-uniprotid
         :args (s/cat :id ::uni/uniprotid)
         :ret ::inparanoid-xml)
@@ -45,8 +60,7 @@
 
 (s/def ::uniprot-taxonomy-url string?)
 (s/fdef parse-taxon-id
-        :args (s/cat :uniprot-taxonomy-url
-                     ::uniprot-taxonomy-url)
+        :args (s/cat :url ::uniprot-taxonomy-url)
         :ret int?)
 
 (defn parse-ortholog-scored-protein [protein-xml]
@@ -60,7 +74,15 @@
          ; ortholog-score
          (Double/parseDouble (:score %))))))
 
-(s/def ::protein-xml ::pxml/node)
+(s/def ::score-xml string?)
+(s/def ::protein-xml
+  (ps/xml-spec
+    :tag :protein
+    :attrs (ps/map-spec
+             :speclink ::uniprot-taxonomy-url
+             :prot_id ::uni/uniprotid
+             :score ::score-xml)))
+
 (s/fdef parse-ortholog-scored-protein
         :args (s/cat :protein-xml ::protein-xml)
         :ret ::orth/ortholog-scored-protein)

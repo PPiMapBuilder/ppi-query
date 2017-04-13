@@ -1,64 +1,62 @@
 (ns ppi-query.orthology.inparanoid-test
   (:require [ppi-query.orthology.inparanoid :as inp]
+            [ppi-query.orthology.cache :as cache]
             [ppi-query.test.utils :refer :all]
             [ppi-query.protein.uniprot :as uni]
             [ppi-query.organism :as org]
+            [ppi-query.orthology.data :as orth]
             [clojure.test :refer :all]
             [clojure.spec :as s]
             [clojure.test.check.generators :as gen]
-            [clojure.spec.test :as stest]))
+            [clojure.spec.test :as stest]
+            [ppi-query.protein :as prot]))
+
+(stest/instrument)
+
+(deftest test-parse-protein
+  (let [xml {:tag :protein
+             :content nil
+             :attrs {:speclink "url/9606"
+                     :score "0.42"
+                     :prot_id "P04040"}}]
+    (is (= (inp/parse-ortholog-scored-protein xml)
+           (orth/->OrthologScoredProtein
+             (org/inparanoid-organism-by-id 9606)
+             "P04040"
+             0.42)))))
 
 ; Orthology score generator
-(def score-gen (gen/fmap str (gen/double* {:min 0 :max 1})))
+(defn score-gen []
+  (gen/fmap str (gen/double* {:min 0 :max 1})))
 
 ; Uniprot taxonomy url generator
-(def uniprot-taxonomy-url-gen
-     (->> org/inparanoid-organism-repository
-          (map :taxon-id)
-          (gen/elements)
-          (gen/fmap (partial str "url/"))))
+(defn uniprot-taxonomy-url-gen []
+  (->> org/inparanoid-organism-repository
+       (map :taxon-id)
+       (gen/elements)
+       (gen/fmap (partial str "url/"))))
 
-(deftest test-parse-taxon-id
+(deftest check-parse-taxon-id
   (check' `inp/parse-taxon-id
-          {:gen {::inp/uniprot-taxonomy-url (constantly uniprot-taxonomy-url-gen)}}))
+          {:gen {::inp/uniprot-taxonomy-url uniprot-taxonomy-url-gen}}))
 
-;; Protein xml generator
-(def protein-xml-gen
-     (xml-gen :tag :protein
-              :attrs (gen/hash-map :speclink uniprot-taxonomy-url-gen
-                                   :prot_id (s/gen ::uni/uniprotid)
-                                   :score score-gen)))
-
-(deftest test-parse-protein-xml
+(deftest check-parse-protein-xml
   (check' `inp/parse-ortholog-scored-protein
-          {:gen {::inp/protein-xml (constantly protein-xml-gen)}}))
+          {:gen {::inp/uniprot-taxonomy-url uniprot-taxonomy-url-gen
+                 ::inp/score-xml score-gen}}))
 
-; Generator for inparanoid gene search xml response (simplified)
-; example: http://inparanoid.sbc.su.se/cgi-bin/gene_search.cgi?id=P04040&idtype=proteinid&all_or_selection=all&rettype=xml
-(def inparanoid-xml-gen
-  (let [clusters-gen (gen/tuple protein-xml-gen)
-
-        speciespair-gen (gen/tuple
-                          (xml-gen :tag :species)
-                          (xml-gen :tag :species)
-                          (xml-gen :tag :clusters
-                                   :content clusters-gen))
-
-        clusterlist-gen (gen/vector
-                          (xml-gen :tag :speciespair
-                                   :content speciespair-gen))]
-    (xml-gen :tag :cluster_list
-             :content clusterlist-gen)))
-
-(deftest test-parse-inparanoid-xml
+(deftest check-parse-inparanoid-xml
   (check' `inp/parse-ortholog-group
-          {:gen {::inp/inparanoid-xml (constantly inparanoid-xml-gen)}}))
+          {:gen {::inp/uniprot-taxonomy-url uniprot-taxonomy-url-gen
+                 ::inp/score-xml score-gen}}))
 
-(deftest test-get-ortholog-group
+(deftest check-get-ortholog-group
   ; Stub inparanoid I/O using a custom xml generator
   (stest/instrument
     `inp/fetch-xml-by-uniprotid
     {:stub #{`inp/fetch-xml-by-uniprotid}
-     :gen {::inp/inparanoid-xml (constantly inparanoid-xml-gen)}})
+     :gen {::inp/uniprot-taxonomy-url uniprot-taxonomy-url-gen
+           ::inp/score-xml score-gen}})
 
   (check' `inp/get-ortholog-group))
+

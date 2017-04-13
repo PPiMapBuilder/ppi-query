@@ -1,7 +1,8 @@
 (ns ppi-query.spec-test
   (:require [clojure.test :refer :all]
             [ppi-query.test.utils :refer :all]
-            [ppi-query.spec :as ps]))
+            [ppi-query.spec :as ps]
+            [clojure.spec :as s]))
 
 ; Generate lucene-like query syntax specs with two possible field search
 (ps/def-lucene-syntax ::query #{:field1 :field2})
@@ -47,3 +48,23 @@
     :invalid [(repeat 6 nil)
               (range 3)
               (range 11)]))
+
+(deftest test-map-spec
+  (are-spec (ps/map-spec :a int? :b #{:c :d} :e nil?)
+
+    :valid [{:a 1 :b :c :e nil}
+            {:e nil :b :d :a 20}
+            {:b :d :e nil :a 10}]
+
+    :invalid [{:a 1}
+              {:a 1 :b :c}
+              {:a nil :b nil :e nil}]))
+
+(deftest test-xml-spec
+
+  (is (s/valid? (ps/xml-spec :tag :a :attrs (s/map-of keyword? string?))
+                {:tag :a :attrs {:foo "bar"} :content nil}))
+
+  (is (s/valid? (ps/xml-spec :tag #{:a :b} :content (s/tuple string?))
+                {:tag :b :attrs nil :content [""]})))
+
