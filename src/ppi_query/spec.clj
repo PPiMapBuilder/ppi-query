@@ -1,8 +1,7 @@
 (ns ppi-query.spec
   (:require [clojure.spec :as s]
             [clojure.spec.gen :as gen]
-            [clojure.set :refer [union]]
-            [ppi-query.xml :as pxml]))
+            [clojure.set :refer [union]]))
 
 (defn gen-namespaced-kw [name]
   "Generate a namespaced keyword with a random namespace."
@@ -168,16 +167,11 @@
    Example:
      (s/exercise (map-spec :a int? :b keyword?))
      => {:a -1, :b :-} ..."
-  (let [s-def (fn [[kw spec]] `(s/def ~(gen-namespaced-kw (name kw))
+  (let [map-kw (gen-namespaced-kw "map-spec")
+        s-def (fn [[kw spec]] `(s/def ~(gen-namespaced-kw (name kw))
                                       ~spec))
         defs (->> entries (partition 2) (map s-def))]
     `(do ~@defs
-         (s/keys :req-un ~(map second defs)))))
+         (s/def ~map-kw (s/keys :req-un ~(map second defs)))
+         ~map-kw)))
 
-(defn xml-spec [& {:keys [tag attrs content]}]
-  "Creates an xml node spec describind its tag, attibutes and content."
-  (s/and
-    (map-spec :tag (if (keyword? tag) (hash-set tag) tag)
-              :attrs (if (nil? attrs) nil? attrs)
-              :content (if (nil? content) nil? content))
-    ::pxml/node))

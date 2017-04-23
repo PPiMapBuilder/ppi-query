@@ -18,8 +18,7 @@
 
                  ; PSICQUIC
                  [psidev.psi.mi/psimitab "1.8.4"]
-                 [org.hupo.psi.mi.psicquic/psicquic-simple-client "1.3.3"]
-                 [org.hupo.psi.mi.psicquic/psicquic-registry-client "1.1.0"]]
+                 [org.hupo.psi.mi.psicquic/psicquic-simple-client "1.3.3"]]
 
   :pom-plugins [[com.theoryinpractise/clojure-maven-plugin "1.8.1"
                  ;; this section is optional, values have the same syntax as pom-addition

@@ -2,7 +2,8 @@
   (:require [clojure.test :refer :all]
             [ppi-query.test.utils :refer :all]
             [ppi-query.spec :as ps]
-            [clojure.spec :as s]))
+            [clojure.spec :as s]
+            [ppi-query.xml :as pxml]))
 
 ; Generate lucene-like query syntax specs with two possible field search
 (ps/def-lucene-syntax ::query #{:field1 :field2})
@@ -62,9 +63,9 @@
 
 (deftest test-xml-spec
 
-  (is (s/valid? (ps/xml-spec :tag :a :attrs (s/map-of keyword? string?))
+  (is (s/valid? (pxml/node :tag #{:a} :attrs (s/map-of keyword? string?))
                 {:tag :a :attrs {:foo "bar"} :content nil}))
 
-  (is (s/valid? (ps/xml-spec :tag #{:a :b} :content (s/tuple string?))
+  (is (s/valid? (pxml/node :tag #{:a :b} :content (s/tuple string?))
                 {:tag :b :attrs nil :content [""]})))
 

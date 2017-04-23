@@ -11,6 +11,33 @@
             [ppi-query.protein.uniprot :as uni]
             [ppi-query.orthology.data :as orth]))
 
+; Inparanoid gene search xml response spec (only we is parsed)
+(s/def ::inparanoid-xml
+  (pxml/node
+    :tag #{:cluster_list}
+    :content (s/coll-of
+               (pxml/node
+                 :tag #{:speciespair}
+                 :content (s/tuple
+                            (pxml/node :tag #{:species})
+                            (pxml/node :tag #{:species})
+                            (pxml/node
+                              :tag #{:clusters}
+                              :content (s/tuple
+                                         (pxml/node
+                                           :tag #{:cluster}
+                                           :content (s/coll-of ::protein-xml)))))))))
+
+(s/def ::uniprot-taxonomy-url string?)
+(s/def ::score-xml string?)
+(s/def ::protein-xml
+  (pxml/node
+    :tag #{:protein}
+    :attrs (ps/map-spec
+             :speclink ::uniprot-taxonomy-url
+             :prot_id ::uni/uniprotid
+             :score ::score-xml)))
+
 (defn create-request [uniprotid]
   "Create HTTP request for inparanoid protein search."
   {:method       :get
@@ -32,22 +59,6 @@
       (:body)
       (xml/parse)))
 
-(s/def ::inparanoid-xml
-  (ps/xml-spec
-    :tag :cluster_list
-    :content (s/coll-of
-               (ps/xml-spec
-                 :tag :speciespair
-                 :content (s/tuple
-                            (ps/xml-spec :tag :species)
-                            (ps/xml-spec :tag :species)
-                            (ps/xml-spec
-                              :tag :clusters
-                              :content (s/tuple
-                                         (ps/xml-spec
-                                           :tag :cluster
-                                           :content (s/coll-of ::protein-xml)))))))))
-
 (s/fdef fetch-xml-by-uniprotid
         :args (s/cat :id ::uni/uniprotid)
         :ret ::inparanoid-xml)
@@ -58,7 +69,6 @@
       (second)
       (Long/parseLong)))
 
-(s/def ::uniprot-taxonomy-url string?)
 (s/fdef parse-taxon-id
         :args (s/cat :url ::uniprot-taxonomy-url)
         :ret int?)
@@ -73,15 +83,6 @@
          (:prot_id %)
          ; ortholog-score
          (Double/parseDouble (:score %))))))
-
-(s/def ::score-xml string?)
-(s/def ::protein-xml
-  (ps/xml-spec
-    :tag :protein
-    :attrs (ps/map-spec
-             :speclink ::uniprot-taxonomy-url
-             :prot_id ::uni/uniprotid
-             :score ::score-xml)))
 
 (s/fdef parse-ortholog-scored-protein
         :args (s/cat :protein-xml ::protein-xml)
