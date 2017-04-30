@@ -9,8 +9,10 @@
 
 ; PSICQUIC registry & service spec
 (s/def ::name string?)
-(s/def ::url string?)
-(s/def ::service (s/keys :req-un [::name ::url]))
+(s/def ::restUrl string?)
+(s/def ::active boolean?)
+(s/def ::organizationUrl string?)
+(s/def ::service (s/keys :req-un [::name ::restUrl] :opt-un [::active ::organizationUrl]))
 (s/def ::registry (s/map-of ::name ::service))
 
 ; PSICQUIC registry XML specs
@@ -20,10 +22,10 @@
     :soapUrl (s/? (pxml/text-node :soapUrl))
     :restUrl (pxml/text-node :restUrl)
     :restExample (s/? (pxml/text-node :restExample))
-    :active (s/? (pxml/text-node :active))
+    :active (pxml/text-node :active)
     :count (s/? (pxml/text-node :count))
     :version (s/? (pxml/text-node :version))
-    :organizationUrl (s/? (pxml/text-node :organizationUrl))
+    :organizationUrl (pxml/text-node :organizationUrl)
     :description (s/? (pxml/text-node :description))
     :restricted (s/? (pxml/text-node :restricted))
     :tags (s/* (pxml/text-node :tag))))
@@ -71,7 +73,9 @@
 
        ; for each service -> create name & url hash-map
        (map #(hash-map :name (xml1-> % :name text)
-                       :url  (xml1-> % :restUrl text)))
+                       :restUrl  (xml1-> % :restUrl text)
+                       :active (= "true" (xml1-> % :active text))
+                       :organizationUrl (xml1-> % :organizationUrl text)))
 
        ; transform to map of services by there name
        (map (juxt :name identity))
