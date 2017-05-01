@@ -12,8 +12,9 @@
 (s/def ::restUrl string?)
 (s/def ::active boolean?)
 (s/def ::organizationUrl string?)
-(s/def ::service (s/keys :req-un [::name ::restUrl] :opt-un [::active ::organizationUrl]))
+(s/def ::service (s/keys :req-un [::name ::restUrl ::active ::organizationUrl]))
 (s/def ::registry (s/map-of ::name ::service))
+(defrecord PsicquicService [name restUrl active organizationUrl])
 
 ; PSICQUIC registry XML specs
 (s/def ::service-xml
@@ -71,11 +72,16 @@
        (zip/xml-zip)
        (#(xml-> % :registry :service))
 
-       ; for each service -> create name & url hash-map
-       (map #(hash-map :name (xml1-> % :name text)
-                       :restUrl  (xml1-> % :restUrl text)
-                       :active (= "true" (xml1-> % :active text))
-                       :organizationUrl (xml1-> % :organizationUrl text)))
+       ; for each service -> create a record
+       (map #(->PsicquicService
+               ; name
+               (xml1-> % :name text)
+               ; REST URL
+               (xml1-> % :restUrl text)
+               ; active boolean
+               (= "true" (xml1-> % :active text))
+               ; Organization URL
+               (xml1-> % :organizationUrl text)))
 
        ; transform to map of services by there name
        (map (juxt :name identity))
