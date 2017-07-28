@@ -1,25 +1,28 @@
 (ns ppi-query.api
   (:require [ppi-query.interaction.psicquic.registry :as reg]
-            [ppi-query.organism :as org])
-  (:import (java.util List)))
+            [ppi-query.organism :as org]))
 
 (defn to-string-map [kw-map]
-  "Transform a keword keyed map into a string keyed map."
+  "Transform a keyword keyed map into a string keyed map."
   (->> kw-map
        (map (fn [[k v]] [(name k) v]))
        (into {})))
 
-(gen-class
-  :name ppi_query.api.PPIQueryAPI
-  :methods [^:static [getServices [] java.util.List]
-            ^:static [getOrganisms [] java.util.List]])
+(definterface Api
+  (^java.util.List getPsicquicServices [])
+  (^java.util.List getOrganisms []))
 
-(defn -getServices []
-  (->> (reg/update-registry)
+(gen-class
+  :name ppi_query.api.ApiImpl
+  :implements [ppi_query.api.Api]
+  :prefix "api-")
+
+(defn api-getPsicquicServices []
+  (->> (reg/get-registry!)
        (vals)
        (map to-string-map)))
 
-(defn -getOrganisms []
+(defn api-getOrganisms []
   (->> org/inparanoid-organism-repository
        (map to-string-map)))
 
