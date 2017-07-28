@@ -17,8 +17,8 @@
 (comment
 
   (let [client (first intr/registry-clients)
-        ;query "P04040 or Q14145"
-        query  (miql/to-miql (miql/get-query-by-taxon 6239))
+        query "P04040 or Q14145"
+        ;query  (miql/to-miql (miql/get-query-by-taxon 6239))
         interactions (intr/fetch-by-query client query)
         edges (get-edges interactions)
         nodes-simple (remove nil? (into #{} (flatten edges)))

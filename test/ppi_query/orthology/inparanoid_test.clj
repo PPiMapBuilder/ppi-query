@@ -5,6 +5,7 @@
             [ppi-query.protein.uniprot :as uni]
             [ppi-query.organism :as org]
             [ppi-query.orthology.data :as orth]
+            [clojure.xml :as xml]
             [clojure.test :refer :all]
             [clojure.spec :as s]
             [clojure.test.check.generators :as gen]

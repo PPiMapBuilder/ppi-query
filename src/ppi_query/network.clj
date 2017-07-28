@@ -126,12 +126,12 @@
 
         ; Two violet arrows + right secondary arrows
         orthologs-secondary-interactions
-         ;(trace-f "orthologs-secondary-interactions"
+         (trace-f "orthologs-secondary-interactions"
            ; Potentially parallellized
            (map (fn [[organism orthologs interactions]]
                     (get-orthologs-secondary-interactions
                       clients organism orthologs interactions))
-                orthologs-direct-interactions)
+                orthologs-direct-interactions))
         ; TODO orthologs-secondary-interactions->reference organism
         ; Deref future proteins-and-secondary-interactions
         [return-proteins secondary-interactions]
@@ -146,20 +146,7 @@
                :ref-organism    ::orgn/organism
                :proteins        (s/coll-of ::prot/protein)
                :other-organisms (s/coll-of ::orgn/organism))
-  :ret  (s/coll-of any?))
-        ;(s/coll-of ::intr/interaction))
-
-(comment
-  (binding [*print-level* 4]
-    (let [databases ["IntAct"]
-          ref-organism (orgn/inparanoid-organism-by-shortname "C.elegans")
-          proteins [(prot/->Protein ref-organism "Q18688")
-                    (prot/->Protein ref-organism "Q20646")]
-          other-organisms [(orgn/inparanoid-organism-by-shortname "M.musculus")
-                           (orgn/inparanoid-organism-by-shortname "S.pombe")]]
-      (println
-        (take 4 (fetch-protein-network
-                    databases ; PSICQUIC databases to query
-                    ref-organism  ; Organism of Interest
-                    proteins ; Proteins of Interest
-                    other-organisms)))))) ; Other Organisms to check
+  :ret  (s/cat :direct-interactions (s/coll-of ::intr/interaction)
+               :secondary-interactions (s/coll-of ::intr/interaction)
+               :return-proteins (s/coll-of ::prot/protein)
+               :orthologs-secondary-interactions (s/coll-of ::intr/interaction)))
