@@ -1,17 +1,16 @@
 (ns ppi-query.protein-test
-  (:require [clojure.test :refer :all]))
+  (:require [clojure.test :refer :all]
             [clojure.spec :as s]
             [clojure.spec.gen :as gen]
             [clojure.spec.test :as stest]
             [ppi-query.test.utils :refer :all]
-            [ppi-query.protein.uniprot :as uni]
+            [ppi-query.protein.uniprot :as uni]))
 
 (deftest test-uniprotid-spec
   (are-spec ::uni/uniprotid
     :valid ["P04040-1"
             "P9WIE5-PRO_007"
             "P24270"]
-
     :invalid ["fooP04040"
               ""
               nil]))

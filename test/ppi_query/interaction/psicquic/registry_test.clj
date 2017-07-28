@@ -42,7 +42,7 @@
 
 
 (deftest test-parse-registry-xml
-  (is (= (reg/parse-registry example-registry)
+  (is (.equals (reg/parse-registry example-registry)
          {"name1" {:name "name1" :restUrl "http://url1.com/rest"
                    :active false :organizationUrl "http://url1.com"}
           "name2" {:name "name2" :restUrl "http://url2.com/rest"
