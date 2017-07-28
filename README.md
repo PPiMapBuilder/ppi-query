@@ -2,6 +2,6 @@
 
 ## Continuous test launch
 
-````sh
+```sh
 lein auto test
 ```

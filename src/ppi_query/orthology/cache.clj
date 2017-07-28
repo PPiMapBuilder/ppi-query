@@ -11,7 +11,7 @@
     (s/map-of ::prot/protein ::orth/ortholog-group)))
 
 ; Ortholog memory cache
-(def mem-cache (atom {}))
+(def ^:dynamic mem-cache (atom {}))
 
 (defn get-ortholog-group [protein]
   "Get from memory cache an ortholog group for a protein."

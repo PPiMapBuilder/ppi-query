@@ -97,7 +97,7 @@
         ; Get proteins in reference organism
         cleaned-proteins
          (trace-f "cleaned-proteins"
-          (into #{} (fetch/get-proteins-in-ref-organism
+          (into #{} (fetch/get-proteins-orthologs
                       ref-organism proteins)))
 
         ; Get Direct Interactions (left arrow)

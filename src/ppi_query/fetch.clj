@@ -10,19 +10,9 @@
   [databases]
   intr/registry-clients) ;TODO Code
 
-(s/fdef get-proteins-in-ref-organism
+(s/fdef get-clients
   :args (s/cat :databases (s/coll-of ::intr/database))
   :ret  (s/coll-of any?))
-
-(defn get-proteins-in-ref-organism
-  [organism proteins]
-  proteins) ; TODO : Really code it, or not bitch
-            ;   (see guigui for explanations of this marvellous comment)
-
-(s/fdef get-proteins-in-ref-organism
-  :args (s/cat :organism ::orgn/organism
-               :proteins (s/coll-of ::prot/protein))
-  :ret  (s/coll-of ::prot/protein))
 
 (defn get-taxon-interactions [clients organism]
   "Fetch full interactome of organism"

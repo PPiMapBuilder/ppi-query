@@ -1,7 +1,8 @@
 (ns ppi-query.organism
   (:require [clojure.java.io :as io]
             [clojure.edn :as edn]
-            [clojure.spec :as s]))
+            [clojure.spec :as s])
+  (:import (java.io PushbackReader)))
 
 ; Simple identification of an organism
 (defrecord Organism [common-name taxon-id scientific-name])
@@ -9,10 +10,10 @@
 ; Load Inparanoid organism repository into a set of Organism records
 (def inparanoid-organism-repository
   (->> (-> "inparanoid-organism-repository.edn"
-           io/resource
-           io/reader
-           java.io.PushbackReader.
-           edn/read)
+           (io/resource)
+           (io/reader)
+           (PushbackReader.)
+           (edn/read))
     (map map->Organism)
     (into #{})))
 

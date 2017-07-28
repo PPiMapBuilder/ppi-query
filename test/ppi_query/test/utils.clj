@@ -3,30 +3,38 @@
             [clojure.pprint :as pprint]
             [clojure.spec :as s]
             [clojure.spec.test :as stest]
-            [clojure.template :as temp]))
+            [clojure.template :as temp]
+            [clojure.test.check.generators :as gen]
+            [io.aviso.exception :refer :all]
+            [aprint.core :refer :all]))
 
-(defmacro are-valid [spec & data-samples]
+(defmacro are-spec [spec & {:keys [valid invalid]}]
   "Assert that the given data samples conforms to the given clojure spec."
   (let [value-sym (gensym "value")]
-    `(temp/do-template [~value-sym]
-      (t/is
-        ; Value should conform to spec
-        (s/valid? ~spec ~value-sym)
-        ; If not: explain
-        (s/explain-str ~spec ~value-sym))
-      ~@data-samples)))
-
-(defmacro are-invalid [spec & data-samples]
-  "Assert that the given data samples does not conforms to the given
-   clojure spec."
-  (let [value-sym (gensym "value")]
-    `(temp/do-template [~value-sym]
-      (t/is
-        ; Value should conform to spec
-        (not (s/valid? ~spec ~value-sym))
-        ; If not: explain
-        (s/conform ~spec ~value-sym))
-      ~@data-samples)))
+    `(do
+      (when ~valid
+        (temp/do-template [~value-sym]
+          (t/is
+           ; Value should conform to spec
+           (s/valid? ~spec ~value-sym)
+           ; If not: explain why it doesn't conform
+           (->> (s/explain-data ~spec ~value-sym)
+                (:clojure.spec/problems)
+                (aprint) ; pretty print with colors!
+                (with-out-str)
+                (str "\nNot conforming:\n")))
+          ~@valid))
+      (when ~invalid
+        (temp/do-template [~value-sym]
+          (t/is
+           ; Value should conform to spec
+           (not (s/valid? ~spec ~value-sym))
+           ; If not: explain how it conforms
+           (->> (s/conform ~spec ~value-sym)
+                (aprint) ; pretty print with colors!
+                (with-out-str)
+                (str "\nConforming:\n")))
+          ~@invalid)))))
 
 (def trace-i (atom 0))
 (defn trace [x]
@@ -34,37 +42,61 @@
   (swap! trace-i inc)
   x)
 
-(defn- spec-test [sym-or-syms opts]
-  "Helper function for defspec-test."
-  `(fn []
-    (let [check-results# (stest/check ~sym-or-syms ~opts)
-          checks-passed?# (every? nil? (map :failure check-results#))]
-      (if checks-passed?#
-        (t/do-report {:type    :pass
-                      :message (->> (map :sym check-results#)
-                                    (clojure.string/join ", ")
-                                    (str "Generative tests pass for "))})
-        (doseq [failed-check# (filter :failure check-results#)
-                :let [r# (stest/abbrev-result failed-check#)
-                      failure# (:failure r#)]]
-          (t/do-report
-            {:type     :fail
-             :message  (with-out-str (s/explain-out failure#))
-             :expected (->> r# :spec rest (apply hash-map) :ret)
-             :actual   (if (instance? Throwable failure#)
-                         failure#
-                         (::stest/val failure#))})))
-      checks-passed?#)))
+(defn xml-gen [& {:keys [tag attrs content]}]
+  "Creates an xml node generator.
+   Example: (gen/sample (xml-gen :tag :a :content (gen/tuple gen/int)))
+            => ({:tag :a, :content [9], :attrs nil}, ...)"
+  (let [to-gen #(if (gen/generator? %) % (gen/return %))]
+    (gen/hash-map :tag (to-gen tag)
+                  :attrs (to-gen attrs)
+                  :content (to-gen content))))
 
-;; https://gist.github.com/kennyjwilli/8bf30478b8a2762d2d09baabc17e2f10
-(defmacro defspec-test
-  "Define a clojure.test test using clojure.spec generative testing of spec'ed
-   functions.
+;;; Utility functions combining clojure spec test check and clojure test
+;;; inspired by: https://gist.github.com/Risto-Stevcev/dc628109abd840c7553de1c5d7d55608
 
-   Example: (defspec-test test-name [namespace/function1
-                                     namespace/function2])"
-  ([name sym-or-syms] `(defspec-test ~name ~sym-or-syms nil))
-  ([name sym-or-syms opts]
-   (when t/*load-tests*
-     `(def ~(vary-meta name assoc :test (spec-test sym-or-syms opts))
-        (fn [] (t/test-var (var ~name)))))))
+(defn summarize-result [abbr-result]
+  (str
+    "\n"
+    "[ " (:sym abbr-result) " ]"
+    "\n"
+    (let [failure (:failure abbr-result)]
+      (if (-> failure :clojure.spec/failure)
+        ; Pretty print spec problems
+        (->> failure
+             (aprint)
+             (with-out-str)
+             (apply str))
+        ; Pretty print exception
+        (->> failure
+             (format-exception)
+             (apply str))))))
+
+;; Utility functions to intergrate clojure.spec.test/check with clojure.test
+(defn summarize-results' [results]
+  "Generate summary of spec test check results"
+  (->> results
+       (map (comp summarize-result stest/abbrev-result))
+       (apply str)))
+
+(defn succeded? [results]
+  "Check if the clojure spec check test results are sucessful"
+  (every? (comp nil? :failure) results))
+
+; Limit number of generative tests for now
+; TODO: find a way to keep 100 tests in cache and only re-run them on
+;       modification of functions and specs (implies also re-run
+;       on modification of functions and specs depended on)
+(def num-tests 5)
+
+(defn check'
+  "Combine clojure.test/is and clojure.spec.test/check"
+  ([sfn] (check' sfn {}))
+  ([sfn opts]
+   (stest/instrument sfn)
+   (let [xopts (assoc opts :clojure.spec.test.check/opts
+                           {:num-tests num-tests})
+         results (stest/check sfn xopts)
+         results-successful? (succeded? results)]
+     (t/is results-successful?
+           (when-not results-successful?
+             (summarize-results' results))))))
