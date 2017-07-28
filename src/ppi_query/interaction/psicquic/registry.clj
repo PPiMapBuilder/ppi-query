@@ -101,20 +101,15 @@
         :ret ::registry)
 
 ; In-memory PSICQUIC registry set
+(def initial-registry
+  {"IntAct" {:name "IntAct"
+             :url  (str "http://www.ebi.ac.uk"
+                        "/Tools/webservices/psicquic/intact"
+                                            "/webservices/current/search/")}})
 (def ^:private mem-registry
-  (atom
-    {"IntAct" {:name "IntAct"
-               :url  (str "http://www.ebi.ac.uk"
-                          "/Tools/webservices/psicquic/intact"
-                          "/webservices/current/search/")}}))
+  (atom initial-registry))
 
-(defn get-registry []
-  @mem-registry)
-
-(s/fdef get-registry
-  :ret ::registry)
-
-(defn update-registry []
+(defn update-registry! []
   "Update the in memory registry."
   (try
     (let [new-registry (fetch-registry true)]
@@ -122,6 +117,14 @@
       (swap! mem-registry (constantly new-registry)))
     (catch Exception e nil)))
 
-(s/fdef update-registry
-  :ret ::registry)
+(s/fdef update-registry!
+        :ret ::registry)
+
+(defn get-registry! []
+  (if (= initial-registry @mem-registry)
+    (update-registry!)
+    @mem-registry))
+
+(s/fdef get-registry!
+        :ret ::registry)
 
