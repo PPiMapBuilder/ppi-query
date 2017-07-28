@@ -14,3 +14,10 @@
 (s/fdef merge-distinct
   :args (s/cat :map1 (s/nilable map?) :map2 (s/nilable map?))
   :ret (s/nilable map?))
+
+(defmacro when-let*
+  ([bindings & body]
+   (if (seq bindings)
+     `(when-let [~(first bindings) ~(second bindings)]
+        (when-let* ~(drop 2 bindings) ~@body))
+     `(do ~@body))))

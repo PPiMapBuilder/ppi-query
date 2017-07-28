@@ -3,10 +3,11 @@
            (psidev.psi.mi.tab PsimiTabReader))
   (:require [clojure.java.data :refer :all]
             [clojure.spec :as s]
+            [ppi-query.utils :refer :all]
             [ppi-query.protein :as prot]
             [ppi-query.protein.uniprot :as unip]
             [ppi-query.organism :as orgn]
-            [ppi-query.interaction.miql :refer :all]))
+            [ppi-query.interaction.miql :as miql]))
 
 (s/def ::identifier string?)
 (s/def ::database string?)
@@ -41,19 +42,22 @@
          result-clj    (from-java result-java)]
      result-clj))
   ([client query max-results first-result]
-   (let [result-stream (.getByQuery client query PsicquicSimpleClient/MITAB25 first-result max-results)
+   (let [result-stream (.getByQuery client query PsicquicSimpleClient/MITAB25
+                                    first-result max-results)
          result-java   (.read reader result-stream)
          result-clj    (from-java result-java)]
      result-clj)))
 
 (s/fdef get-by-query
-  :args (s/cat :client any? :query string?)
+  :args (s/cat :client any? :query string?
+               :max-results (s/? pos-int?)
+               :first-result (s/? int?))
   :ret (s/coll-of ::interaction))
 
 (comment
   (binding [*print-level* 3]
     (let [client (first registry-clients)
-          query  (to-miql (get-query-by-taxon 6239))]
+          query  (miql/to-miql (miql/get-query-by-taxon 6239))]
       (println (take 2 (get-by-query client query)))))
   (get-by-query (first registry-clients) "taxidA:6239 AND taxidB:6239 AND species:6239"))
 ;({:detectionMethods (#), :updateDate (), :publications (# #),
@@ -76,7 +80,7 @@
   (binding [*print-level* 3]
     (let [client (first registry-clients)
           ;query  "P04040 or Q14145"
-          query  (to-miql (get-query-by-taxon 6239))]
+          query  (miql/to-miql (miql/get-query-by-taxon 6239))]
       (println (.countByQuery client query))
       (println (take 10 (get-by-query client query))))))
 
@@ -89,7 +93,7 @@
       (range 0 (.countByQuery client query) pagesize))))
 
 (s/fdef fetch-by-query
-  :args (s/cat :client any? :query string? :optional-pagesize pos-int?)
+  :args (s/cat :client any? :query string? :optional-pagesize (s/? pos-int?))
   :ret (s/coll-of ::interaction))
 
 (defn merge-interactions [interactions]
@@ -151,14 +155,15 @@
   :ret  ::unip/uniprotid-strict)
 
 (defn get-interactor-organism [interactor]
-  (if-let [taxId (get-in interactor [:organism :taxid])]
-    (-> taxId
-        Integer/parseInt
-        orgn/inparanoid-organism-by-id)))
+  (when-let [taxId (get-in interactor [:organism :taxid])]
+    (when (s/valid? ::orgn/taxon-id (Integer/parseInt taxId))
+      (-> taxId
+          Integer/parseInt
+          orgn/inparanoid-organism-by-id))))
 
 (s/fdef get-interactor-uniprotid
   :args (s/cat :interactor ::interactor)
-  :ret  ::orgn/organism)
+  :ret  (s/nilable ::orgn/organism))
 
 (defn get-interactor-protein [interactor]
   "Get interactor identifiers for a specific database"
@@ -220,7 +225,7 @@
   :ret (s/coll-of (s/nilable ::prot/protein) :count 2))
 
 (comment
-  (binding [*print-level* 3]
+  (binding [*print-level* 5]
     (let [client (first registry-clients)
           query  "P04040 or Q14145"]
       (println
