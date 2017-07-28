@@ -43,7 +43,7 @@
       string?
       ; if string: convert to seq
       (s/conformer str-to-seq seq-to-str)
-      ; unirpot id RegExp
+      ; uniprot id RegExp
       ::uniprotid-strict-seq)
     #(gen/fmap seq-to-str (s/gen ::uniprotid-strict-seq))))
 
