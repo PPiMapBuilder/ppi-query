@@ -29,11 +29,6 @@
   :args (s/cat :taxId ::org/taxon-id)
   :ret ::query)
 
-(comment
-  (get-query-by-taxon 9606))
-
-; [:and [:taxidA 9606] [:taxidB 9606] [:species 9606]]
-
 (defn get-query-by-taxon-and-prots
   "Same as above but with restriction on interactor identifiers"
   [taxId protIds]
@@ -46,12 +41,6 @@
   :args (s/cat :taxId ::org/taxon-id
                :protIds (s/coll-of ::uni/uniprotid))
   :ret ::query)
-
-(comment
-  (get-query-by-taxon-and-prots 9606 ["P04040"])
-  (get-query-by-taxon-and-prots 9606 ["P04040" "O64HD2" "J1D0B7FO54"]))
-
-; [:and [:taxidA 9606] [:taxIdB 9606] [:species 9606] [:or [:idA "P04040"] [:idB "P04040"]]]
 
 (defn get-queries-by-taxon-and-prot-couples
   "Generate a query with taxId restrictions and matching couples of protIds"
@@ -67,10 +56,6 @@
                  (s/coll-of
                    (s/tuple ::uni/uniprotid ::uni/uniprotid)))
   :ret ::query)
-
-#_
-(to-miql (get-queries-by-taxon-and-prot-couples 9606 [["P04040" "Q9D2V5"] ["Q9D2V5" "P04040"]]))
-;" ( taxidA:9606 AND taxidB:9606 AND species:9606 AND  (  ( idA:P04040 AND idB:Q9D2V5 )  OR  ( idA:Q9D2V5 AND idB:P04040 )  )  ) "
 
 (defn get-queries-by-taxon-and-prot-pool
   "A query should be less than 1000 characters so we have to split it
@@ -89,12 +74,6 @@
                :protPool (s/coll-of ::uni/uniprotid :distinct true)
                :limit    (s/? pos-int?))
   :ret (s/coll-of ::query))
-
-(comment
-  (get-queries-by-taxon-and-prot-pool 9606 ["P04040" "Q9D2V5"] 2)
-  (let [protPool ["P04040" "Q9D2V5"]]
-    (partition 2 (for [x protPool, y protPool] [x y]))))
-
 
 (defn to-miql
   [query]
@@ -117,6 +96,21 @@
   :ret string?)
 
 (comment
+  (get-query-by-taxon 9606)
+  ; [:and [:taxidA 9606] [:taxidB 9606] [:species 9606]]
+
+
+  (get-query-by-taxon-and-prots 9606 ["P04040"])
+  (get-query-by-taxon-and-prots 9606 ["P04040" "O64HD2" "J1D0B7FO54"])
+  ; [:and [:taxidA 9606] [:taxIdB 9606] [:species 9606] [:or [:idA "P04040"] [:idB "P04040"]]]
+
+  (get-queries-by-taxon-and-prot-pool 9606 ["P04040" "Q9D2V5"] 2)
+  (let [protPool ["P04040" "Q9D2V5"]]
+    (partition 2 (for [x protPool, y protPool] [x y])))
+
+  (to-miql (get-queries-by-taxon-and-prot-couples 9606 [["P04040" "Q9D2V5"] ["Q9D2V5" "P04040"]]))
+  ;" ( taxidA:9606 AND taxidB:9606 AND species:9606 AND  (  ( idA:P04040 AND idB:Q9D2V5 )  OR  ( idA:Q9D2V5 AND idB:P04040 )  )  ) "
+
   (to-miql [:species 9606])
   (to-miql [:and [:id "value"] [:or [:idA "value2"] [:idB "value3"]]]))
   ; "(id:value AND (idA:value2 OR idB:value3))"
