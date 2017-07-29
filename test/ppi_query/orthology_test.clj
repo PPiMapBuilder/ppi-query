@@ -11,12 +11,16 @@
 (comment
   (binding [*print-level* 4]
     (let [databases ["IntAct"]
-          ref-organism (orgn/inparanoid-organism-by-shortname "C.elegans")
-          proteins [(prot/->Protein ref-organism "Q18688")
-                    (prot/->Protein ref-organism "Q20646")]]
+          elegans (orgn/inparanoid-organism-by-shortname "C.elegans")
+          human (orgn/inparanoid-organism-by-id 9606)
+          eleg1 (prot/->Protein elegans "Q18688")
+          eleg2 (prot/->Protein elegans "Q20646")
+          catalase (prot/->Protein human "P04040")]
       (println
-        ref-organism
-        (first proteins))
+        elegans human
+        catalase)
+      (println "#######")
       (println
-        (orth/get-best-orthologs ref-organism (first proteins))
-        (orth/get-best-orthologs ref-organism (second proteins))))))
+        (orth/get-best-orthologs elegans catalase)
+        (orth/get-best-orthologs human eleg1)
+        (orth/get-best-orthologs human eleg2)))))

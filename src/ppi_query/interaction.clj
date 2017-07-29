@@ -18,6 +18,7 @@
 (s/def ::interactorB ::interactor)
 
 (s/def ::interaction (s/keys :req-un [::interactorA ::interactorB]))
+(s/def ::interactions (s/coll-of ::interaction))
 (s/def ::protein-couple (s/tuple ::prot/protein ::prot/protein))
 
 ; List of APIs
@@ -52,7 +53,7 @@
   :args (s/cat :client any? :query string?
                :max-results (s/? pos-int?)
                :first-result (s/? int?))
-  :ret (s/coll-of ::interaction))
+  :ret ::interactions)
 
 (comment
   (binding [*print-level* 3]
@@ -94,15 +95,15 @@
 
 (s/fdef fetch-by-query
   :args (s/cat :client any? :query string? :optional-pagesize (s/? pos-int?))
-  :ret (s/coll-of ::interaction))
+  :ret ::interactions)
 
 (defn merge-interactions [interactions]
   "Function to be implemented with mi-cluster or by hand"
   (apply concat interactions))
 
 (s/fdef merge-interactions
-  :args (s/cat :interactions (s/coll-of (s/coll-of ::interaction)))
-  :ret  (s/coll-of ::interaction))
+  :args (s/cat :interactions (s/coll-of ::interactions))
+  :ret  ::interactions)
 
 (defn fetch-by-query-all-clients [clients query]
   "Apply the same query on all the clients and merge the result in
@@ -113,7 +114,7 @@
 
 (s/fdef fetch-by-query-all-clients
   :args (s/cat :clients (s/coll-of any?) :query string?)
-  :ret  (s/coll-of ::interaction))
+  :ret  ::interactions)
 
 (comment
   (binding [*print-level* 3]
@@ -236,10 +237,10 @@
 (defn interactions->proteins-couples [interactions]
   (->> interactions
        (map get-interactors-proteins)
-       (remove #(.contains % nil))))
+       (remove (partial some nil?))))
 
 (s/fdef interactions->proteins-couples
-  :args (s/cat :interactions (s/coll-of ::interaction))
+  :args (s/cat :interactions ::interactions)
   :ret  (s/coll-of ::protein-couple))
 
 (comment
@@ -270,11 +271,20 @@
             (interactions->proteins-couples
               (get-by-query client query))))))))
 
+; Get proteins from all interactions (including wrong ones)
+(defn interactions->proteins-set [interactions]
+  (->> interactions
+       (map get-interactors-proteins)
+       (apply concat)
+       (into #{})
+       (remove nil?)))
+
+; Get proteins only for interactions between two defined proteins
 (defn get-proteins [interactions]
   (-> interactions
       interactions->proteins-couples
       proteins-couples->proteins-set))
 
 (s/fdef get-proteins
-  :args (s/cat :interactions (s/coll-of ::interaction))
+  :args (s/cat :interactions ::interactions)
   :ret  (s/coll-of ::protein :distinct true))

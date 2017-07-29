@@ -4,6 +4,7 @@
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
             [ppi-query.orthology :as orth]
+            [ppi-query.orthology.data :as orthd]
             [ppi-query.fetch :as fetch]))
 
 (defn trace-f [f m]
@@ -15,9 +16,11 @@
 (defn get-orthologs-direct-interactions
   [clients organism proteins]
   (let [orthologs ; parallel to direct-interactions
+         ;(trace-f "netwk/get-orthologs-direct-interactions orthologs"
           (into #{} (fetch/get-proteins-orthologs organism proteins))
           ; -> proteins
         interactions
+         ;(trace-f "netwk/get-orthologs-direct-interactions interactions"
           (fetch/get-direct-interactions clients organism orthologs)]
           ; -> interactions
     [organism orthologs interactions]))
@@ -27,8 +30,8 @@
                :organism     ::orgn/organism
                :proteins     (s/coll-of ::prot/protein))
   :ret  (s/cat :organism     ::orgn/organism
-               :orthologs    (s/coll-of ::orth/ortholog-scored-protein)
-               :interactions (s/coll-of ::intr/interaction)))
+               :orthologs    (s/coll-of ::orthd/ortholog-scored-protein)
+               :interactions ::intr/interactions))
 
 (defn get-orthologs-secondary-interactions
   [clients organism orthologs direct-interactions]
@@ -40,24 +43,25 @@
 (s/fdef get-orthologs-secondary-interactions
   :args (s/cat :clients      (s/coll-of any?)
                :organism     ::orgn/organism
-               :orthologs    (s/coll-of ::orth/ortholog-scored-protein)
-               :direct-interactions (s/coll-of ::intr/interaction))
-  :ret  (s/coll-of ::intr/interaction))
+               :orthologs    (s/coll-of ::orthd/ortholog-scored-protein)
+               :direct-interactions ::intr/interactions)
+  :ret  ::intr/interactions)
 
 (defn merge-proteins-and-get-secondary-interactions
-    [clients ref-organism
+    [clients ref-organism origin-proteins
      direct-interactions orthologs-direct-interactions]
   (let [all-proteins
          (into #{}
            (concat
-             (trace-f "intr/get-proteins direct-interactions"
-               (intr/get-proteins direct-interactions))
-             (trace-f "mapcat intr/get-proteins othologs"
+               origin-proteins
+             ;(trace-f "intr/get-proteins direct-interactions"
+               (intr/get-proteins direct-interactions)
+             ;(trace-f "mapcat intr/get-proteins othologs"
                (mapcat (fn [[organism orthologs interactions]]
                          (->> interactions
                               intr/get-proteins
                               (fetch/get-proteins-orthologs ref-organism)))
-                      orthologs-direct-interactions))))
+                      orthologs-direct-interactions)))
         secondary-interactions
           (fetch/get-secondary-interactions clients ref-organism all-proteins)]
     [all-proteins secondary-interactions]))
@@ -65,10 +69,15 @@
 (s/fdef merge-proteins-and-get-secondary-interactions
   :args (s/cat :clients      (s/coll-of any?)
                :ref-organism ::orgn/organism
-               :direct-interactions (s/coll-of ::intr/interaction)
-               :orthologs-direct-interactions (s/coll-of ::intr/interaction))
+               :origin-proteins (s/coll-of ::prot/protein)
+               :direct-interactions ::intr/interactions
+               :orthologs-direct-interactions
+                 (s/coll-of
+                   (s/cat :organism ::orgn/organism
+                          :orthologs (s/coll-of ::orthd/ortholog-scored-protein)
+                          :interactions ::intr/interactions)))
   :ret  (s/cat  :all-proteins (s/coll-of ::prot/protein)
-                :secondary-interactions (s/coll-of ::intr/interaction)))
+                :secondary-interactions ::intr/interactions))
 
 (defn fetch-interactome [databases organism]
   (let [clients (fetch/get-clients databases)]
@@ -77,7 +86,7 @@
 (s/fdef fetch-interactome
   :args (s/cat :databases (s/coll-of ::intr/database)
                :organism ::orgn/organism)
-  :ret  (s/coll-of ::intr/interaction))
+  :ret  ::intr/interactions)
 
 (comment
   (binding [*print-level* 3]
@@ -90,20 +99,14 @@
    ref-organism  ; Organism of Interest
    proteins ; Proteins of Interest
    other-organisms] ; Other Organisms to check
-  (trace-f "fetch-protein-network" [databases ref-organism proteins other-organisms])
+  ;(trace-f "fetch-protein-network" [databases ref-organism proteins other-organisms])
 
   (let [clients (fetch/get-clients databases)
-
-        ; Get proteins in reference organism
-        cleaned-proteins
-         (trace-f "cleaned-proteins"
-          (into #{} (fetch/get-proteins-orthologs
-                      ref-organism proteins)))
 
         ; Get Direct Interactions (left arrow)
         f-direct-interactions
           (future (fetch/get-direct-interactions
-                    clients ref-organism cleaned-proteins))
+                    clients ref-organism proteins))
 
         ; Get proteins orthologs + Get direct interactors
         orthologs-direct-interactions
@@ -111,7 +114,7 @@
           ; potentially parallellized
           (map (fn [organism]
                   (get-orthologs-direct-interactions
-                    clients organism cleaned-proteins))
+                    clients organism proteins))
                other-organisms)
 
         direct-interactions
@@ -119,24 +122,25 @@
            @f-direct-interactions
         ; Three blue arrows + left secondary interactions
         f-proteins-and-secondary-interactions
-          (future (trace-f "merge-proteins-and-get-secondary-interactions"
+          (future ;(trace-f "merge-proteins-and-get-secondary-interactions"
                    (merge-proteins-and-get-secondary-interactions
-                     clients ref-organism
-                     direct-interactions orthologs-direct-interactions)))
+                     clients ref-organism proteins
+                     direct-interactions orthologs-direct-interactions))
 
         ; Two violet arrows + right secondary arrows
         orthologs-secondary-interactions
-         (trace-f "orthologs-secondary-interactions"
+         ;(trace-f "orthologs-secondary-interactions"
            ; Potentially parallellized
-           (map (fn [[organism orthologs interactions]]
-                    (get-orthologs-secondary-interactions
-                      clients organism orthologs interactions))
-                orthologs-direct-interactions))
+           (mapcat (fn [[organism orthologs interactions]]
+                       (get-orthologs-secondary-interactions
+                         clients organism orthologs interactions))
+                   orthologs-direct-interactions)
+        ;return-proteins-orthologs-interactions
+        ;   (back-to-ref-organism-orthologs-interaction)
         ; TODO orthologs-secondary-interactions->reference organism
         ; Deref future proteins-and-secondary-interactions
         [return-proteins secondary-interactions]
-        (trace-f "@proteins-and-secondary-interactions"
-          @f-proteins-and-secondary-interactions)]
+        @f-proteins-and-secondary-interactions]
         ; TODO Merge interactions for the return
     [direct-interactions secondary-interactions return-proteins orthologs-secondary-interactions]))
 
@@ -146,7 +150,7 @@
                :ref-organism    ::orgn/organism
                :proteins        (s/coll-of ::prot/protein)
                :other-organisms (s/coll-of ::orgn/organism))
-  :ret  (s/cat :direct-interactions (s/coll-of ::intr/interaction)
-               :secondary-interactions (s/coll-of ::intr/interaction)
+  :ret  (s/cat :direct-interactions ::intr/interactions
+               :secondary-interactions ::intr/interactions
                :return-proteins (s/coll-of ::prot/protein)
-               :orthologs-secondary-interactions (s/coll-of ::intr/interaction)))
+               :orthologs-secondary-interactions ::intr/interactions))

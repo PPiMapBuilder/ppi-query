@@ -5,6 +5,7 @@
             [ppi-query.test.utils :refer :all]
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
+            [ppi-query.interaction :as intr]
             [ppi-query.fetch :as fetch]))
 
 (comment
@@ -14,17 +15,15 @@
           proteins [(prot/->Protein ref-organism "Q18688")
                     (prot/->Protein ref-organism "Q20646")]
           other-organisms [(orgn/inparanoid-organism-by-shortname "M.musculus")
-                           (orgn/inparanoid-organism-by-shortname "S.pombe")]
-          cleaned-proteins
-                    (fetch/get-proteins-orthologs
-                                ref-organism proteins)]
-      (println cleaned-proteins)
+                           (orgn/inparanoid-organism-by-shortname "S.pombe")]]
 
       (let [clients (fetch/get-clients databases)]
-        (println
-          (future (fetch/get-direct-interactions
-                    clients ref-organism cleaned-proteins)))
+        ;(s/valid? ::intr/interactions
+        ;  (fetch/get-direct-interactions
+        ;            clients ref-organism proteins]
 
-        (println
-          (get-orthologs-direct-interactions
-                    clients (first other-organisms) cleaned-proteins))))))
+        (let [res (fetch/get-secondary-interactions
+                         clients ref-organism proteins)]
+          (println res)
+          (s/valid? ::intr/interactions
+            res))))))

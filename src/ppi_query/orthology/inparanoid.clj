@@ -129,4 +129,4 @@
 (comment
   (let [catalase "P04040"
         human (org/inparanoid-organism-by-id 9606)]
-    (def a (get-ortholog-group {:uniprotid catalase :organism human}))))
+    (get-ortholog-group {:uniprotid catalase :organism human})))
