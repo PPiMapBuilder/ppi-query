@@ -5,6 +5,7 @@
             [ppi-query.test.utils :refer :all]
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
+            [ppi-query.orthology.data :as orthd]
             [ppi-query.interaction :as intr]
             [ppi-query.fetch :as fetch]
             [ppi-query.network :as network]
@@ -39,97 +40,194 @@
   (map #(hash-map :id % :label % :group group)
        (get-nodes-list [edges])))
 
+(def count-is (fn [cnt seq] (is (= cnt (count seq)))))
 
-(comment
-  (binding [*print-level* 3]
-    (let [databases ["IntAct"]
-          ref-organism (orgn/inparanoid-organism-by-shortname "C.elegans")
-          proteins [;(prot/->Protein ref-organism "Q18688")
-                    (prot/->Protein ref-organism "Q20646")]
-          other-organisms [(orgn/inparanoid-organism-by-shortname "M.musculus")
-                           (orgn/inparanoid-organism-by-shortname "S.pombe")]]
+(def dbs ["IntAct"])
+(def clients (fetch/get-clients dbs))
+(def ref-organism (orgn/inparanoid-organism-by-shortname "C.elegans"))
+(def proteins-1 [(prot/->Protein ref-organism "Q18688")])
+(def proteins-2 [(prot/->Protein ref-organism "Q20646")])
+(def proteins [(first proteins-1)
+               (first proteins-2)])
+(def other-organisms-1 [(orgn/inparanoid-organism-by-shortname "M.musculus")])
+(def other-organisms-2 [(orgn/inparanoid-organism-by-shortname "S.pombe")])
+(def other-organisms [(first other-organisms-1)
+                      (first other-organisms-2)])
 
-      (let [clients (fetch/get-clients databases)
-            direct-interactions
-              (fetch/get-direct-interactions
-                clients ref-organism proteins)
-        ;(comment
-            [organism orthologs interactions]
-            (network/get-orthologs-direct-interactions
-              clients (first other-organisms) proteins)
-        ;(comment
-            orthologs-direct-interactions
-              (map (fn [organism]
-                      (network/get-orthologs-direct-interactions
-                        clients organism proteins))
-                   other-organisms)
 
-        ;(comment
-            [return-proteins secondary-interactions]
-            (network/merge-proteins-and-get-secondary-interactions
-              clients ref-organism proteins
-              direct-interactions orthologs-direct-interactions)
-        ;(comment
-            orthologs-secondary-interactions-first-org
-              (network/get-orthologs-secondary-interactions
-                clients organism orthologs interactions)
-        ;(comment
-            orthologs-secondary-interactions
-              (mapcat (fn [[organism orthologs interactions]]
-                          (network/get-orthologs-secondary-interactions
-                            clients organism orthologs interactions))
-                      orthologs-direct-interactions)]
-        (println
-          direct-interactions return-proteins
-          "\n"
-          orthologs-secondary-interactions
-          "\n"
-          (intr/get-proteins direct-interactions)
-          (intr/interactions->proteins-set direct-interactions)
-          (map intr/get-interactors-uniprotids direct-interactions)
-          (get-edges direct-interactions)
+(deftest test-get-ortholog-direct-interactions
+ (binding [*print-level* 2]
+  (let [[ortholog ortholog-prots orth-dir-interactions]
+        (network/get-ortholog-direct-interactions
+          clients (first other-organisms) proteins-1)]
+   ;(println ortholog ortholog-prots orth-dir-interactions)
+   (are [fmt res] (s/valid? fmt res)
+     ::orgn/organism ortholog
+     ::orthd/ortholog-sourced-proteins ortholog-prots
+     ::intr/interactions orth-dir-interactions)
+   (count-is 1 ortholog-prots)
+   (is (= ortholog (first other-organisms)))
+   (is (= ortholog (:organism (first ortholog-prots))))
+   (is (= "P11499" (:uniprotid (first ortholog-prots))))
+   (is (= (first proteins-1) (:origin-protein (first ortholog-prots))))
+   (count-is 18 orth-dir-interactions))
+  (let [[ortholog ortholog-prots orth-dir-interactions]
+        (network/get-ortholog-direct-interactions
+          clients (second other-organisms) proteins-1)]
+   ;(println ortholog ortholog-prots orth-dir-interactions)
+   (are [fmt res] (s/valid? fmt res)
+     ::orgn/organism ortholog
+     ::orthd/ortholog-sourced-proteins ortholog-prots
+     ::intr/interactions orth-dir-interactions)
+   (count-is 1 ortholog-prots)
+   (is (= ortholog (second other-organisms)))
+   (is (= ortholog (:organism (first ortholog-prots))))
+   (is (= "P41887" (:uniprotid (first ortholog-prots))))
+   (is (= (first proteins-1) (:origin-protein (first ortholog-prots))))
+   (count-is 0 orth-dir-interactions))
+  (let [[ortholog ortholog-prots orth-dir-interactions]
+        (network/get-ortholog-direct-interactions
+          clients (first other-organisms) proteins-2)]
+   ;(println ortholog ortholog-prots orth-dir-interactions)
+   (are [fmt res] (s/valid? fmt res)
+     ::orgn/organism ortholog
+     ::orthd/ortholog-sourced-proteins ortholog-prots
+     ::intr/interactions orth-dir-interactions)
+   (count-is 0 ortholog-prots))
+  (let [[ortholog ortholog-prots orth-dir-interactions]
+        (network/get-ortholog-direct-interactions
+          clients (second other-organisms) proteins-2)]
+   ;(println ortholog ortholog-prots orth-dir-interactions)
+   (are [fmt res] (s/valid? fmt res)
+     ::orgn/organism ortholog
+     ::orthd/ortholog-sourced-proteins ortholog-prots
+     ::intr/interactions orth-dir-interactions)
+   (count-is 0 ortholog-prots))
+  (let [[ortholog ortholog-prots orth-dir-interactions]
+        (network/get-ortholog-direct-interactions
+          clients (first other-organisms) proteins)]
+   ;(println ortholog ortholog-prots orth-dir-interactions)
+   (are [fmt res] (s/valid? fmt res)
+     ::orgn/organism ortholog
+     ::orthd/ortholog-sourced-proteins ortholog-prots
+     ::intr/interactions orth-dir-interactions)
+   (count-is 1 ortholog-prots)
+   (is (= ortholog (first other-organisms)))
+   (is (= ortholog (:organism (first ortholog-prots))))
+   (is (= "P11499" (:uniprotid (first ortholog-prots))))
+   (is (= (first proteins-1) (:origin-protein (first ortholog-prots))))
+   (count-is 18 orth-dir-interactions))
+  (let [[ortholog ortholog-prots orth-dir-interactions]
+        (network/get-ortholog-direct-interactions
+          clients (second other-organisms) proteins)]
+   ;(println ortholog ortholog-prots orth-dir-interactions)
+   (are [fmt res] (s/valid? fmt res)
+     ::orgn/organism ortholog
+     ::orthd/ortholog-sourced-proteins ortholog-prots
+     ::intr/interactions orth-dir-interactions)
+   (count-is 1 ortholog-prots)
+   (is (= ortholog (second other-organisms)))
+   (is (= ortholog (:organism (first ortholog-prots))))
+   (is (= "P41887" (:uniprotid (first ortholog-prots))))
+   (is (= (first proteins-1) (:origin-protein (first ortholog-prots))))
+   (count-is 0 orth-dir-interactions))))
 
-          "\n  direct-interactions"
-          (s/valid? ::intr/interactions
-            direct-interactions)
-        ;(comment
-          "\n  orthologs-direct-interactions-first-org prots"
-          (s/valid? (s/coll-of ::prot/protein)
-            orthologs)
-        ;(comment
-          "\n  orthologs-direct-interactions-first-org intr"
-          (s/valid? ::intr/interactions
-            interactions)
-        ;(comment
-          "\n  orthologs-direct-interactions prots"
-          (s/valid? (s/coll-of ::prot/protein)
-            (mapcat second orthologs-direct-interactions))
-        ;(comment
-          "\n  orthologs-direct-interactions intrs"
-          (s/valid? ::intr/interactions
-            (mapcat #(nth % 2) orthologs-direct-interactions))
-        ;(comment
-          "\n  return-proteins"
-          (s/valid? (s/coll-of ::prot/protein)
-            return-proteins)
-        ;(comment
-          "\n  secondary-interactions"
-          (s/valid? ::intr/interactions
-            secondary-interactions)
-        ;(comment
-          "\n  orthologs-secondary-interactions-first-org"
-          (s/valid? ::intr/interactions
-            orthologs-secondary-interactions-first-org)
-        ;(comment
-          "\n  orthologs-secondary-interactions"
-          (s/valid? ::intr/interactions
-            orthologs-secondary-interactions))))))
+(deftest test-get-orthologs-direct-interactions
+ (binding [*print-level* 3]
+  (let [orthologs-direct-interactions
+          (network/get-orthologs-direct-interactions
+            clients other-organisms-1 proteins)]
+    ;(println orthologs-direct-interactions)
+    (is (s/valid?
+          (s/coll-of
+            (s/cat :ortholog       ::orgn/organism
+                   :ortholog-prots ::orthd/ortholog-sourced-proteins
+                   :interactions   ::intr/interactions))
+          orthologs-direct-interactions))
+    (count-is 1 orthologs-direct-interactions))
+  (let [orthologs-direct-interactions
+          (network/get-orthologs-direct-interactions
+            clients other-organisms-2 proteins)]
+    ;(println orthologs-direct-interactions)
+    (is (s/valid?
+          (s/coll-of
+            (s/cat :ortholog       ::orgn/organism
+                   :ortholog-prots ::orthd/ortholog-sourced-proteins
+                   :interactions   ::intr/interactions))
+          orthologs-direct-interactions))
+    (count-is 1 orthologs-direct-interactions))
+  (let [orthologs-direct-interactions
+          (network/get-orthologs-direct-interactions
+            clients other-organisms proteins)]
+    ;(println orthologs-direct-interactions)
+    (is (s/valid?
+          (s/coll-of
+            (s/cat :ortholog       ::orgn/organism
+                   :ortholog-prots ::orthd/ortholog-sourced-proteins
+                   :interactions   ::intr/interactions))
+          orthologs-direct-interactions))
+    (count-is 2 orthologs-direct-interactions))))
 
+(deftest test-get-ortholog-secondary-interactions
+ (binding [*print-level* 3]
+  (let [[ortholog ortholog-prots orth-dir-interactions]
+        (network/get-ortholog-direct-interactions
+          clients (first other-organisms) proteins)]
+    (let [ortholog-secondary-interactions
+            (network/get-ortholog-secondary-interactions
+              clients ortholog ortholog-prots orth-dir-interactions)]
+      ;(println ortholog-secondary-interactions)
+      (is (s/valid? ::intr/interactions
+            ortholog-secondary-interactions))
+      (count-is 38 ortholog-secondary-interactions)))
+  (let [[ortholog ortholog-prots orth-dir-interactions]
+        (network/get-ortholog-direct-interactions
+          clients (second other-organisms) proteins)]
+    (let [ortholog-secondary-interactions
+            (network/get-ortholog-secondary-interactions
+              clients ortholog ortholog-prots orth-dir-interactions)]
+      ;(println ortholog-secondary-interactions)
+      (is (s/valid? ::intr/interactions
+            ortholog-secondary-interactions))
+      (count-is 0 ortholog-secondary-interactions)))))
+
+(deftest test-get-orthologs-secondary-interactions
+ (binding [*print-level* 3]
+  (let [orthologs-direct-interactions
+        (network/get-orthologs-direct-interactions
+          clients other-organisms proteins)]
+    (let [orthologs-secondary-interactions
+            (network/get-orthologs-secondary-interactions
+              clients orthologs-direct-interactions)]
+      ;(println orthologs-secondary-interactions)
+      (is (s/valid? ::intr/interactions
+            orthologs-secondary-interactions))
+      (count-is 38 orthologs-secondary-interactions)))))
+
+(deftest test-merge-proteins-and-get-secondary-interactions
+ (binding [*print-level* 2]
+  (let [direct-interactions
+          (fetch/get-direct-interactions
+            clients ref-organism proteins)
+        orthologs-direct-interactions
+          (network/get-orthologs-direct-interactions
+            clients other-organisms proteins)]
+    (let [[return-proteins secondary-interactions]
+          (network/merge-proteins-and-get-secondary-interactions
+            clients ref-organism proteins
+            direct-interactions orthologs-direct-interactions)]
+      ;(println return-proteins)
+      ;(println secondary-interactions)
+      (is (s/valid? ::prot/proteins
+            return-proteins))
+      (is (s/valid? ::intr/interactions
+            secondary-interactions))
+      (count-is 49 secondary-interactions)))))
 
 (comment
 
   (binding [*print-level* 4]
-    (let [databases ["IntAct"]
+    (let [dbs ["IntAct"]
           ref-organism (orgn/inparanoid-organism-by-shortname "C.elegans")
           proteins [;(prot/->Protein ref-organism "Q18688")
                     (prot/->Protein ref-organism "Q20646")]
@@ -139,7 +237,7 @@
       (let [[direct-interactions secondary-interactions return-proteins
              orthologs-secondary-interactions]
             (network/fetch-protein-network
-                  databases ; PSICQUIC databases to query
+                  dbs ; PSICQUIC databases to query
                   ref-organism  ; Organism of Interest
                   proteins ; Proteins of Interest
                   other-organisms)] ; Other Organisms to check

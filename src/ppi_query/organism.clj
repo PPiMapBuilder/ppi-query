@@ -53,6 +53,7 @@
     (s/spec inparanoid-organism-repository)
     ; and having the following keys
     (s/keys :req-un [::taxon-id ::scientific-name] :opt-un [::common-name])))
+(s/def ::organisms (s/coll-of ::organism))
 
 (s/def ::common-name (s/nilable string?))
 (s/def ::taxon-id pos-int?)

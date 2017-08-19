@@ -22,7 +22,7 @@
        (intr/fetch-by-query-all-clients clients)))
 
 (s/fdef get-taxon-interactions
-  :args (s/cat :clients (s/coll-of any?)
+  :args (s/cat :clients  ::intr/clients
                :organism ::orgn/organism)
   :ret  ::intr/interactions)
 
@@ -38,9 +38,9 @@
          (intr/fetch-by-query-all-clients clients))))
 
 (s/fdef get-direct-interactions
-  :args (s/cat :clients (s/coll-of any?)
+  :args (s/cat :clients  ::intr/clients
                :organism ::orgn/organism
-               :proteins (s/coll-of ::prot/protein))
+               :proteins ::prot/proteins)
   :ret  ::intr/interactions)
 
 (defn get-secondary-interactions [clients organism proteins]
@@ -51,17 +51,21 @@
              (into #{} (map :uniprotid proteins)))))
 
 (s/fdef get-secondary-interactions
-  :args (s/cat :clients (s/coll-of any?)
+  :args (s/cat :clients  ::intr/clients
                :organism ::orgn/organism
-               :proteins (s/coll-of ::prot/protein))
+               :proteins ::prot/proteins)
   :ret  ::intr/interactions)
 
 (defn get-proteins-orthologs [organism proteins]
   "Fetch all orthologs of proteins into organism"
-  (mapcat #(orth/get-best-orthologs organism %)
+  (mapcat (fn [protein]
+              (let [best-orthologs
+                      (orth/get-best-orthologs organism protein)]
+                (map (partial orthd/ortholog-scored->sourced protein)
+                     best-orthologs)))
           proteins))
 
 (s/fdef get-proteins-orthologs
   :args (s/cat :target-organism ::orgn/organism
-               :protein (s/coll-of ::prot/protein))
-  :ret  (s/coll-of ::orthd/ortholog-scored-protein))
+               :protein         ::prot/proteins)
+  :ret  ::orthd/ortholog-scored-proteins)

@@ -7,3 +7,4 @@
 (defrecord Protein [organism uniprotid])
 (s/def ::protein
   (s/keys :req-un [::org/organism ::uni/uniprotid]))
+(s/def ::proteins (s/coll-of ::protein))

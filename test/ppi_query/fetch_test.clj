@@ -3,27 +3,60 @@
             [clojure.spec :as s]
             [clojure.spec.test :as stest]
             [ppi-query.test.utils :refer :all]
+            [ppi-query.orthology.data :as orthd]
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
             [ppi-query.interaction :as intr]
             [ppi-query.fetch :as fetch]))
 
+(def databases ["IntAct"])
+(def clients (fetch/get-clients databases))
+(def ref-organism (orgn/inparanoid-organism-by-shortname "C.elegans"))
+(def proteins [(prot/->Protein ref-organism "Q18688")
+               (prot/->Protein ref-organism "Q20646")])
+(def other-organisms [(orgn/inparanoid-organism-by-shortname "M.musculus")
+                      (orgn/inparanoid-organism-by-shortname "S.pombe")])
+
 (comment
-  (binding [*print-level* 4]
-    (let [databases ["IntAct"]
-          ref-organism (orgn/inparanoid-organism-by-shortname "C.elegans")
-          proteins [(prot/->Protein ref-organism "Q18688")
-                    (prot/->Protein ref-organism "Q20646")]
-          other-organisms [(orgn/inparanoid-organism-by-shortname "M.musculus")
-                           (orgn/inparanoid-organism-by-shortname "S.pombe")]]
+ (binding [*print-level* 3]
+  (let [res (fetch/get-proteins-orthologs ref-organism proteins)]
+    (println res
+      "\n Valid ? \n"
+      (s/valid? ::orthd/ortholog-scored-proteins
+        res)))
 
-      (let [clients (fetch/get-clients databases)]
-        ;(s/valid? ::intr/interactions
-        ;  (fetch/get-direct-interactions
-        ;            clients ref-organism proteins]
+  (let [res (fetch/get-proteins-orthologs (first other-organisms) proteins)]
+    (println res
+      "\n Valid ? \n"
+      (s/valid? ::orthd/ortholog-scored-proteins
+        res)))
 
-        (let [res (fetch/get-secondary-interactions
-                         clients ref-organism proteins)]
-          (println res)
-          (s/valid? ::intr/interactions
-            res))))))
+  (let [res (fetch/get-proteins-orthologs (second other-organisms) proteins)]
+    (println res
+      "\n Valid ? \n"
+      (s/valid? ::orthd/ortholog-scored-proteins
+        res)))
+
+  (let [res (fetch/get-secondary-interactions
+                   clients ref-organism proteins)]
+    (println res
+      "\n Valid ? \n"
+      (s/valid? ::intr/interactions
+        res)))))
+
+(deftest test-get-direct-interactions
+  (s/valid? ::intr/interactions
+    (fetch/get-direct-interactions
+              clients ref-organism proteins)))
+
+(deftest test-get-proteins-orthologs
+  (is (empty? (fetch/get-proteins-orthologs ref-organism proteins)))
+  (is (s/valid? ::orthd/ortholog-scored-proteins
+                (fetch/get-proteins-orthologs (first other-organisms) proteins)))
+  (is (s/valid? ::orthd/ortholog-scored-proteins
+                (fetch/get-proteins-orthologs (second other-organisms) proteins))))
+
+(deftest test-get-secondary-interactions
+  (is (s/valid? ::intr/interactions
+                (fetch/get-secondary-interactions
+                   clients ref-organism proteins))))

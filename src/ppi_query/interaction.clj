@@ -10,7 +10,10 @@
             [ppi-query.interaction.miql :as miql]))
 
 (s/def ::identifier string?)
+(s/def ::client any?)
+(s/def ::clients (s/coll-of ::client))
 (s/def ::database string?)
+(s/def ::databases (s/coll-of ::database))
 (s/def ::identifiers (s/coll-of (s/keys :req-un [::identifier ::database])))
 
 (s/def ::interactor (s/keys :req-un [::identifiers]))
