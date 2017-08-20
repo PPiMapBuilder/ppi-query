@@ -68,4 +68,4 @@
 (s/fdef get-proteins-orthologs
   :args (s/cat :target-organism ::orgn/organism
                :protein         ::prot/proteins)
-  :ret  ::orthd/ortholog-scored-proteins)
+  :ret  ::orthd/ortholog-sourced-proteins)

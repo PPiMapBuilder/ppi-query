@@ -9,6 +9,8 @@
             [ppi-query.interaction :as intr]
             [ppi-query.fetch :as fetch]))
 
+(stest/instrument)
+
 (def databases ["IntAct"])
 (def clients (fetch/get-clients databases))
 (def ref-organism (orgn/inparanoid-organism-by-shortname "C.elegans"))
@@ -45,9 +47,12 @@
         res)))))
 
 (deftest test-get-direct-interactions
-  (s/valid? ::intr/interactions
-    (fetch/get-direct-interactions
-              clients ref-organism proteins)))
+  (let [direct-interactions
+        (fetch/get-direct-interactions
+           clients ref-organism proteins)]
+    (is (s/valid? ::intr/interactions
+          direct-interactions))
+    (is (= 31 (count direct-interactions)))))
 
 (deftest test-get-proteins-orthologs
   (is (empty? (fetch/get-proteins-orthologs ref-organism proteins)))
