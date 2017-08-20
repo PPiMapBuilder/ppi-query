@@ -218,7 +218,7 @@
       (count-is 49 secondary-interactions)))))
 
 (deftest test-fetch-protein-network
- (binding [*print-level* 3]
+ (binding [*print-level* 1]
   (let [[ret-proteins ret-interactions]
         (network/fetch-protein-network
            dbs ; PSICQUIC databases to query

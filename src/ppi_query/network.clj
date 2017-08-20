@@ -66,12 +66,22 @@
                :direct-interactions ::intrd/interactions)
   :ret  ::intrd/interactions)
 
+(defn print-sec-ints
+  [orth secondary-interactions]
+  (println (:scientific-name orth) ":" (count secondary-interactions) "secondary interactions found.")
+  secondary-interactions)
+(s/fdef print-sec-ints
+  :args (s/cat :ortholog       ::orgn/organism
+               :secondary-interactions ::intrd/interactions)
+  :ret  ::intrd/interactions)
+
 (defn get-orthologs-secondary-interactions
   [clients orthologs-direct-interactions]
   ; Potentially parallellized
   (mapcat (fn [[ortholog ortholog-prots interactions]]
-              (get-ortholog-secondary-interactions
-                clients ortholog ortholog-prots interactions))
+              (print-sec-ints ortholog
+                (get-ortholog-secondary-interactions
+                  clients ortholog ortholog-prots interactions)))
           orthologs-direct-interactions))
 
 (s/fdef get-orthologs-secondary-interactions
@@ -226,6 +236,11 @@
       (println
         (take 2 (fetch-interactome ["IntAct"] organism))))))
 
+(defn print-orth-dir-ints
+  [[org orth-prots ints]]
+  (println (:scientific-name org) ":" (count orth-prots) "orthologs and" (count ints) "interactions found.")
+  (count ints))
+
 (defn fetch-protein-network
   [databases ; PSICQUIC databases to query
    ref-organism  ; Organism of Interest
@@ -247,11 +262,15 @@
          ;(trace-f "orthologs-direct-interactions"
           (get-orthologs-direct-interactions
             clients other-organisms proteins)
-
+        print-1
+          (do (println "orthologs-direct-interactions finished. Fetched : ")
+              (dorun (map print-orth-dir-ints orthologs-direct-interactions)))
         ; ::intrd/interactions
         direct-interactions
          ;(trace-f "direct-interactions"
            @f-direct-interactions
+        print-2
+          (println (count direct-interactions) "direct interactions fetched")
         ; Three blue arrows + left secondary interactions
         ; future ::prot/proteins ::intrd/interactions
         f-proteins-and-secondary-interactions
@@ -266,6 +285,9 @@
          ;(trace-f "orthologs-secondary-interactions"
            (get-orthologs-secondary-interactions
               clients orthologs-direct-interactions)
+        print-3
+          (println (count orthologs-secondary-interactions) "orthologs secondary interactions in total")
+
         ; Merge orthologs-direct-interactions and orthologs-secondary-interactions
         ;      and change into ::intrd/proteins-interactions
         ; Then return orthologs interactions to reference organism, in right format
@@ -277,11 +299,16 @@
             ref-organism
             orthologs-direct-interactions
             orthologs-secondary-interactions)
+        print-4
+          (println "Orthologs interactions brought back to reference organism.")
 
         ; Deref future proteins-and-secondary-interactions
         ; ::prot/proteins ::intrd/interactions
         [return-proteins secondary-interactions]
         @f-proteins-and-secondary-interactions
+        print-5
+          (do (println (count return-proteins) "proteins to display in total")
+              (println (count secondary-interactions) "secondary interactions in reference organism"))
 
         ; Change all ref-organism interactions into prot-orths-interactions
         ; Concat all interactions
@@ -291,7 +318,9 @@
           (concat-and-format-all-interactions
             orthologs-interactions-ref-organism
             ref-organism
-            direct-interactions secondary-interactions)]
+            direct-interactions secondary-interactions)
+        print-6
+          (println (count all-interactions-ref-organism) "interactions to display in total")]
 
 
     [return-proteins all-interactions-ref-organism]))
