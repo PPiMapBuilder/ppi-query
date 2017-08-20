@@ -8,9 +8,11 @@
 (s/def ::clients (s/coll-of ::client))
 (s/def ::database string?)
 (s/def ::databases (s/coll-of ::database))
+(s/def ::taxid string?)
 (s/def ::identifiers (s/coll-of (s/keys :req-un [::identifier ::database])))
+(s/def ::organism (s/keys :req-un [::identifiers ::taxid]))
 
-(s/def ::interactor (s/keys :req-un [::identifiers]))
+(s/def ::interactor (s/keys :req-un [::identifiers ::organism]))
 (s/def ::interactorA ::interactor)
 (s/def ::interactorB ::interactor)
 

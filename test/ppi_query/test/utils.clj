@@ -100,3 +100,5 @@
      (t/is results-successful?
            (when-not results-successful?
              (summarize-results' results))))))
+
+(def count-is (fn [cnt seq] (t/is (= cnt (count seq)))))

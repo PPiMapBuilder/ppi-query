@@ -20,18 +20,6 @@
   :args (s/cat :database ::intrd/database :interactor ::intrd/interactor)
   :ret (s/coll-of ::unip/uniprotid-strict))
 
-(comment
-  (binding [*print-level* 3]
-    (let [client (first registry-clients)
-          query  "P04040"]
-      (println
-        (get-interactor-database-ids
-          "uniprotkb"
-          (:interactorA
-            (first (get-by-query client query))))))))
-; (P04040)
-
-
 (def get-interactor-uniprotid
   (comp first (partial get-interactor-database-ids "uniprotkb")))
 
@@ -151,7 +139,7 @@
 
 (comment
   (binding [*print-level* 3]
-    (let [client (first registry-clients)
+    (let [client (first intrq/registry-clients)
           query  "P04040 or Q14145"]
       (println
         (take 2

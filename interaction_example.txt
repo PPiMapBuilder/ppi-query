@@ -1,0 +1,95 @@
+{
+:detectionMethods (
+    {:database psi-mi, :identifier MI:0018, :text two hybrid}), 
+:updateDate (), 
+:publications (
+    {:database imex, :identifier IM-15364, :text nil}
+    {:database pubmed, :identifier 21988832, :text nil}), 
+:negativeInteraction false, 
+:xrefs (), 
+:checksums (), 
+:interactorA {
+    :features (), 
+    :organism {
+        :identifiers (
+            {:database taxid, :identifier 9606, :text human} 
+            {:database taxid, :identifier 9606, :text Homo sapiens}), 
+        :taxid 9606
+    }, 
+    :alternativeIdentifiers (
+        {:database intact, :identifier EBI-2432181, :text nil} 
+        {:database uniprotkb, :identifier Q4VXX5, :text nil} 
+        {:database uniprotkb, :identifier Q9BWT9, :text nil} 
+        {:database uniprotkb, :identifier A8K6C0, :text nil} 
+        {:database uniprotkb, :identifier B2RCZ9, :text nil} 
+        {:database uniprotkb, :identifier Q9UC85, :text nil} 
+        {:database uniprotkb, :identifier Q2M1U4, :text nil} 
+        {:database uniprotkb, :identifier D3DR07, :text nil}), 
+    :identifiers (
+        {:database uniprotkb, :identifier P04040, :text nil}), 
+    :xrefs (), 
+    :checksums (), 
+    :interactorTypes (), 
+    :stoichiometry (), 
+    :empty false, 
+    :participantIdentificationMethods (), 
+    :annotations (), 
+    :aliases (
+        {:aliasType display_long, :dbSource psi-mi, :name cata_human} 
+        {:aliasType gene name, :dbSource uniprotkb, :name CAT} 
+        {:aliasType display_short, :dbSource psi-mi, :name CAT}), 
+    :experimentalRoles (), 
+    :biologicalRoles ()
+}, 
+:complexExpansion (), 
+:interactionAcs (
+    {:database intact, :identifier EBI-3927552, :text nil} 
+    {:database imex, :identifier IM-15364-1967, :text nil}), 
+:interactorB {
+    :features (), 
+    :organism {
+        :identifiers (
+            {:database taxid, :identifier 9606, :text human} 
+            {:database taxid, :identifier 9606, :text Homo sapiens}), 
+        :taxid 9606}, 
+    :alternativeIdentifiers (
+        {:database intact, :identifier EBI-751001, :text nil} 
+        {:database uniprotkb, :identifier B3KPD5, :text nil} 
+        {:database uniprotkb, :identifier Q8WTX1, :text nil} 
+        {:database uniprotkb, :identifier Q6LEP0, :text nil} 
+        {:database uniprotkb, :identifier Q9BPY9, :text nil}), 
+    :identifiers (
+        {:database uniprotkb, :identifier Q14145, :text nil}), 
+    :xrefs (), 
+    :checksums (), 
+    :interactorTypes (), 
+    :stoichiometry (), 
+    :empty false, 
+    :participantIdentificationMethods (), 
+    :annotations (), 
+    :aliases (
+        {:aliasType display_long, :dbSource psi-mi, :name keap1_human} 
+        {:aliasType gene name synonym, :dbSource uniprotkb, :name Cytosolic inhibitor of Nrf2} 
+        {:aliasType gene name synonym, :dbSource uniprotkb, :name Kelch-like protein 19} 
+        {:aliasType gene name, :dbSource uniprotkb, :name KEAP1} 
+        {:aliasType display_short, :dbSource psi-mi, :name KEAP1} 
+        {:aliasType gene name synonym, :dbSource uniprotkb, :name INRF2} 
+        {:aliasType gene name synonym, :dbSource uniprotkb, :name KIAA0132} 
+        {:aliasType gene name synonym, :dbSource uniprotkb, :name KLHL19}), 
+    :experimentalRoles (), 
+    :biologicalRoles ()
+}, 
+:annotations (), 
+:authors (
+    {:name Wang et al. (2011)}), 
+:parameters (), 
+:confidenceValues (
+    {:text nil, :type intact-miscore, :value 0.37}), 
+:creationDate (), 
+:sourceDatabases (
+    {:database psi-mi, :identifier MI:0469, :text IntAct}), 
+:interactionTypes (
+    {:database psi-mi, :identifier MI:0915, :text physical association}), 
+:hostOrganism nil
+} 
+
