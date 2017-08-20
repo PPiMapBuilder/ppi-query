@@ -267,13 +267,7 @@
               clients orthologs-direct-interactions)
         ; Merge orthologs-direct-interactions and orthologs-secondary-interactions
         ;      and change into ::intr/proteins-interactions
-        ; ::intr/proteins-interactions
-        orthologs-direct-secondary-interactions
-          (intr/interactions->proteins-interactions
-            (merge-orthologs-direct-secondary-interactions
-              orthologs-direct-interactions
-              orthologs-secondary-interactions))
-        ; Return orthologs interactions to reference organism, in right format
+        ; Then return orthologs interactions to reference organism, in right format
         ; ::intr/interactions ->
         ; ::intr/proteins-interactions ->
         ; ::intr/prot-orths-interactions
