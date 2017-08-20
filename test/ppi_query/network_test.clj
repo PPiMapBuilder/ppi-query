@@ -64,13 +64,12 @@
    ;(println ortholog ortholog-prots orth-dir-interactions)
    (are [fmt res] (s/valid? fmt res)
      ::orgn/organism ortholog
-     ::orthd/ortholog-sourced-proteins ortholog-prots
+     ::orthd/ortholog-scored-proteins ortholog-prots
      ::intr/interactions orth-dir-interactions)
    (count-is 1 ortholog-prots)
    (is (= ortholog other-organism-1))
    (is (= ortholog (:organism (first ortholog-prots))))
    (is (= "P11499" (:uniprotid (first ortholog-prots))))
-   (is (= protein-1 (:origin-protein (first ortholog-prots))))
    (count-is 18 orth-dir-interactions))
   (let [[ortholog ortholog-prots orth-dir-interactions]
         (network/get-ortholog-direct-interactions
@@ -78,13 +77,12 @@
    ;(println ortholog ortholog-prots orth-dir-interactions)
    (are [fmt res] (s/valid? fmt res)
      ::orgn/organism ortholog
-     ::orthd/ortholog-sourced-proteins ortholog-prots
+     ::orthd/ortholog-scored-proteins ortholog-prots
      ::intr/interactions orth-dir-interactions)
    (count-is 1 ortholog-prots)
    (is (= ortholog other-organism-2))
    (is (= ortholog (:organism (first ortholog-prots))))
    (is (= "P41887" (:uniprotid (first ortholog-prots))))
-   (is (= protein-1 (:origin-protein (first ortholog-prots))))
    (count-is 0 orth-dir-interactions))
   (let [[ortholog ortholog-prots orth-dir-interactions]
         (network/get-ortholog-direct-interactions
@@ -92,7 +90,7 @@
    ;(println ortholog ortholog-prots orth-dir-interactions)
    (are [fmt res] (s/valid? fmt res)
      ::orgn/organism ortholog
-     ::orthd/ortholog-sourced-proteins ortholog-prots
+     ::orthd/ortholog-scored-proteins ortholog-prots
      ::intr/interactions orth-dir-interactions)
    (count-is 0 ortholog-prots))
   (let [[ortholog ortholog-prots orth-dir-interactions]
@@ -101,7 +99,7 @@
    ;(println ortholog ortholog-prots orth-dir-interactions)
    (are [fmt res] (s/valid? fmt res)
      ::orgn/organism ortholog
-     ::orthd/ortholog-sourced-proteins ortholog-prots
+     ::orthd/ortholog-scored-proteins ortholog-prots
      ::intr/interactions orth-dir-interactions)
    (count-is 0 ortholog-prots))
   (let [[ortholog ortholog-prots orth-dir-interactions]
@@ -110,13 +108,12 @@
    ;(println ortholog ortholog-prots orth-dir-interactions)
    (are [fmt res] (s/valid? fmt res)
      ::orgn/organism ortholog
-     ::orthd/ortholog-sourced-proteins ortholog-prots
+     ::orthd/ortholog-scored-proteins ortholog-prots
      ::intr/interactions orth-dir-interactions)
    (count-is 1 ortholog-prots)
    (is (= ortholog other-organism-1))
    (is (= ortholog (:organism (first ortholog-prots))))
    (is (= "P11499" (:uniprotid (first ortholog-prots))))
-   (is (= protein-1 (:origin-protein (first ortholog-prots))))
    (count-is 18 orth-dir-interactions))
   (let [[ortholog ortholog-prots orth-dir-interactions]
         (network/get-ortholog-direct-interactions
@@ -124,13 +121,12 @@
    ;(println ortholog ortholog-prots orth-dir-interactions)
    (are [fmt res] (s/valid? fmt res)
      ::orgn/organism ortholog
-     ::orthd/ortholog-sourced-proteins ortholog-prots
+     ::orthd/ortholog-scored-proteins ortholog-prots
      ::intr/interactions orth-dir-interactions)
    (count-is 1 ortholog-prots)
    (is (= ortholog other-organism-2))
    (is (= ortholog (:organism (first ortholog-prots))))
    (is (= "P41887" (:uniprotid (first ortholog-prots))))
-   (is (= protein-1 (:origin-protein (first ortholog-prots))))
    (count-is 0 orth-dir-interactions))))
 
 (deftest test-get-orthologs-direct-interactions
@@ -142,7 +138,7 @@
     (is (s/valid?
           (s/coll-of
             (s/cat :ortholog       ::orgn/organism
-                   :ortholog-prots ::orthd/ortholog-sourced-proteins
+                   :ortholog-prots ::orthd/ortholog-scored-proteins
                    :interactions   ::intr/interactions))
           orthologs-direct-interactions))
     (count-is 1 orthologs-direct-interactions))
@@ -153,7 +149,7 @@
     (is (s/valid?
           (s/coll-of
             (s/cat :ortholog       ::orgn/organism
-                   :ortholog-prots ::orthd/ortholog-sourced-proteins
+                   :ortholog-prots ::orthd/ortholog-scored-proteins
                    :interactions   ::intr/interactions))
           orthologs-direct-interactions))
     (count-is 1 orthologs-direct-interactions))
@@ -164,7 +160,7 @@
     (is (s/valid?
           (s/coll-of
             (s/cat :ortholog       ::orgn/organism
-                   :ortholog-prots ::orthd/ortholog-sourced-proteins
+                   :ortholog-prots ::orthd/ortholog-scored-proteins
                    :interactions   ::intr/interactions))
           orthologs-direct-interactions))
     (count-is 2 orthologs-direct-interactions))))

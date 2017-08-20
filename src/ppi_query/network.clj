@@ -31,7 +31,7 @@
                :ortholog     ::orgn/organism
                :proteins     ::prot/proteins)
   :ret  (s/cat :ortholog       ::orgn/organism
-               :ortholog-prots ::orthd/ortholog-sourced-proteins
+               :ortholog-prots ::orthd/ortholog-scored-proteins
                :interactions   ::intr/interactions))
 
 (defn get-orthologs-direct-interactions
@@ -48,7 +48,7 @@
                :proteins     ::prot/proteins)
   :ret  (s/coll-of
           (s/cat :ortholog       ::orgn/organism
-                 :ortholog-prots ::orthd/ortholog-sourced-proteins
+                 :ortholog-prots ::orthd/ortholog-scored-proteins
                  :interactions   ::intr/interactions)))
 
 (defn get-ortholog-secondary-interactions
@@ -61,7 +61,7 @@
 (s/fdef get-ortholog-secondary-interactions
   :args (s/cat :clients        ::intr/clients
                :ortholog       ::orgn/organism
-               :ortholog-prots ::orthd/ortholog-sourced-proteins
+               :ortholog-prots ::orthd/ortholog-scored-proteins
                :direct-interactions ::intr/interactions)
   :ret  ::intr/interactions)
 
@@ -78,7 +78,7 @@
                :orthologs-direct-interactions
                  (s/coll-of
                    (s/cat :ortholog       ::orgn/organism
-                          :ortholog-prots ::orthd/ortholog-sourced-proteins
+                          :ortholog-prots ::orthd/ortholog-scored-proteins
                           :interactions   ::intr/interactions)))
   :ret  ::intr/interactions)
 
@@ -94,7 +94,7 @@
   :args (s/cat :orthologs-direct-interactions
                  (s/coll-of
                    (s/cat :ortholog       ::orgn/organism
-                          :ortholog-prots ::orthd/ortholog-sourced-proteins
+                          :ortholog-prots ::orthd/ortholog-scored-proteins
                           :interactions   ::intr/interactions))
                :orthologs-direct-interactions
                  ::intr/interactions)
@@ -115,7 +115,7 @@
                :orthologs-direct-interactions
                  (s/coll-of
                    (s/cat :ortholog       ::orgn/organism
-                          :ortholog-prots ::orthd/ortholog-sourced-proteins
+                          :ortholog-prots ::orthd/ortholog-scored-proteins
                           :interactions   ::intr/interactions))
                :orthologs-secondary-interactions ::intr/interactions)
   :ret  ::intr/prot-orths-interactions)
@@ -241,7 +241,7 @@
                     clients ref-organism proteins))
 
         ; Get proteins orthologs + Get direct interactors
-        ; ::orgn/organism ::orthd/ortholog-sourced-proteins ::intr/interactions
+        ; ::orgn/organism ::orthd/ortholog-scored-proteins ::intr/interactions
         orthologs-direct-interactions
          ;(trace-f "orthologs-direct-interactions"
           (get-orthologs-direct-interactions

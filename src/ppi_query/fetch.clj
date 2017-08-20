@@ -59,13 +59,10 @@
 (defn get-proteins-orthologs [organism proteins]
   "Fetch all orthologs of proteins into organism"
   (mapcat (fn [protein]
-              (let [best-orthologs
-                      (orth/get-best-orthologs organism protein)]
-                (map (partial orthd/ortholog-scored->sourced protein)
-                     best-orthologs)))
+              (orth/get-best-orthologs organism protein))
           proteins))
 
 (s/fdef get-proteins-orthologs
   :args (s/cat :target-organism ::orgn/organism
                :protein         ::prot/proteins)
-  :ret  ::orthd/ortholog-sourced-proteins)
+  :ret  ::orthd/ortholog-scored-proteins)

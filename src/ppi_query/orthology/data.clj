@@ -25,33 +25,6 @@
   :args (s/cat :ortholog-scored-protein (s/nilable ::ortholog-scored-protein))
   :ret  (s/nilable ::prot/protein))
 
-; Ortholog scored protein + origin-protein
-(s/def ::origin-protein ::prot/protein)
-(defrecord OrthologSourcedProtein [organism uniprotid ortholog-score origin-protein])
-(s/def ::ortholog-sourced-protein
-  (s/merge ::ortholog-scored-protein (s/keys :req-un [::origin-protein])))
-(s/def ::ortholog-sourced-proteins (s/coll-of ::ortholog-sourced-protein))
-
-(defn ortholog-scored->sourced [origin-prot ortholog-scored-prot]
-  (let [{:keys [organism uniprotid ortholog-score]} ortholog-scored-prot]
-    (->OrthologSourcedProtein
-      organism uniprotid ortholog-score origin-prot)))
-
-(s/fdef ortholog-scored->sourced
-  :args (s/cat :origin-protein          ::prot/protein
-               :ortholog-scored-protein ::ortholog-scored-protein)
-  :ret  ::ortholog-sourced-protein)
-
-(defn ortholog-sourced->scored [ortholog-sourced-prot]
-  (let [{:keys [organism uniprotid ortholog-score]} ortholog-sourced-prot]
-    (->OrthologScoredProtein
-      organism uniprotid ortholog-score)))
-
-(s/fdef ortholog-sourced->scored
-  :args (s/cat :origin-protein          ::prot/protein
-               :ortholog-sourced-protein ::ortholog-sourced-protein)
-  :ret  ::ortholog-scored-protein)
-
 ; Ortholog group: ortholog scored protein by target organism
 (s/def ::ortholog-group
   (s/map-of ::org/organism
