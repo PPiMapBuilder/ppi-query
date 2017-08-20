@@ -1,6 +1,6 @@
 (ns ppi-query.orthology.data
   (:require [clojure.spec :as s]
-            [ppi-query.organism :as org]
+            [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]))
 
 ; The following definitions are not in the orthology namespace to avoid
@@ -27,5 +27,5 @@
 
 ; Ortholog group: ortholog scored protein by target organism
 (s/def ::ortholog-group
-  (s/map-of ::org/organism
+  (s/map-of ::orgn/organism
             (s/coll-of ::ortholog-scored-protein :min-count 1)))

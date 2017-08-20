@@ -6,7 +6,7 @@
             [ppi-query.orthology.data :as orthd]
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
-            [ppi-query.interaction :as intr]
+            [ppi-query.interaction.data :as intrd]
             [ppi-query.fetch :as fetch]))
 
 (stest/instrument)
@@ -43,14 +43,14 @@
                    clients ref-organism proteins)]
     (println res
       "\n Valid ? \n"
-      (s/valid? ::intr/interactions
+      (s/valid? ::intrd/interactions
         res)))))
 
 (deftest test-get-direct-interactions
   (let [direct-interactions
         (fetch/get-direct-interactions
            clients ref-organism proteins)]
-    (is (s/valid? ::intr/interactions
+    (is (s/valid? ::intrd/interactions
           direct-interactions))
     (is (= 31 (count direct-interactions)))))
 
@@ -62,6 +62,6 @@
                 (fetch/get-proteins-orthologs (second other-organisms) proteins))))
 
 (deftest test-get-secondary-interactions
-  (is (s/valid? ::intr/interactions
+  (is (s/valid? ::intrd/interactions
                 (fetch/get-secondary-interactions
                    clients ref-organism proteins))))

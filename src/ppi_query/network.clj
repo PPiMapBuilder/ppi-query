@@ -1,6 +1,7 @@
 (ns ppi-query.network
   (:require [clojure.spec :as s]
-            [ppi-query.interaction :as intr]
+            [ppi-query.interaction.data :as intrd]
+            [ppi-query.interaction.transform :as intrt]
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
             [ppi-query.orthology :as orth]
@@ -27,12 +28,12 @@
     [ortholog ortholog-prots interactions]))
 
 (s/fdef get-ortholog-direct-interactions
-  :args (s/cat :clients      ::intr/clients
+  :args (s/cat :clients      ::intrd/clients
                :ortholog     ::orgn/organism
                :proteins     ::prot/proteins)
   :ret  (s/cat :ortholog       ::orgn/organism
                :ortholog-prots ::orthd/ortholog-scored-proteins
-               :interactions   ::intr/interactions))
+               :interactions   ::intrd/interactions))
 
 (defn get-orthologs-direct-interactions
   [clients orthologs proteins]
@@ -43,27 +44,27 @@
        orthologs))
 
 (s/fdef get-orthologs-direct-interactions
-  :args (s/cat :clients      ::intr/clients
+  :args (s/cat :clients      ::intrd/clients
                :orthologs    ::orgn/organisms
                :proteins     ::prot/proteins)
   :ret  (s/coll-of
           (s/cat :ortholog       ::orgn/organism
                  :ortholog-prots ::orthd/ortholog-scored-proteins
-                 :interactions   ::intr/interactions)))
+                 :interactions   ::intrd/interactions)))
 
 (defn get-ortholog-secondary-interactions
   [clients ortholog ortholog-prots direct-interactions]
   (->> direct-interactions
-       intr/get-proteins ; Set of Proteins
+       intrt/get-proteins ; Set of Proteins
        (#(disj % (into #{} ortholog-prots)))
        (fetch/get-secondary-interactions clients ortholog)))
 
 (s/fdef get-ortholog-secondary-interactions
-  :args (s/cat :clients        ::intr/clients
+  :args (s/cat :clients        ::intrd/clients
                :ortholog       ::orgn/organism
                :ortholog-prots ::orthd/ortholog-scored-proteins
-               :direct-interactions ::intr/interactions)
-  :ret  ::intr/interactions)
+               :direct-interactions ::intrd/interactions)
+  :ret  ::intrd/interactions)
 
 (defn get-orthologs-secondary-interactions
   [clients orthologs-direct-interactions]
@@ -74,13 +75,13 @@
           orthologs-direct-interactions))
 
 (s/fdef get-orthologs-secondary-interactions
-  :args (s/cat :clients        ::intr/clients
+  :args (s/cat :clients        ::intrd/clients
                :orthologs-direct-interactions
                  (s/coll-of
                    (s/cat :ortholog       ::orgn/organism
                           :ortholog-prots ::orthd/ortholog-scored-proteins
-                          :interactions   ::intr/interactions)))
-  :ret  ::intr/interactions)
+                          :interactions   ::intrd/interactions)))
+  :ret  ::intrd/interactions)
 
 (defn merge-orthologs-direct-secondary-interactions
     [orthologs-direct-interactions orthologs-secondary-interactions]
@@ -95,17 +96,17 @@
                  (s/coll-of
                    (s/cat :ortholog       ::orgn/organism
                           :ortholog-prots ::orthd/ortholog-scored-proteins
-                          :interactions   ::intr/interactions))
+                          :interactions   ::intrd/interactions))
                :orthologs-direct-interactions
-                 ::intr/interactions)
-  :ret  ::intr/interactions)
+                 ::intrd/interactions)
+  :ret  ::intrd/interactions)
 
 (defn orthologs-interactions->ref-organism
     [ref-organism
      orthologs-direct-interactions
      orthologs-secondary-interactions]
-  (intr/proteins-interactions->prot-orths-interactions ref-organism
-    (intr/interactions->proteins-interactions
+  (intrt/proteins-interactions->prot-orths-interactions ref-organism
+    (intrt/interactions->proteins-interactions
       (merge-orthologs-direct-secondary-interactions
         orthologs-direct-interactions
         orthologs-secondary-interactions))))
@@ -116,9 +117,9 @@
                  (s/coll-of
                    (s/cat :ortholog       ::orgn/organism
                           :ortholog-prots ::orthd/ortholog-scored-proteins
-                          :interactions   ::intr/interactions))
-               :orthologs-secondary-interactions ::intr/interactions)
-  :ret  ::intr/prot-orths-interactions)
+                          :interactions   ::intrd/interactions))
+               :orthologs-secondary-interactions ::intrd/interactions)
+  :ret  ::intrd/prot-orths-interactions)
 
 (defn merge-proteins-and-get-secondary-interactions
     [clients ref-organism origin-proteins
@@ -127,12 +128,12 @@
          (into #{}
            (concat
                origin-proteins
-             ;(trace-f "intr/get-proteins direct-interactions"
-               (intr/get-proteins direct-interactions)
-             ;(trace-f "mapcat intr/get-proteins othologs"
+             ;(trace-f "intrt/get-proteins direct-interactions"
+               (intrt/get-proteins direct-interactions)
+             ;(trace-f "mapcat intrt/get-proteins othologs"
                (mapcat (fn [[ortholog ortholog-prots interactions]]
                          (->> interactions
-                              intr/get-proteins
+                              intrt/get-proteins
                               (fetch/get-proteins-orthologs ref-organism)))
                       orthologs-direct-interactions)))
         secondary-interactions
@@ -140,17 +141,17 @@
     [all-proteins secondary-interactions]))
 
 (s/fdef merge-proteins-and-get-secondary-interactions
-  :args (s/cat :clients             ::intr/clients
+  :args (s/cat :clients             ::intrd/clients
                :ref-organism        ::orgn/organism
                :origin-proteins     ::prot/proteins
-               :direct-interactions ::intr/interactions
+               :direct-interactions ::intrd/interactions
                :orthologs-direct-interactions
                  (s/coll-of
                    (s/cat :organism       ::orgn/organism
                           :ortholog-prots ::orthd/ortholog-scored-proteins
-                          :interactions   ::intr/interactions)))
+                          :interactions   ::intrd/interactions)))
   :ret  (s/cat  :all-proteins           ::prot/proteins
-                :secondary-interactions ::intr/interactions))
+                :secondary-interactions ::intrd/interactions))
 
 (defn remove-duplicate-interactions
     [prot-orths-interactions]
@@ -168,14 +169,14 @@
                     key-2 (apply str [uni-b orth-uni-b uni-a orth-uni-a])]
                 (if-let [prot-orths-multi-int (prot-orths-multi-ints key-1)]
                  (assoc prot-orths-multi-ints key-1
-                   (intr/add-interaction-to-prot-orths-multi-interactions
+                   (intrd/add-interaction-to-prot-orths-multi-interactions
                      prot-orths-multi-int original-interaction))
                  (if-let [prot-orths-multi-int (prot-orths-multi-ints key-2)]
                      (assoc prot-orths-multi-ints key-2
-                       (intr/add-interaction-to-prot-orths-multi-interactions
+                       (intrd/add-interaction-to-prot-orths-multi-interactions
                          prot-orths-multi-int original-interaction))
                      (assoc prot-orths-multi-ints key-1
-                       (intr/->ProtOrthsMultiInteraction
+                       (intrd/->ProtOrthsMultiInteraction
                           protein-a ortholog-protein-a
                           protein-b ortholog-protein-b
                           [original-interaction]))))))
@@ -185,8 +186,8 @@
     (map val prot-orths-multi-interactions)))
 
 (s/fdef remove-duplicate-interactions
-  :args (s/cat :prot-orths-interactions ::intr/prot-orths-interactions)
-  :ret  ::intr/prot-orths-multi-interactions)
+  :args (s/cat :prot-orths-interactions ::intrd/prot-orths-interactions)
+  :ret  ::intrd/prot-orths-multi-interactions)
 
 ; Change all ref-organism interactions into prot-orths-interactions
 ; Concat all interactions
@@ -198,26 +199,26 @@
   (remove-duplicate-interactions
     (concat
       orthologs-interactions-ref-organism
-      (intr/proteins-interactions->prot-orths-interactions ref-organism
-        (intr/interactions->proteins-interactions
+      (intrt/proteins-interactions->prot-orths-interactions ref-organism
+        (intrt/interactions->proteins-interactions
            (concat direct-interactions secondary-interactions))))))
 
 
 (s/fdef concat-and-format-all-interactions
-  :args (s/cat :orthologs-interactions-ref-organism ::intr/prot-orths-interactions
+  :args (s/cat :orthologs-interactions-ref-organism ::intrd/prot-orths-interactions
                :ref-organism                        ::orgn/organism
-               :direct-interactions                 ::intr/interactions
-               :secondary-interactions              ::intr/interactions)
-  :ret  ::intr/prot-orths-multi-interactions)
+               :direct-interactions                 ::intrd/interactions
+               :secondary-interactions              ::intrd/interactions)
+  :ret  ::intrd/prot-orths-multi-interactions)
 
 (defn fetch-interactome [databases organism]
   (let [clients (fetch/get-clients databases)]
     (fetch/get-taxon-interactions clients organism)))
 
 (s/fdef fetch-interactome
-  :args (s/cat :databases ::intr/databases
+  :args (s/cat :databases ::intrd/databases
                :organism  ::orgn/organism)
-  :ret  ::intr/interactions)
+  :ret  ::intrd/interactions)
 
 (comment
   (binding [*print-level* 3]
@@ -235,24 +236,24 @@
   (let [clients (fetch/get-clients databases)
 
         ; Get Direct Interactions (left arrow)
-        ; future ::intr/interactions
+        ; future ::intrd/interactions
         f-direct-interactions
           (future (fetch/get-direct-interactions
                     clients ref-organism proteins))
 
         ; Get proteins orthologs + Get direct interactors
-        ; ::orgn/organism ::orthd/ortholog-scored-proteins ::intr/interactions
+        ; ::orgn/organism ::orthd/ortholog-scored-proteins ::intrd/interactions
         orthologs-direct-interactions
          ;(trace-f "orthologs-direct-interactions"
           (get-orthologs-direct-interactions
             clients other-organisms proteins)
 
-        ; ::intr/interactions
+        ; ::intrd/interactions
         direct-interactions
          ;(trace-f "direct-interactions"
            @f-direct-interactions
         ; Three blue arrows + left secondary interactions
-        ; future ::prot/proteins ::intr/interactions
+        ; future ::prot/proteins ::intrd/interactions
         f-proteins-and-secondary-interactions
           (future ;(trace-f "merge-proteins-and-get-secondary-interactions"
                    (merge-proteins-and-get-secondary-interactions
@@ -260,17 +261,17 @@
                      direct-interactions orthologs-direct-interactions))
 
         ; Two violet arrows + right secondary arrows
-        ; ::intr/interactions
+        ; ::intrd/interactions
         orthologs-secondary-interactions
          ;(trace-f "orthologs-secondary-interactions"
            (get-orthologs-secondary-interactions
               clients orthologs-direct-interactions)
         ; Merge orthologs-direct-interactions and orthologs-secondary-interactions
-        ;      and change into ::intr/proteins-interactions
+        ;      and change into ::intrd/proteins-interactions
         ; Then return orthologs interactions to reference organism, in right format
-        ; ::intr/interactions ->
-        ; ::intr/proteins-interactions ->
-        ; ::intr/prot-orths-interactions
+        ; ::intrd/interactions ->
+        ; ::intrd/proteins-interactions ->
+        ; ::intrd/prot-orths-interactions
         orthologs-interactions-ref-organism
           (orthologs-interactions->ref-organism
             ref-organism
@@ -278,14 +279,14 @@
             orthologs-secondary-interactions)
 
         ; Deref future proteins-and-secondary-interactions
-        ; ::prot/proteins ::intr/interactions
+        ; ::prot/proteins ::intrd/interactions
         [return-proteins secondary-interactions]
         @f-proteins-and-secondary-interactions
 
         ; Change all ref-organism interactions into prot-orths-interactions
         ; Concat all interactions
         ; Remove duplicate interactions
-        ; -> ::intr/prot-orths-multi-interactions
+        ; -> ::intrd/prot-orths-multi-interactions
         all-interactions-ref-organism
           (concat-and-format-all-interactions
             orthologs-interactions-ref-organism
@@ -296,9 +297,9 @@
     [return-proteins all-interactions-ref-organism]))
 
 (s/fdef fetch-protein-network
-  :args (s/cat :databases       ::intr/databases
+  :args (s/cat :databases       ::intrd/databases
                :ref-organism    ::orgn/organism
                :proteins        ::prot/proteins
                :other-organisms ::orgn/organisms)
   :ret  (s/cat :return-proteins               ::prot/proteins
-               :all-interactions-ref-organism ::intr/prot-orths-multi-interactions))
+               :all-interactions-ref-organism ::intrd/prot-orths-multi-interactions))

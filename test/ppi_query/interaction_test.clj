@@ -5,13 +5,15 @@
             [ppi-query.test.utils :refer :all]
             [ppi-query.protein :as prot]
             [ppi-query.organism :as orgn]
-            [ppi-query.interaction :as intr]
+            [ppi-query.interaction.data :as intrd]
+            [ppi-query.interaction.query :as intrq]
+            [ppi-query.interaction.transform :as intrt]
             [ppi-query.interaction.miql :as miql]))
 (stest/instrument)
 
 (defn get-edges [interactions]
   (->> interactions
-    (map intr/get-interactors-uniprotids)
+    (map intrt/get-interactors-uniprotids)
     (remove #(contains? % nil?))))
 
 (def ref-organism (orgn/inparanoid-organism-by-shortname "C.elegans"))
@@ -29,38 +31,38 @@
 
 (deftest test-orth-prot->ref-organism
   (let [[prot orth-prot]
-        (intr/orth-prot->ref-organism ref-organism protein-1)]
+        (intrt/orth-prot->ref-organism ref-organism protein-1)]
     (is (= prot      protein-1))
     (is (= orth-prot nil)))
   (let [[prot orth-prot]
-        (intr/orth-prot->ref-organism ref-organism protein-2)]
+        (intrt/orth-prot->ref-organism ref-organism protein-2)]
     (is (= prot      protein-2))
     (is (= orth-prot nil)))
   (let [[prot orth-prot]
-        (intr/orth-prot->ref-organism other-organism-1 protein-1)]
+        (intrt/orth-prot->ref-organism other-organism-1 protein-1)]
     (is (= (:organism prot) other-organism-1))
     (is (= orth-prot protein-1)))
   (let [[prot orth-prot]
-        (intr/orth-prot->ref-organism other-organism-2 protein-1)]
+        (intrt/orth-prot->ref-organism other-organism-2 protein-1)]
     (is (= (:organism prot) other-organism-2))
     (is (= orth-prot protein-1)))
   (let [[prot orth-prot]
-        (intr/orth-prot->ref-organism other-organism-1 protein-2)]
+        (intrt/orth-prot->ref-organism other-organism-1 protein-2)]
     (is (= prot      nil))
     (is (= orth-prot protein-2)))
   (let [[prot orth-prot]
-        (intr/orth-prot->ref-organism other-organism-2 protein-2)]
+        (intrt/orth-prot->ref-organism other-organism-2 protein-2)]
     (is (= prot      nil))
     (is (= orth-prot protein-2))))
 
 (deftest test-proteins-interactions->prot-orths-interactions
-  (is (s/valid? ::intr/interaction fake-interaction))
+  (is (s/valid? ::intrd/interaction fake-interaction))
 
   (let [protein-interaction
-         (intr/->ProteinsInteraction
+         (intrd/->ProteinsInteraction
            protein-1 protein-2 fake-interaction)]
     (let [[prot-orths-interaction]
-          (intr/proteins-interactions->prot-orths-interactions
+          (intrt/proteins-interactions->prot-orths-interactions
              ref-organism
              [protein-interaction])]
      (let [{:keys [protein-a ortholog-protein-a
@@ -72,13 +74,13 @@
       (is (= protein-b          protein-2))
       (is (= ortholog-protein-b nil))
       (is (= original-interaction fake-interaction))
-      (is (s/valid? ::intr/prot-orths-interaction prot-orths-interaction)))))
+      (is (s/valid? ::intrd/prot-orths-interaction prot-orths-interaction)))))
 
   (let [prot-orths-interaction
-         (intr/->ProteinsInteraction
+         (intrd/->ProteinsInteraction
            protein-1 protein-1 fake-interaction)]
     (let [[prot-orths-interaction]
-          (intr/proteins-interactions->prot-orths-interactions
+          (intrt/proteins-interactions->prot-orths-interactions
              other-organism-1
              [prot-orths-interaction])]
      (let [{:keys [protein-a ortholog-protein-a
@@ -90,23 +92,23 @@
       (is (= (:organism protein-b) other-organism-1))
       (is (= ortholog-protein-b protein-1))
       (is (= original-interaction fake-interaction))
-      (is (s/valid? ::intr/prot-orths-interaction prot-orths-interaction)))))
+      (is (s/valid? ::intrd/prot-orths-interaction prot-orths-interaction)))))
 
   (let [prot-orths-interaction
-         (intr/->ProteinsInteraction
+         (intrd/->ProteinsInteraction
            protein-1 protein-2 fake-interaction)]
     (let [prot-orths-interactions
-          (intr/proteins-interactions->prot-orths-interactions
+          (intrt/proteins-interactions->prot-orths-interactions
              other-organism-1
              [prot-orths-interaction])]
       (is (= [] prot-orths-interactions)))))
 
 (comment
   (require '[proto-repl-charts.graph :as g]
-    (let [client (first intr/registry-clients)
+    (let [client (first intrq/registry-clients)
           query "P04040 or Q14145"
           ;query  (miql/to-miql (miql/get-query-by-taxon 6239))
-          interactions (intr/fetch-by-query client query)
+          interactions (intrq/fetch-by-query client query)
           edges (get-edges interactions)
           nodes-simple (remove nil? (into #{} (flatten edges)))
           nodes (map #(hash-map :id % :label % :group (- (int (first %)) (int \A)))
@@ -119,10 +121,10 @@
 
 (comment)
 (deftest test-fetch-by-query
-  (let [client (first intr/registry-clients)
+  (let [client (first intrq/registry-clients)
         query  "P04040 or Q14145"
-        getby  (intr/get-by-query client query)]
+        getby  (intrq/get-by-query client query)]
     (is (= getby
-           (intr/fetch-by-query client query)))
+           (intrq/fetch-by-query client query)))
     (is (= getby
-           (intr/fetch-by-query client query 50)))))
+           (intrq/fetch-by-query client query 50)))))
