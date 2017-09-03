@@ -95,13 +95,13 @@
 
   ;(dorun (map println all-orgs)))
 (comment
- (binding [*print-level* 1]
+ (binding [*print-level* 3]
   (let [[ret-proteins ret-interactions]
         (network/fetch-protein-network
               dbs ; PSICQUIC databases to query
-                     ref-org-3   ; Organism of Interest
-                proteins-set-3   ; Proteins of Interest
-              other-orgs-set-3)] ; Other Organisms to check
+                     ref-org-2   ; Organism of Interest
+                proteins-set-2   ; Proteins of Interest
+              other-orgs-set-2-fail)] ; Other Organisms to check
     (println "#########################################")
     (println "###     END FETCH PROTEIN NETWORK     ###")
     (println "#########################################")

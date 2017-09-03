@@ -22,11 +22,18 @@
 
 (defn get-best-orthologs [target-organism protein]
   "Get the best orthologs for a protein in a target organism."
-  (when-let [orthologs (get (get-ortholog-group protein) target-organism)]
-    (let [best-score (apply max (map :ortholog-score orthologs))]
-      (filter #(and (= best-score (:ortholog-score %))
-                    (>= (:ortholog-score %) default-ortholog-score-threshold))
-        orthologs))))
+  (try
+    (when-let [orthologs (get (get-ortholog-group protein) target-organism)]
+      (let [best-score (apply max (map :ortholog-score orthologs))]
+        (filter #(and (= best-score (:ortholog-score %))
+                      (>= (:ortholog-score %) default-ortholog-score-threshold))
+          orthologs)))
+    (catch Exception ex
+      (println "Warning: A request to get-best-orthologs failed with an exception:")
+      (println (.toString ex))
+      (println "Organism sent:" target-organism)
+      (println "Protein sent:" protein)
+      '())))
 
 (s/fdef get-best-orthologs
   :args (s/cat :target-organism ::org/organism :protein ::prot/protein)

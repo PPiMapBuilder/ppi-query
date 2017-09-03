@@ -137,6 +137,7 @@
   (let [all-proteins
          (into #{}
            (concat
+             ;(trace-f "origin-proteins"
                origin-proteins
              ;(trace-f "intrt/get-proteins direct-interactions"
                (intrt/get-proteins direct-interactions)

@@ -34,6 +34,7 @@
 (def test-query-1 "P04040 or Q14145")
 (def test-query-2 "taxidA:6239 AND taxidB:6239 AND species:6239")
 (def test-query-3 "&!]=")
+(def test-query-4 " ( taxidA:9606 AND taxidB:9606 AND species:9606 AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" )  ) ")
 ; See /interaction_example.txt for a full interaction
 (def test-client-1 (first intrq/registry-clients))
 (def test-query-1-res (intrq/get-by-query test-client-1 test-query-1))
@@ -42,6 +43,7 @@
    (if do-test-query-2
        (intrq/get-by-query test-client-1 test-query-2)))
 (def test-query-3-res '())
+(def test-query-4-res (intrq/get-by-query test-client-1 test-query-4))
 
 (deftest test-get-by-query
   ;(println test-query-1-res)
@@ -55,7 +57,12 @@
   (is (s/valid? ::intrd/interactions test-query-3-res))
   (is (= (intrq/get-by-query test-client-1 test-query-3)
          test-query-3-res))
-  (count-is 0 test-query-3-res))
+  (count-is 0 test-query-3-res)
+
+  (is (s/valid? ::intrd/interactions test-query-4-res))
+  (is (= (intrq/get-by-query test-client-1 test-query-4)
+         test-query-4-res))
+  (count-is 11 test-query-4-res))
 
 (deftest test-fetch-by-query
   (is (= test-query-1-res
@@ -78,7 +85,14 @@
             test-client-1 test-query-3)))
   (is (= test-query-3-res
          (intrq/fetch-by-query
-            test-client-1 test-query-3 10))))
+            test-client-1 test-query-3 10)))
+
+  (is (= test-query-4-res
+         (intrq/fetch-by-query
+            test-client-1 test-query-4)))
+  (is (= test-query-4-res
+         (intrq/fetch-by-query
+            test-client-1 test-query-4 10))))
 
 (deftest test-fetch-by-query-all-clients
   (is (= test-query-1-res
