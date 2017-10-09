@@ -1,13 +1,15 @@
 (ns ppi-query.fetch-test
   (:require [clojure.test :refer :all]
-            [clojure.spec :as s]
-            [clojure.spec.test :as stest]
+            [clojure.spec.alpha :as s]
+            [clojure.spec.test.alpha :as stest]
             [ppi-query.test.utils :refer :all]
             [ppi-query.orthology.data :as orthd]
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
             [ppi-query.interaction.data :as intrd]
-            [ppi-query.fetch :as fetch]))
+            [ppi-query.fetch :as fetch]
+            [ppi-query.interaction.psicquic.registry :as reg])
+  (:import (org.hupo.psi.mi.psicquic.wsclient PsicquicSimpleClient)))
 
 (stest/instrument)
 
@@ -65,3 +67,15 @@
   (is (s/valid? ::intrd/interactions
                 (fetch/get-secondary-interactions
                    clients ref-organism proteins))))
+
+(deftest* check-get-clients
+  ; Stub registry to avoid network call
+  (stest/instrument `reg/get-service
+                    {:stub #{`reg/get-service}})
+
+  (let [clients (fetch/get-clients ["foo", "bar"])]
+    (is (= 2 (count clients)))
+
+    (for [client clients]
+      (is (instance? PsicquicSimpleClient client)))))
+

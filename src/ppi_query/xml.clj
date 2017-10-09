@@ -1,5 +1,5 @@
 (ns ppi-query.xml
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [ppi-query.spec :as ps]))
 
 ; Specs for the clojure representation of xml (clojure.xml)

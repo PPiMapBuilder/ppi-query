@@ -1,7 +1,7 @@
 (ns ppi-query.network-test
   (:require [clojure.test :refer :all]
-            [clojure.spec :as s]
-            [clojure.spec.test :as stest]
+            [clojure.spec.alpha :as s]
+            [clojure.spec.test.alpha :as stest]
             [ppi-query.test.utils :refer :all]
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]

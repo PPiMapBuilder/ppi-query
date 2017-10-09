@@ -1,5 +1,5 @@
 (ns ppi-query.utils
-  (:require [clojure.spec :as s]))
+  (:require [clojure.spec.alpha :as s]))
 
 (defn merge-distinct [map1 map2]
   "Merge nested map recursively and concat seqable leaf into a set."

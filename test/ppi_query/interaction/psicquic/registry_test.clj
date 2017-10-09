@@ -1,11 +1,10 @@
 (ns ppi-query.interaction.psicquic.registry-test
   (:require [clojure.test :refer :all]
-            [clojure.spec.test :as stest]
+            [clojure.test.check.generators :as gen]
+            [clojure.spec.alpha :as s]
+            [clojure.spec.test.alpha :as stest]
             [ppi-query.test.utils :refer :all]
-            [ppi-query.interaction.psicquic.registry :as reg]
-            [clojure.test.check.generators :as gen]))
-
-(stest/instrument)
+            [ppi-query.interaction.psicquic.registry :as reg]))
 
 (def example-registry
   {:tag :registry
@@ -40,19 +39,26 @@
                          :attrs nil
                          :content ["http://url2.com"]}]}]})
 
+(def expected-registry
+  {"name1" {:name "name1" :restUrl "http://url1.com/rest"
+            :active false :organizationUrl "http://url1.com"}
+   "name2" {:name "name2" :restUrl "http://url2.com/rest"
+            :active true :organizationUrl "http://url2.com"}})
 
-(deftest test-parse-registry-xml
-  (is (.equals (reg/parse-registry example-registry)
-         {"name1" {:name "name1" :restUrl "http://url1.com/rest"
-                   :active false :organizationUrl "http://url1.com"}
-          "name2" {:name "name2" :restUrl "http://url2.com/rest"
-                   :active true :organizationUrl "http://url2.com"}})))
+(deftest* test-registry-client
 
-(deftest check-parse-registry-xml
-  (check' `reg/parse-registry))
+  (testing "Parse registry xml into records"
+    (is (.equals (reg/parse-registry example-registry)
+                 expected-registry)))
 
-(deftest check-fetch-registry
-  (stest/instrument `reg/fetch-registry-xml
-    {:stub #{`reg/fetch-registry-xml}})
+  (testing "Fetch registry services"
+    (instrument-stub-return
+      `reg/fetch-registry-xml ::reg/registry-xml
+      #(gen/return example-registry))
 
-  (check' `reg/fetch-registry))
+    (is (.equals (reg/fetch-registry true)
+                 expected-registry))))
+
+(comment
+  (do
+    (def registry (reg/fetch-registry true))))

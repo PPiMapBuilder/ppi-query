@@ -3,9 +3,11 @@
             [ppi-query.orthology.cache :as cache]
             [ppi-query.organism :as org]
             [ppi-query.protein :as prot]
-            [ppi-query.orthology.data :as orth]))
+            [ppi-query.orthology.data :as orth]
+            [ppi-query.test.utils :refer :all]
+            [clojure.spec.test.alpha :as stest]))
 
-(deftest test-inparanoid-cache
+(deftest* test-inparanoid-cache
   ; Bind a new cache
   (binding [cache/mem-cache (atom {})]
     (let [human (org/inparanoid-organism-by-shortname "H.sapiens")

@@ -1,6 +1,6 @@
 (ns ppi-query.interaction.query-test
   (:require [clojure.test :refer :all]
-            [clojure.spec :as s]
+            [clojure.spec.alpha :as s]
             [clojure.spec.test :as stest]
             [ppi-query.test.utils :refer :all]
             [ppi-query.interaction.data :as intrd]

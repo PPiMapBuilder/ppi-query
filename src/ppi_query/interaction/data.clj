@@ -1,5 +1,5 @@
 (ns ppi-query.interaction.data
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [ppi-query.protein :as prot]))
 
 (s/def ::identifier string?)

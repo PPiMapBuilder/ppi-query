@@ -1,5 +1,5 @@
 (ns ppi-query.interaction.psicquic.registry
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [clj-http.client :as http]
             [clojure.zip :as zip]
             [clojure.xml :as xml]
@@ -101,13 +101,7 @@
         :ret ::registry)
 
 ; In-memory PSICQUIC registry set
-(def initial-registry
-  {"IntAct" {:name "IntAct"
-             :url  (str "http://www.ebi.ac.uk"
-                        "/Tools/webservices/psicquic/intact"
-                                            "/webservices/current/search/")}})
-(def ^:private mem-registry
-  (atom initial-registry))
+(def ^:private mem-registry (atom {}))
 
 (defn update-registry! []
   "Update the in memory registry."
@@ -121,10 +115,18 @@
         :ret ::registry)
 
 (defn get-registry! []
-  (if (= initial-registry @mem-registry)
-    (update-registry!)
-    @mem-registry))
+  "Get the registry from memory cache or fetch it if the cache is empty"
+  (when (empty? @mem-registry)
+    (update-registry!))
+  @mem-registry)
 
 (s/fdef get-registry!
         :ret ::registry)
 
+(defn get-service [name]
+  "Get a PSICQUIC service by name"
+  ((get-registry!) name))
+
+(s/fdef get-service
+        :args (s/cat :name ::name)
+        :ret ::service)

@@ -1,5 +1,5 @@
 (ns ppi-query.orthology.inparanoid
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [clojure.xml :as xml]
             [clojure.zip :as zip]
             [clojure.data.zip.xml :refer [xml->]]

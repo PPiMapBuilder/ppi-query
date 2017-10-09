@@ -1,20 +1,26 @@
 (ns ppi-query.fetch
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [ppi-query.interaction.data :as intrd]
             [ppi-query.interaction.query :as intrq]
             [ppi-query.interaction.miql :as miql]
+            [ppi-query.interaction.psicquic.registry :as reg]
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
             [ppi-query.orthology :as orth]
-            [ppi-query.orthology.data :as orthd]))
-
-(defn get-clients
-  [databases]
-  intrq/registry-clients) ;TODO Code
+            [ppi-query.orthology.data :as orthd])
+  (:import (org.hupo.psi.mi.psicquic.wsclient PsicquicSimpleClient)))
 
 (s/fdef get-clients
   :args (s/cat :databases (s/coll-of ::intrd/database))
-  :ret  (s/coll-of any?))
+  :ret (partial instance? PsicquicSimpleClient))
+
+(defn get-clients [names]
+  "Get list of PSICQUIC clients by PSICQUIC service name"
+  (map
+    (fn [name]
+      (when-let [service (reg/get-service name)]
+        (new PsicquicSimpleClient (:url service))))
+    names))
 
 (defn get-taxon-interactions [clients organism]
   "Fetch full interactome of organism"

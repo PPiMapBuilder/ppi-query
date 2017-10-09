@@ -1,5 +1,5 @@
 (ns ppi-query.interaction.miql
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [ppi-query.protein.uniprot :as uni]
             [ppi-query.organism :as org]
             [ppi-query.spec :refer [def-lucene-syntax]]))

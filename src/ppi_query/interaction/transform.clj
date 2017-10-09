@@ -1,5 +1,5 @@
 (ns ppi-query.interaction.transform
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [ppi-query.interaction.data :as intrd]
             [ppi-query.protein :as prot]
             [ppi-query.protein.uniprot :as unip]

@@ -1,7 +1,7 @@
 (ns ppi-query.organism
   (:require [clojure.java.io :as io]
             [clojure.edn :as edn]
-            [clojure.spec :as s])
+            [clojure.spec.alpha :as s])
   (:import (java.io PushbackReader)))
 
 ; Simple identification of an organism

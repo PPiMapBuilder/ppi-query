@@ -1,5 +1,5 @@
 (ns ppi-query.orthology
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [ppi-query.organism :as org]
             [ppi-query.protein :as prot]
             [ppi-query.orthology.data :as orth]

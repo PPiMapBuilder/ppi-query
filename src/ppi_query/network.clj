@@ -1,5 +1,5 @@
 (ns ppi-query.network
-  (:require [clojure.spec :as s]
+  (:require [clojure.spec.alpha :as s]
             [ppi-query.interaction.data :as intrd]
             [ppi-query.interaction.transform :as intrt]
             [ppi-query.organism :as orgn]

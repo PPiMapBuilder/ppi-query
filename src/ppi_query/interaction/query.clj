@@ -2,7 +2,7 @@
   (:import (org.hupo.psi.mi.psicquic.wsclient PsicquicSimpleClient)
            (psidev.psi.mi.tab PsimiTabReader))
   (:require [clojure.java.data :refer :all]
-            [clojure.spec :as s]
+            [clojure.spec.alpha :as s]
             [ppi-query.interaction.data :as intrd]
             [ppi-query.interaction.miql :as miql]))
 
