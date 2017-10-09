@@ -148,7 +148,7 @@
                               (fetch/get-proteins-orthologs ref-organism)))
                       orthologs-direct-interactions)))
         secondary-interactions
-          (fetch/get-secondary-interactions clients ref-organism all-proteins)]
+         (fetch/get-secondary-interactions clients ref-organism all-proteins)]
     [all-proteins secondary-interactions]))
 
 (s/fdef merge-proteins-and-get-secondary-interactions
@@ -200,10 +200,10 @@
   :args (s/cat :prot-orths-interactions ::intrd/prot-orths-interactions)
   :ret  ::intrd/prot-orths-multi-interactions)
 
-; Change all ref-organism interactions into prot-orths-interactions
-; Concat all interactions
-; Remove duplicate interactions
 (defn concat-and-format-all-interactions
+    "Change all ref-organism interactions into prot-orths-interactions
+     Concat all interactions
+     Remove duplicate interactions"
     [orthologs-interactions-ref-organism
      ref-organism
      direct-interactions secondary-interactions]
@@ -222,7 +222,9 @@
                :secondary-interactions              ::intrd/interactions)
   :ret  ::intrd/prot-orths-multi-interactions)
 
-(defn fetch-interactome [databases organism]
+(defn fetch-interactome
+  "Generate network for a full interactome"
+  [databases organism]
   (let [clients (fetch/get-clients databases)]
     (fetch/get-taxon-interactions clients organism)))
 
@@ -243,12 +245,18 @@
   (count ints))
 
 (defn fetch-protein-network
+  "Generate the full protein network"
   [databases ; PSICQUIC databases to query
    ref-organism  ; Organism of Interest
    proteins ; Proteins of Interest
    other-organisms] ; Other Organisms to check
   ;(trace-f "fetch-protein-network" [databases ref-organism proteins other-organisms])
 
+  (println ":: Fetch protein network::")
+  (println "-- databases:" databases)
+  (println "-- ref-organism:" ref-organism)
+  (println "-- proteins:" proteins)
+  (println "-- other-organisms:" other-organisms)
   (let [clients (fetch/get-clients databases)
 
         ; Get Direct Interactions (left arrow)
@@ -269,7 +277,7 @@
         ; ::intrd/interactions
         direct-interactions
          ;(trace-f "direct-interactions"
-           @f-direct-interactions
+          @f-direct-interactions
         print-2
           (println (count direct-interactions) "direct interactions fetched")
         ; Three blue arrows + left secondary interactions
@@ -284,8 +292,8 @@
         ; ::intrd/interactions
         orthologs-secondary-interactions
          ;(trace-f "orthologs-secondary-interactions"
-           (get-orthologs-secondary-interactions
-              clients orthologs-direct-interactions)
+          (get-orthologs-secondary-interactions
+             clients orthologs-direct-interactions)
         print-3
           (println (count orthologs-secondary-interactions) "orthologs secondary interactions in total")
 
@@ -308,20 +316,20 @@
         [return-proteins secondary-interactions]
         @f-proteins-and-secondary-interactions
         print-5
-          (do (println (count return-proteins) "proteins to display in total")
-              (println (count secondary-interactions) "secondary interactions in reference organism"))
+        (do (println (count return-proteins) "proteins to display in total")
+            (println (count secondary-interactions) "secondary interactions in reference organism"))
 
         ; Change all ref-organism interactions into prot-orths-interactions
         ; Concat all interactions
         ; Remove duplicate interactions
         ; -> ::intrd/prot-orths-multi-interactions
         all-interactions-ref-organism
-          (concat-and-format-all-interactions
-            orthologs-interactions-ref-organism
-            ref-organism
-            direct-interactions secondary-interactions)
+        (concat-and-format-all-interactions
+          orthologs-interactions-ref-organism
+          ref-organism
+          direct-interactions secondary-interactions)
         print-6
-          (println (count all-interactions-ref-organism) "interactions to display in total")]
+        (println (count all-interactions-ref-organism) "interactions to display in total")]
 
 
     [return-proteins all-interactions-ref-organism]))
@@ -333,3 +341,23 @@
                :other-organisms ::orgn/organisms)
   :ret  (s/cat :return-proteins               ::prot/proteins
                :all-interactions-ref-organism ::intrd/prot-orths-multi-interactions))
+
+
+(defn remove-proteins
+  "Filter out a set of proteins from a generated network"
+  [proteins-interactions ; Set of proteins and interactions of a network
+   remove-proteins] ; Set of proteins to filter out
+  (let [[proteins interactions] proteins-interactions
+        remove-proteins-set (set remove-proteins)]
+    [(remove (partial contains? remove-proteins-set) proteins)
+     (remove (fn [{:keys [protein-a protein-b]}]
+                 (or (contains? remove-proteins-set protein-a)
+                     (contains? remove-proteins-set protein-b)))
+             interactions)]))
+
+(s/fdef remove-proteins
+  :args (s/cat :proteins-interactions
+                 (s/tuple ::prot/proteins ::intrd/prot-orths-multi-interactions)
+               :remove-proteins  ::prot/proteins)
+  :ret  (s/cat :filtered-proteins      ::prot/proteins
+               :filtered-interactions  ::intrd/prot-orths-multi-interactions))
