@@ -17,12 +17,12 @@
   :implements [ppi_query.api.Api]
   :prefix "api-")
 
-(defn api-getPsicquicServices []
+(defn api-getPsicquicServices [this]
   (->> (reg/get-registry!)
        (vals)
        (map to-string-map)))
 
-(defn api-getOrganisms []
+(defn api-getOrganisms [this]
   (->> org/inparanoid-organism-repository
        (map to-string-map)))
 
