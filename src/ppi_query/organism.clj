@@ -1,7 +1,8 @@
 (ns ppi-query.organism
   (:require [clojure.java.io :as io]
             [clojure.edn :as edn]
-            [clojure.spec.alpha :as s])
+            [clojure.spec.alpha :as s]
+            [clojure.string :as string])
   (:import (java.io PushbackReader)))
 
 ; Simple identification of an organism
@@ -29,9 +30,11 @@
 
 (defn get-shortname [organism]
   "Get short name of an organism (ex: M.musculus, H.sapiens, etc.)."
-  (if-let [[_ [S] genus] (re-matches #"(\w+) (\w+).*"
+  (if-let [[_ part1 part2] (re-matches #"(\w+) (\w+).*"
                              (:scientific-name organism))]
-    (str S \. genus)))
+    (if (string/ends-with? part2 ".")
+      (str part1 \. part2)
+      (str (first part1) \. part2))))
 
 (s/fdef get-shortname
   :args (s/cat :organism ::organism)
