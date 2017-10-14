@@ -66,6 +66,12 @@
       (:body)
       (xml/parse)))
 
+(s/fdef parse-species-xml
+  :args (s/cat :species-xml ::species-xml)
+  :ret (s/coll-of ::protein/protein))
+
+(defn parse-species-xml [species-xml]
+  nil)
 
 (s/fdef parse-orthoxml
   :args (s/cat :orthoxml ::orthoxml)
@@ -75,14 +81,6 @@
   (let [rootzip (zip/xml-zip orthoxml)
         orthozip (xml-> rootzip :orthoXML)]
      (map parse-species-xml (xml-> orthozip :species))))
-
-(s/fdef parse-species-xml
-  :args (s/cat ::species-xml)
-  :ret (s/coll-of ::protein/protein))
-
-(defn parse-species-xml [species-xml]
-  nil)
-
 
 (comment
   (def orgs organism/inparanoid-organism-repository)
