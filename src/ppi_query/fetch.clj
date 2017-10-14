@@ -7,20 +7,7 @@
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
             [ppi-query.orthology :as orth]
-            [ppi-query.orthology.data :as orthd])
-  (:import (org.hupo.psi.mi.psicquic.wsclient PsicquicSimpleClient)))
-
-(s/fdef get-clients
-  :args (s/cat :databases (s/coll-of ::intrd/database))
-  :ret (partial instance? PsicquicSimpleClient))
-
-(defn get-clients [names]
-  "Get list of PSICQUIC clients by PSICQUIC service name"
-  (map
-    (fn [name]
-      (when-let [service (reg/get-service name)]
-        (new PsicquicSimpleClient (:url service))))
-    names))
+            [ppi-query.orthology.data :as orthd]))
 
 (defn get-taxon-interactions [clients organism]
   "Fetch full interactome of organism"

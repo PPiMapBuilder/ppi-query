@@ -8,12 +8,13 @@
             [ppi-query.orthology.data :as orthd]
             [ppi-query.interaction.data :as intrd]
             [ppi-query.interaction.transform :as intrt]
+            [ppi-query.interaction.psicquic.registry :as reg]
             [ppi-query.fetch :as fetch]
             [ppi-query.network :as network]))
 (stest/instrument)
 
 (def dbs ["IntAct"])
-(def clients (fetch/get-clients dbs))
+(def clients (reg/get-clients dbs))
 (def ref-organism (orgn/inparanoid-organism-by-shortname "C.elegans"))
 (def protein-1 (prot/->Protein ref-organism "Q18688"))
 (def protein-2 (prot/->Protein ref-organism "Q20646"))

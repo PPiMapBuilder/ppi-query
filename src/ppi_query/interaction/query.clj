@@ -3,19 +3,7 @@
            (psidev.psi.mi.tab PsimiTabReader))
   (:require [clojure.java.data :refer :all]
             [clojure.spec.alpha :as s]
-            [ppi-query.interaction.data :as intrd]
-            [ppi-query.interaction.miql :as miql]))
-
-; List of APIs
-(def registry
-  [{:name "IntAct"
-    :url  "http://www.ebi.ac.uk/Tools/webservices/psicquic/intact/webservices/current/search/"}])
-
-; Psicquic Clients
-(def registry-clients
-  (map (fn [service]
-         (new PsicquicSimpleClient (:url service)))
-       registry))
+            [ppi-query.interaction.data :as intrd]))
 
 ; Psimi Reader
 (def reader (new PsimiTabReader))

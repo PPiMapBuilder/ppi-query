@@ -5,7 +5,9 @@
             [clojure.xml :as xml]
             [clojure.data.zip.xml :refer [text xml-> xml1->]]
             [ppi-query.spec :as ps]
-            [ppi-query.xml :as pxml]))
+            [ppi-query.xml :as pxml]
+            [ppi-query.interaction.data :as intrd])
+  (:import (org.hupo.psi.mi.psicquic.wsclient PsicquicSimpleClient)))
 
 ; PSICQUIC registry & service spec
 (s/def ::name string?)
@@ -130,3 +132,20 @@
 (s/fdef get-service
         :args (s/cat :name ::name)
         :ret ::service)
+
+(defn get-client [name]
+  "Get one PSICQUIC client by PSICQUIC service name"
+  (when-let [service (get-service name)]
+    (new PsicquicSimpleClient (:restUrl service))))
+
+(s/fdef get-client
+  :args (s/cat :database ::intrd/database)
+  :ret (partial instance? PsicquicSimpleClient))
+
+(defn get-clients [names]
+  "Get list of PSICQUIC clients by PSICQUIC service name"
+  (remove #{nil} (map get-client names)))
+
+(s/fdef get-clients
+  :args (s/cat :databases ::intrd/databases)
+  :ret (s/coll-of (partial instance? PsicquicSimpleClient)))

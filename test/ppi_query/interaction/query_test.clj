@@ -7,6 +7,7 @@
             [ppi-query.interaction.query :as intrq]
             [ppi-query.interaction.transform :as intrt]
             [ppi-query.interaction.miql :as miql]
+            [ppi-query.interaction.psicquic.registry :as reg]
             [proto-repl-charts.graph :as g]))
 (stest/instrument)
 
@@ -17,7 +18,7 @@
 
 (comment
   ; Create a very simple graph directly from the query
-  (let [client (first intrq/registry-clients)
+  (let [client (reg/get-client "IntAct")
         query "P04040 or Q14145"
         ;query  (miql/to-miql (miql/get-query-by-taxon 6239))
         interactions (intrq/fetch-by-query client query)
@@ -36,7 +37,8 @@
 (def test-query-3 "&!]=")
 (def test-query-4 " ( taxidA:9606 AND taxidB:9606 AND species:9606 AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" ) AND  ( id:\"P04040\" )  ) ")
 ; See /interaction_example.txt for a full interaction
-(def test-client-1 (first intrq/registry-clients))
+(def test-client-1 (reg/get-client "IntAct"))
+(def test-all-clients (reg/get-clients ["IntAct"]))
 (def test-query-1-res (intrq/get-by-query test-client-1 test-query-1))
 (def do-test-query-2 false) ; Warning: Long !
 (def test-query-2-res
@@ -97,13 +99,13 @@
 (deftest test-fetch-by-query-all-clients
   (is (= test-query-1-res
          (intrq/fetch-by-query-all-clients
-            intrq/registry-clients test-query-1)))
+            test-all-clients test-query-1)))
 
   (when do-test-query-2
     (is (= test-query-2-res
            (intrq/fetch-by-query-all-clients
-              intrq/registry-clients test-query-2))))
+              test-all-clients test-query-2))))
 
   (is (= test-query-3-res
          (intrq/fetch-by-query-all-clients
-            intrq/registry-clients test-query-3))))
+            test-all-clients test-query-3))))

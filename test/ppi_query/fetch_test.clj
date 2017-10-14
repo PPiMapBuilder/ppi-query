@@ -8,13 +8,12 @@
             [ppi-query.protein :as prot]
             [ppi-query.interaction.data :as intrd]
             [ppi-query.fetch :as fetch]
-            [ppi-query.interaction.psicquic.registry :as reg])
-  (:import (org.hupo.psi.mi.psicquic.wsclient PsicquicSimpleClient)))
+            [ppi-query.interaction.psicquic.registry :as reg]))
 
 (stest/instrument)
 
 (def databases ["IntAct"])
-(def clients (fetch/get-clients databases))
+(def clients (reg/get-clients databases))
 (def ref-organism (orgn/inparanoid-organism-by-shortname "C.elegans"))
 (def proteins [(prot/->Protein ref-organism "Q18688")
                (prot/->Protein ref-organism "Q20646")])
@@ -67,15 +66,3 @@
   (is (s/valid? ::intrd/interactions
                 (fetch/get-secondary-interactions
                    clients ref-organism proteins))))
-
-(deftest* check-get-clients
-  ; Stub registry to avoid network call
-  (stest/instrument `reg/get-service
-                    {:stub #{`reg/get-service}})
-
-  (let [clients (fetch/get-clients ["foo", "bar"])]
-    (is (= 2 (count clients)))
-
-    (for [client clients]
-      (is (instance? PsicquicSimpleClient client)))))
-

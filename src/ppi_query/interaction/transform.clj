@@ -1,11 +1,14 @@
 (ns ppi-query.interaction.transform
   (:require [clojure.spec.alpha :as s]
             [ppi-query.interaction.data :as intrd]
+            [ppi-query.interaction.psicquic.registry :as reg]
             [ppi-query.protein :as prot]
             [ppi-query.protein.uniprot :as unip]
             [ppi-query.organism :as orgn]
             [ppi-query.orthology :as orth]
             [ppi-query.orthology.data :as orthd]))
+
+(def test-client (reg/get-client "IntAct"))
 
 (defn get-interactor-database-ids [database interactor]
   "Get interactor identifiers for a specific database"
@@ -53,11 +56,10 @@
 
 (comment
   (binding [*print-level* 3]
-    (let [client (first registry-clients)
-          query  "P04040"]
+    (let [query  "P04040"]
       (println
         (get-interactor-protein
-          (-> (get-by-query client query)
+          (-> (get-by-query test-client query)
               first
               :interactorA))))))
 
@@ -77,12 +79,11 @@
 
 (comment
   (binding [*print-level* 3]
-    (let [client (first registry-clients)
-          query  "P04040 or Q14145"]
+    (let [query  "P04040 or Q14145"]
       (println
         (take 6
           (map get-interactors-uniprotids
-            (get-by-query client query)))))))
+            (get-by-query test-client query)))))))
 
 ; ([P04040 Q14145] [P04040 P29991-PRO_0000037946] [P04040 P04040]
 ;  [B4DYC6 Q14145] [Q14145 Q8IVD9] [Q14145 Q96BE0] ###)
@@ -99,12 +100,11 @@
 
 (comment
   (binding [*print-level* 5]
-    (let [client (first registry-clients)
-          query  "P04040 or Q14145"]
+    (let [query  "P04040 or Q14145"]
       (println
         (take 2
           (map get-interactors-proteins
-            (get-by-query client query)))))))
+            (get-by-query test-client query)))))))
 
 (defn interactions->proteins-couples [interactions]
   (->> interactions
@@ -117,12 +117,11 @@
 
 (comment
   (binding [*print-level* 4]
-    (let [client (first registry-clients)
-          query  "P04040 or Q14145"]
+    (let [query  "P04040 or Q14145"]
       (println
         (take 2
           (interactions->proteins-couples
-            (get-by-query client query)))))))
+            (get-by-query test-client query)))))))
 
 (defn interactions->proteins-interactions [interactions]
   (remove nil?
@@ -139,12 +138,11 @@
 
 (comment
   (binding [*print-level* 3]
-    (let [client (first intrq/registry-clients)
-          query  "P04040 or Q14145"]
+    (let [query  "P04040 or Q14145"]
       (println
         (take 2
           (interactions->proteins-interactions
-            (get-by-query client query)))))))
+            (get-by-query test-client query)))))))
 
 (defn orth-prot->ref-organism
     [ref-organism prot]
@@ -190,13 +188,12 @@
 
 (comment
   (binding [*print-level* 4]
-    (let [client (first registry-clients)
-          query  "P04040 or Q14145"]
+    (let [query  "P04040 or Q14145"]
       (println
         (take 10
           (proteins-couples->proteins-set
             (interactions->proteins-couples
-              (get-by-query client query))))))))
+              (get-by-query test-client query))))))))
 
 ; Get proteins from all interactions (including wrong ones)
 (defn interactions->proteins-set [interactions]

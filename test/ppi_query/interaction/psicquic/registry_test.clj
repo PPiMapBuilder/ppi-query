@@ -4,7 +4,8 @@
             [clojure.spec.alpha :as s]
             [clojure.spec.test.alpha :as stest]
             [ppi-query.test.utils :refer :all]
-            [ppi-query.interaction.psicquic.registry :as reg]))
+            [ppi-query.interaction.psicquic.registry :as reg])
+  (:import (org.hupo.psi.mi.psicquic.wsclient PsicquicSimpleClient)))
 
 (def example-registry
   {:tag :registry
@@ -62,3 +63,15 @@
 (comment
   (do
     (def registry (reg/fetch-registry true))))
+
+
+(deftest* check-get-clients
+  ; Stub registry to avoid network call
+  (stest/instrument `reg/get-service
+    {:stub #{`reg/get-service}})
+
+  (let [clients (reg/get-clients ["foo", "bar"])]
+    (is (= 2 (count clients)))
+
+    (for [client clients]
+      (is (instance? PsicquicSimpleClient client)))))

@@ -2,6 +2,7 @@
   (:require [clojure.spec.alpha :as s]
             [ppi-query.interaction.data :as intrd]
             [ppi-query.interaction.transform :as intrt]
+            [ppi-query.interaction.psicquic.registry :as reg]
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
             [ppi-query.orthology :as orth]
@@ -225,7 +226,7 @@
 (defn fetch-interactome
   "Generate network for a full interactome"
   [databases organism]
-  (let [clients (fetch/get-clients databases)]
+  (let [clients (reg/get-clients databases)]
     (fetch/get-taxon-interactions clients organism)))
 
 (s/fdef fetch-interactome
@@ -257,7 +258,7 @@
   (println "-- ref-organism:" ref-organism)
   (println "-- proteins:" proteins)
   (println "-- other-organisms:" other-organisms)
-  (let [clients (fetch/get-clients databases)
+  (let [clients (reg/get-clients databases)
 
         ; Get Direct Interactions (left arrow)
         ; future ::intrd/interactions

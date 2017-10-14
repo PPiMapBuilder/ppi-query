@@ -5,14 +5,12 @@
             [ppi-query.test.utils :refer :all]
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
-            [ppi-query.fetch :as fetch]
             [ppi-query.network :as network]
             [proto-repl-charts.graph :as g]))
 (stest/instrument)
 
 (do
-  (def dbs ["IntAct"])
-  (def clients (fetch/get-clients dbs))
+  (def dbs ["IntAct" "ToToRo"])
   ;Human / Homo sapiens
   ;Taxonomy ID: 9606
   (def org-human (orgn/inparanoid-organism-by-id 9606))
@@ -97,13 +95,13 @@
 (comment
  (binding [*print-level* 3]
   (let [[ret-proteins ret-interactions]
-        (network/remove-proteins
-          (network/fetch-protein-network
-              dbs ; PSICQUIC databases to query
-                     ref-org-6   ; Organism of Interest
-                proteins-set-6   ; Proteins of Interest
-              other-orgs-set-6) ; Other Organisms to check
-          proteins-set-6)]
+        ;(network/remove-proteins)
+        (network/fetch-protein-network
+            dbs ; PSICQUIC databases to query
+                   ref-org-1   ; Organism of Interest
+              proteins-set-1   ; Proteins of Interest
+            [])];other-orgs-set-1)] ; Other Organisms to check
+        ;  proteins-set-1)]
     (println "#########################################")
     (println "###     END FETCH PROTEIN NETWORK     ###")
     (println "#########################################")
@@ -170,10 +168,10 @@
       ;(println nodes-uniprots)
       ;(println "edges-verify")
       ;(println edges-verify)
-      ;(println "nodes")
-      ;(println nodes)
-      ;(println "edges")
-      ;(doall (map println edges))
+      (println "nodes")
+      (println nodes)
+      (println "edges")
+      (doall (map println edges))
 
       (g/graph
         "Psicquic interactions"
