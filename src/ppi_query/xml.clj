@@ -18,4 +18,3 @@
 (defmacro text-node [tag]
   "Spec for xml node containing only text."
   `(node :tag #{~tag} :content (s/tuple string?)))
-

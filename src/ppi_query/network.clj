@@ -180,18 +180,18 @@
                     key-1 (apply str [uni-a orth-uni-a uni-b orth-uni-b])
                     key-2 (apply str [uni-b orth-uni-b uni-a orth-uni-a])]
                 (if-let [prot-orths-multi-int (prot-orths-multi-ints key-1)]
-                 (assoc prot-orths-multi-ints key-1
-                   (intrd/add-interaction-to-prot-orths-multi-interactions
-                     prot-orths-multi-int original-interaction))
-                 (if-let [prot-orths-multi-int (prot-orths-multi-ints key-2)]
-                     (assoc prot-orths-multi-ints key-2
-                       (intrd/add-interaction-to-prot-orths-multi-interactions
-                         prot-orths-multi-int original-interaction))
-                     (assoc prot-orths-multi-ints key-1
-                       (intrd/->ProtOrthsMultiInteraction
-                          protein-a ortholog-protein-a
-                          protein-b ortholog-protein-b
-                          [original-interaction]))))))
+                  (assoc prot-orths-multi-ints key-1
+                    (intrd/add-interaction-to-prot-orths-multi-interactions
+                      prot-orths-multi-int original-interaction))
+                  (if-let [prot-orths-multi-int (prot-orths-multi-ints key-2)]
+                    (assoc prot-orths-multi-ints key-2
+                      (intrd/add-interaction-to-prot-orths-multi-interactions
+                        prot-orths-multi-int original-interaction))
+                    (assoc prot-orths-multi-ints key-1
+                      (intrd/->ProtOrthsMultiInteraction
+                         protein-a ortholog-protein-a
+                         protein-b ortholog-protein-b
+                         [original-interaction]))))))
            {}
            prot-orths-interactions)]
 
