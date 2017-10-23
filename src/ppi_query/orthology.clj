@@ -4,26 +4,53 @@
             [ppi-query.protein :as prot]
             [ppi-query.orthology.data :as orth]
             [ppi-query.orthology.cache :as cache]
+            [ppi-query.orthology.orthoxml :as orthoxml]
             [ppi-query.orthology.inparanoid :as inparanoid]))
 
-(defn get-ortholog-group [protein]
-  "Get an ortholog group for a protein."
+
+(defn get-ortholog-species-pair
+  "Get all ortholog group for a species pair"
+  [org1 org2]
+  (if-let [species-pair (cache/get-ortholog-species-pair org1 org2)]
+    species-pair
+    (when-let [species-pair (orthoxml/fetch-ortholog-species-pair! org1 org2)]
+      (cache/add-ortholog-species-pair species-pair)
+      species-pair)))
+
+(s/fdef get-ortholog-species-pair
+  :args (s/cat :organism1 ::org/organism :organism2 ::org/organism)
+  :ret ::cache/ortholog-cache)
+
+
+(defn ^:deprecated get-ortholog-group-inp [protein]
+  "Get an ortholog group for a protein from cache or from inparanoid web service."
   (if-let [ortholog-group (cache/get-ortholog-group protein)]
     ortholog-group
     (when-let [ortholog-group (inparanoid/get-ortholog-group protein)]
       (cache/add-ortholog-group protein ortholog-group)
       ortholog-group)))
 
+
+(defn get-ortholog-group
+  "Get an ortholog group for a protein from cache or from inparanoid orthoXML."
+  [target-organism protein]
+  (let [source-organism (:organism protein)
+        species-pair (get-ortholog-species-pair source-organism target-organism)]
+    (when species-pair
+      (get-in species-pair [source-organism protein target-organism]))))
+
 (s/fdef get-ortholog-group
   :args (s/cat :protein ::prot/protein)
   :ret ::orth/ortholog-group)
 
+
 (def default-ortholog-score-threshold 0.85)
 
-(defn get-best-orthologs [target-organism protein]
+(defn get-best-orthologs
   "Get the best orthologs for a protein in a target organism."
+  [target-organism protein]
   (try
-    (when-let [orthologs (get (get-ortholog-group protein) target-organism)]
+    (when-let [orthologs (get-ortholog-group target-organism protein)]
       (let [best-score (apply max (map :ortholog-score orthologs))]
         (filter #(and (= best-score (:ortholog-score %))
                       (>= (:ortholog-score %) default-ortholog-score-threshold))
@@ -39,8 +66,10 @@
   :args (s/cat :target-organism ::org/organism :protein ::prot/protein)
   :ret (s/coll-of ::orth/ortholog-scored-protein))
 
+
 (comment
-  (let [human (org/inparanoid-organism-by-id 9606)
-        mouse (org/inparanoid-organism-by-id 10090)
-        catalase  (prot/->Protein human "P04040")]
-    (get-best-orthologs mouse catalase)))
+  (def human (org/inparanoid-organism-by-id 9606))
+  (def mouse (org/inparanoid-organism-by-id 10090))
+  (def catalase  (prot/->Protein human "P04040"))
+  (get-best-orthologs mouse catalase)
+  nil)
