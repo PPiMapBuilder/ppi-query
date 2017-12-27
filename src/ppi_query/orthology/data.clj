@@ -25,7 +25,19 @@
   :args (s/cat :ortholog-scored-protein (s/nilable ::ortholog-scored-protein))
   :ret  (s/nilable ::prot/protein))
 
+(defn protein->ortholog-scored [prot score]
+  (if prot
+    (let [{:keys [organism uniprotid]} prot]
+      (->OrthologScoredProtein
+        organism uniprotid score))))
+
+(s/fdef protein->ortholog-scored
+  :args (s/cat :protein (s/nilable ::prot/protein)
+               :ortholog-score ::ortholog-score)
+  :ret  (s/nilable ::ortholog-scored-protein))
+
+
 ; Ortholog group: ortholog scored protein by target organism
 (s/def ::ortholog-group
   (s/map-of ::orgn/organism
-            (s/coll-of ::ortholog-scored-protein :min-count 1)))
+            (s/spec (s/coll-of ::ortholog-scored-protein :min-count 1))))

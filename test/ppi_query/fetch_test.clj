@@ -56,7 +56,7 @@
     (is (= 31 (count direct-interactions)))))
 
 (deftest test-get-proteins-orthologs
-  (is (empty? (fetch/get-proteins-orthologs ref-organism proteins)))
+  (is (not (empty? (fetch/get-proteins-orthologs ref-organism proteins))))
   (is (s/valid? ::orthd/ortholog-scored-proteins
                 (fetch/get-proteins-orthologs (first other-organisms) proteins)))
   (is (s/valid? ::orthd/ortholog-scored-proteins

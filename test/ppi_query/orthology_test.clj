@@ -20,13 +20,14 @@
 (deftest test-get-best-orthologs
   (let [orths (orth/get-best-orthologs elegans catalase)]
     (count-is 1 orths)
-    (s/valid? ::orthd/ortholog-scored-protein (first orths)))
+    (is (s/valid? ::orthd/ortholog-scored-protein (first orths))))
   (let [orths (orth/get-best-orthologs human eleg1)]
     (count-is 1 orths)
-    (s/valid? ::orthd/ortholog-scored-protein (first orths)))
+    (is (s/valid? ::orthd/ortholog-scored-protein (first orths))))
   (let [orths (orth/get-best-orthologs human eleg2)]
-    (count-is 1 orths)
-    (s/valid? ::orthd/ortholog-scored-protein (first orths)))
+    ; This protein isn't in:
+    ; http://inparanoid.sbc.su.se/download/8.0_current/Orthologs_OrthoXML/C.elegans/C.elegans-H.sapiens.orthoXML
+    (count-is 0 orths))
   (let [orths (orth/get-best-orthologs melanogaster melag1)]
     (count-is 1 orths)
     (is (s/valid? ::orthd/ortholog-scored-protein (first orths)))))

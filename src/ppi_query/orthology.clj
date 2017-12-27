@@ -34,14 +34,16 @@
 (defn get-ortholog-group
   "Get an ortholog group for a protein from cache or from inparanoid orthoXML."
   [target-organism protein]
-  (let [source-organism (:organism protein)
-        species-pair (get-ortholog-species-pair source-organism target-organism)]
-    (when species-pair
-      (get-in species-pair [source-organism protein target-organism]))))
+  (if (= target-organism (:organism protein))
+      #{(orth/protein->ortholog-scored protein 1.0)}
+      (let [source-organism (:organism protein)
+            species-pair (get-ortholog-species-pair source-organism target-organism)]
+        (when species-pair
+          (get-in species-pair [source-organism protein target-organism])))))
 
 (s/fdef get-ortholog-group
-  :args (s/cat :protein ::prot/protein)
-  :ret ::orth/ortholog-group)
+  :args (s/cat :target-organism ::org/organism :protein ::prot/protein)
+  :ret ::orth/ortholog-scored-proteins)
 
 
 (def default-ortholog-score-threshold 0.85)

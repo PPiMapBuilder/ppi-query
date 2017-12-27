@@ -19,6 +19,7 @@
 (defn create-request
   "Prepare HTTP GET request to fetch an orthoXML species pair"
   [[short-org1 short-org2]]
+  (println "Request to : " (str registry short-org1 "/" short-org1 "-" short-org2 ".orthoXML"))
   {:method :get
    :url (str registry short-org1 "/" short-org1 "-" short-org2 ".orthoXML")
    :as :stream})
