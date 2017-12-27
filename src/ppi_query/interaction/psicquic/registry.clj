@@ -135,8 +135,9 @@
 
 (defn get-client [name]
   "Get one PSICQUIC client by PSICQUIC service name"
-  (when-let [service (get-service name)]
-    (new PsicquicSimpleClient (:restUrl service))))
+  (if-let [service (get-service name)]
+    (new PsicquicSimpleClient (:restUrl service))
+    (println "/!\\ Warning: No Psicquic client found for database" name)))
 
 (s/fdef get-client
   :args (s/cat :database ::intrd/database)
@@ -144,7 +145,7 @@
 
 (defn get-clients [names]
   "Get list of PSICQUIC clients by PSICQUIC service name"
-  (remove #{nil} (map get-client names)))
+  (remove nil? (map get-client names)))
 
 (s/fdef get-clients
   :args (s/cat :databases ::intrd/databases)

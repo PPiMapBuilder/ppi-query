@@ -4,7 +4,7 @@
 
 (s/def ::identifier string?)
 (s/def ::query string?)
-(s/def ::client any?)
+(s/def ::client some?)
 (s/def ::clients (s/coll-of ::client))
 (s/def ::database string?)
 (s/def ::databases (s/coll-of ::database))

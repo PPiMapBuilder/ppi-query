@@ -1,0 +1,406 @@
+:: Fetch protein network::
+-- databases: [IntAct ToToRo]
+-- ref-organism: #ppi_query.organism.Organism{:common-name nil, :taxon-id 6239, :scientific-name Caenorhabditis elegans}
+-- proteins: [#ppi_query.protein.Protein{:organism #ppi_query.organism.Organism{:common-name nil, :taxon-id 6239, :scientific-name Caenorhabditis elegans}, :uniprotid Q18688} #ppi_query.protein.Protein{:organism #ppi_query.organism.Organism{:common-name nil, :taxon-id 6239, :scientific-name Caenorhabditis elegans}, :uniprotid Q20646}]
+-- other-organisms: [#ppi_query.organism.Organism{:common-name Mouse, :taxon-id 10090, :scientific-name Mus musculus} #ppi_query.organism.Organism{:common-name Fission yeast, :taxon-id 284812, :scientific-name Schizosaccharomyces pombe (strain 972 / ATCC 24843)}]
+orthologs-direct-interactions finished. Fetched : 
+Request to :  http://inparanoid.sbc.su.se/download/8.0_current/Orthologs_OrthoXML/C.elegans/C.elegans-M.musculus.orthoXML
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:6239 AND taxidB:6239 AND species:6239 AND  ( id:"Q20646" OR id:"Q18688" )  ) 
+
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:10090 AND taxidB:10090 AND species:10090 AND  ( id:"P11499" )  ) 
+
+Request to :  http://inparanoid.sbc.su.se/download/8.0_current/Orthologs_OrthoXML/C.elegans/C.elegans-S.pombe.orthoXML
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:284812 AND taxidB:284812 AND species:284812 AND  ( id:"P41887" )  ) 
+
+Mus musculus : 1 orthologs and 18 interactions found.
+Schizosaccharomyces pombe (strain 972 / ATCC 24843) : 1 orthologs and 0 interactions found.
+31 direct interactions fetched
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:6239 AND taxidB:6239 AND species:6239 AND  (  ( idA:"Q20646" AND idB:"Q20646" )  OR  ( idA:"Q20646" AND idB:"P20792" )  OR  ( idA:"Q20646" AND idB:"Q20655" )  OR  ( idA:"Q20646" AND idB:"O76840" )  OR  ( idA:"Q20646" AND idB:"O17218" )  OR  ( idA:"Q20646" AND idB:"P45897" )  OR  ( idA:"Q20646" AND idB:"O17972" )  OR  ( idA:"Q20646" AND idB:"Q20308" )  OR  ( idA:"Q20646" AND idB:"Q18688" )  OR  ( idA:"Q20646" AND idB:"G5ECY0" )  OR  ( idA:"Q20646" AND idB:"P50488" )  OR  ( idA:"Q20646" AND idB:"G5EG62" )  OR  ( idA:"Q20646" AND idB:"O02108" )  OR  ( idA:"Q20646" AND idB:"P02566" )  OR  ( idA:"Q20646" AND idB:"P90978" )  OR  ( idA:"Q20646" AND idB:"Q03563" )  OR  ( idA:"Q20646" AND idB:"Q9UAQ6" )  OR  ( idA:"Q20646" AND idB:"Q11184" )  OR  ( idA:"Q20646" AND idB:"G5EFL5" )  OR  ( idA:"Q20646" AND idB:"Q20365" )  OR  ( idA:"Q20646" AND idB:"O17927" )  OR  ( idA:"Q20646" AND idB:"Q9XVV3" )  OR  ( idA:"Q20646" AND idB:"Q9XWG3" )  OR  ( idA:"Q20646" AND idB:"Q9TVL3" )  OR  ( idA:"Q20646" AND idB:"G5EBJ4" )  OR  ( idA:"Q20646" AND idB:"Q94986" )  OR  ( idA:"Q20646" AND idB:"G5ECP0" )  OR  ( idA:"Q20646" AND idB:"Q7JP67" )  OR  ( idA:"Q20646" AND idB:"Q20234" )  OR  ( idA:"Q20646" AND idB:"Q9U1W9" )  OR  ( idA:"Q20646" AND idB:"Q27535" )  OR  ( idA:"Q20646" AND idB:"Q9GYS1" )  OR  ( idA:"P20792" AND idB:"Q20646" )  OR  ( idA:"P20792" AND idB:"P20792" )  OR  ( idA:"P20792" AND idB:"Q20655" )  OR  ( idA:"P20792" AND idB:"O76840" )  OR  ( idA:"P20792" AND idB:"O17218" )  OR  ( idA:"P20792" AND idB:"P45897" )  OR  ( idA:"P20792" AND idB:"O17972" )  OR  ( idA:"P20792" AND idB:"Q20308" )  OR  ( idA:"P20792" AND idB:"Q18688" )  OR  ( idA:"P20792" AND idB:"G5ECY0" )  OR  ( idA:"P20792" AND idB:"P50488" )  OR  ( idA:"P20792" AND idB:"G5EG62" )  OR  ( idA:"P20792" AND idB:"O02108" )  OR  ( idA:"P20792" AND idB:"P02566" )  OR  ( idA:"P20792" AND idB:"P90978" )  OR  ( idA:"P20792" AND idB:"Q03563" )  OR  ( idA:"P20792" AND idB:"Q9UAQ6" )  OR  ( idA:"P20792" AND idB:"Q11184" )  OR  ( idA:"P20792" AND idB:"G5EFL5" )  OR  ( idA:"P20792" AND idB:"Q20365" )  OR  ( idA:"P20792" AND idB:"O17927" )  OR  ( idA:"P20792" AND idB:"Q9XVV3" )  OR  ( idA:"P20792" AND idB:"Q9XWG3" )  OR  ( idA:"P20792" AND idB:"Q9TVL3" )  OR  ( idA:"P20792" AND idB:"G5EBJ4" )  OR  ( idA:"P20792" AND idB:"Q94986" )  OR  ( idA:"P20792" AND idB:"G5ECP0" )  OR  ( idA:"P20792" AND idB:"Q7JP67" )  OR  ( idA:"P20792" AND idB:"Q20234" )  OR  ( idA:"P20792" AND idB:"Q9U1W9" )  OR  ( idA:"P20792" AND idB:"Q27535" )  OR  ( idA:"P20792" AND idB:"Q9GYS1" )  OR  ( idA:"Q20655" AND idB:"Q20646" )  OR  ( idA:"Q20655" AND idB:"P20792" )  OR  ( idA:"Q20655" AND idB:"Q20655" )  OR  ( idA:"Q20655" AND idB:"O76840" )  OR  ( idA:"Q20655" AND idB:"O17218" )  OR  ( idA:"Q20655" AND idB:"P45897" )  OR  ( idA:"Q20655" AND idB:"O17972" )  OR  ( idA:"Q20655" AND idB:"Q20308" )  OR  ( idA:"Q20655" AND idB:"Q18688" )  OR  ( idA:"Q20655" AND idB:"G5ECY0" )  OR  ( idA:"Q20655" AND idB:"P50488" )  OR  ( idA:"Q20655" AND idB:"G5EG62" )  OR  ( idA:"Q20655" AND idB:"O02108" )  OR  ( idA:"Q20655" AND idB:"P02566" )  OR  ( idA:"Q20655" AND idB:"P90978" )  OR  ( idA:"Q20655" AND idB:"Q03563" )  OR  ( idA:"Q20655" AND idB:"Q9UAQ6" )  OR  ( idA:"Q20655" AND idB:"Q11184" )  OR  ( idA:"Q20655" AND idB:"G5EFL5" )  OR  ( idA:"Q20655" AND idB:"Q20365" )  OR  ( idA:"Q20655" AND idB:"O17927" )  OR  ( idA:"Q20655" AND idB:"Q9XVV3" )  OR  ( idA:"Q20655" AND idB:"Q9XWG3" )  OR  ( idA:"Q20655" AND idB:"Q9TVL3" )  OR  ( idA:"Q20655" AND idB:"G5EBJ4" )  OR  ( idA:"Q20655" AND idB:"Q94986" )  OR  ( idA:"Q20655" AND idB:"G5ECP0" )  OR  ( idA:"Q20655" AND idB:"Q7JP67" )  OR  ( idA:"Q20655" AND idB:"Q20234" )  OR  ( idA:"Q20655" AND idB:"Q9U1W9" )  OR  ( idA:"Q20655" AND idB:"Q27535" )  OR  ( idA:"Q20655" AND idB:"Q9GYS1" )  OR  ( idA:"O76840" AND idB:"Q20646" )  OR  ( idA:"O76840" AND idB:"P20792" )  OR  ( idA:"O76840" AND idB:"Q20655" )  OR  ( idA:"O76840" AND idB:"O76840" )  )  ) 
+
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:10090 AND taxidB:10090 AND species:10090 AND  (  ( idA:"Q62108" AND idB:"Q62108" )  OR  ( idA:"Q62108" AND idB:"Q9QY53" )  OR  ( idA:"Q62108" AND idB:"P59240" )  OR  ( idA:"Q62108" AND idB:"O89019" )  OR  ( idA:"Q62108" AND idB:"Q921E6" )  OR  ( idA:"Q62108" AND idB:"O35963" )  OR  ( idA:"Q62108" AND idB:"P19426" )  OR  ( idA:"Q62108" AND idB:"P63101" )  OR  ( idA:"Q62108" AND idB:"Q8BP00" )  OR  ( idA:"Q62108" AND idB:"Q99J95" )  OR  ( idA:"Q62108" AND idB:"Q9CQV8" )  OR  ( idA:"Q62108" AND idB:"P11499" )  OR  ( idA:"Q62108" AND idB:"Q923S6" )  OR  ( idA:"Q62108" AND idB:"P35569" )  OR  ( idA:"Q62108" AND idB:"P35294" )  OR  ( idA:"Q62108" AND idB:"P62821" )  OR  ( idA:"Q62108" AND idB:"P63011" )  OR  ( idA:"Q9QY53" AND idB:"Q62108" )  OR  ( idA:"Q9QY53" AND idB:"Q9QY53" )  OR  ( idA:"Q9QY53" AND idB:"P59240" )  OR  ( idA:"Q9QY53" AND idB:"O89019" )  OR  ( idA:"Q9QY53" AND idB:"Q921E6" )  OR  ( idA:"Q9QY53" AND idB:"O35963" )  OR  ( idA:"Q9QY53" AND idB:"P19426" )  OR  ( idA:"Q9QY53" AND idB:"P63101" )  OR  ( idA:"Q9QY53" AND idB:"Q8BP00" )  OR  ( idA:"Q9QY53" AND idB:"Q99J95" )  OR  ( idA:"Q9QY53" AND idB:"Q9CQV8" )  OR  ( idA:"Q9QY53" AND idB:"P11499" )  OR  ( idA:"Q9QY53" AND idB:"Q923S6" )  OR  ( idA:"Q9QY53" AND idB:"P35569" )  OR  ( idA:"Q9QY53" AND idB:"P35294" )  OR  ( idA:"Q9QY53" AND idB:"P62821" )  OR  ( idA:"Q9QY53" AND idB:"P63011" )  OR  ( idA:"P59240" AND idB:"Q62108" )  OR  ( idA:"P59240" AND idB:"Q9QY53" )  OR  ( idA:"P59240" AND idB:"P59240" )  OR  ( idA:"P59240" AND idB:"O89019" )  OR  ( idA:"P59240" AND idB:"Q921E6" )  OR  ( idA:"P59240" AND idB:"O35963" )  OR  ( idA:"P59240" AND idB:"P19426" )  OR  ( idA:"P59240" AND idB:"P63101" )  OR  ( idA:"P59240" AND idB:"Q8BP00" )  OR  ( idA:"P59240" AND idB:"Q99J95" )  OR  ( idA:"P59240" AND idB:"Q9CQV8" )  OR  ( idA:"P59240" AND idB:"P11499" )  OR  ( idA:"P59240" AND idB:"Q923S6" )  OR  ( idA:"P59240" AND idB:"P35569" )  OR  ( idA:"P59240" AND idB:"P35294" )  OR  ( idA:"P59240" AND idB:"P62821" )  OR  ( idA:"P59240" AND idB:"P63011" )  OR  ( idA:"O89019" AND idB:"Q62108" )  OR  ( idA:"O89019" AND idB:"Q9QY53" )  OR  ( idA:"O89019" AND idB:"P59240" )  OR  ( idA:"O89019" AND idB:"O89019" )  OR  ( idA:"O89019" AND idB:"Q921E6" )  OR  ( idA:"O89019" AND idB:"O35963" )  OR  ( idA:"O89019" AND idB:"P19426" )  OR  ( idA:"O89019" AND idB:"P63101" )  OR  ( idA:"O89019" AND idB:"Q8BP00" )  OR  ( idA:"O89019" AND idB:"Q99J95" )  OR  ( idA:"O89019" AND idB:"Q9CQV8" )  OR  ( idA:"O89019" AND idB:"P11499" )  OR  ( idA:"O89019" AND idB:"Q923S6" )  OR  ( idA:"O89019" AND idB:"P35569" )  OR  ( idA:"O89019" AND idB:"P35294" )  OR  ( idA:"O89019" AND idB:"P62821" )  OR  ( idA:"O89019" AND idB:"P63011" )  OR  ( idA:"Q921E6" AND idB:"Q62108" )  OR  ( idA:"Q921E6" AND idB:"Q9QY53" )  OR  ( idA:"Q921E6" AND idB:"P59240" )  OR  ( idA:"Q921E6" AND idB:"O89019" )  OR  ( idA:"Q921E6" AND idB:"Q921E6" )  OR  ( idA:"Q921E6" AND idB:"O35963" )  OR  ( idA:"Q921E6" AND idB:"P19426" )  OR  ( idA:"Q921E6" AND idB:"P63101" )  OR  ( idA:"Q921E6" AND idB:"Q8BP00" )  OR  ( idA:"Q921E6" AND idB:"Q99J95" )  OR  ( idA:"Q921E6" AND idB:"Q9CQV8" )  OR  ( idA:"Q921E6" AND idB:"P11499" )  OR  ( idA:"Q921E6" AND idB:"Q923S6" )  OR  ( idA:"Q921E6" AND idB:"P35569" )  OR  ( idA:"Q921E6" AND idB:"P35294" )  OR  ( idA:"Q921E6" AND idB:"P62821" )  OR  ( idA:"Q921E6" AND idB:"P63011" )  OR  ( idA:"O35963" AND idB:"Q62108" )  OR  ( idA:"O35963" AND idB:"Q9QY53" )  OR  ( idA:"O35963" AND idB:"P59240" )  OR  ( idA:"O35963" AND idB:"O89019" )  OR  ( idA:"O35963" AND idB:"Q921E6" )  OR  ( idA:"O35963" AND idB:"O35963" )  OR  ( idA:"O35963" AND idB:"P19426" )  OR  ( idA:"O35963" AND idB:"P63101" )  OR  ( idA:"O35963" AND idB:"Q8BP00" )  OR  ( idA:"O35963" AND idB:"Q99J95" )  OR  ( idA:"O35963" AND idB:"Q9CQV8" )  OR  ( idA:"O35963" AND idB:"P11499" )  OR  ( idA:"O35963" AND idB:"Q923S6" )  OR  ( idA:"O35963" AND idB:"P35569" )  OR  ( idA:"O35963" AND idB:"P35294" )  )  ) 
+
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:6239 AND taxidB:6239 AND species:6239 AND  (  ( idA:"O76840" AND idB:"O17218" )  OR  ( idA:"O76840" AND idB:"P45897" )  OR  ( idA:"O76840" AND idB:"O17972" )  OR  ( idA:"O76840" AND idB:"Q20308" )  OR  ( idA:"O76840" AND idB:"Q18688" )  OR  ( idA:"O76840" AND idB:"G5ECY0" )  OR  ( idA:"O76840" AND idB:"P50488" )  OR  ( idA:"O76840" AND idB:"G5EG62" )  OR  ( idA:"O76840" AND idB:"O02108" )  OR  ( idA:"O76840" AND idB:"P02566" )  OR  ( idA:"O76840" AND idB:"P90978" )  OR  ( idA:"O76840" AND idB:"Q03563" )  OR  ( idA:"O76840" AND idB:"Q9UAQ6" )  OR  ( idA:"O76840" AND idB:"Q11184" )  OR  ( idA:"O76840" AND idB:"G5EFL5" )  OR  ( idA:"O76840" AND idB:"Q20365" )  OR  ( idA:"O76840" AND idB:"O17927" )  OR  ( idA:"O76840" AND idB:"Q9XVV3" )  OR  ( idA:"O76840" AND idB:"Q9XWG3" )  OR  ( idA:"O76840" AND idB:"Q9TVL3" )  OR  ( idA:"O76840" AND idB:"G5EBJ4" )  OR  ( idA:"O76840" AND idB:"Q94986" )  OR  ( idA:"O76840" AND idB:"G5ECP0" )  OR  ( idA:"O76840" AND idB:"Q7JP67" )  OR  ( idA:"O76840" AND idB:"Q20234" )  OR  ( idA:"O76840" AND idB:"Q9U1W9" )  OR  ( idA:"O76840" AND idB:"Q27535" )  OR  ( idA:"O76840" AND idB:"Q9GYS1" )  OR  ( idA:"O17218" AND idB:"Q20646" )  OR  ( idA:"O17218" AND idB:"P20792" )  OR  ( idA:"O17218" AND idB:"Q20655" )  OR  ( idA:"O17218" AND idB:"O76840" )  OR  ( idA:"O17218" AND idB:"O17218" )  OR  ( idA:"O17218" AND idB:"P45897" )  OR  ( idA:"O17218" AND idB:"O17972" )  OR  ( idA:"O17218" AND idB:"Q20308" )  OR  ( idA:"O17218" AND idB:"Q18688" )  OR  ( idA:"O17218" AND idB:"G5ECY0" )  OR  ( idA:"O17218" AND idB:"P50488" )  OR  ( idA:"O17218" AND idB:"G5EG62" )  OR  ( idA:"O17218" AND idB:"O02108" )  OR  ( idA:"O17218" AND idB:"P02566" )  OR  ( idA:"O17218" AND idB:"P90978" )  OR  ( idA:"O17218" AND idB:"Q03563" )  OR  ( idA:"O17218" AND idB:"Q9UAQ6" )  OR  ( idA:"O17218" AND idB:"Q11184" )  OR  ( idA:"O17218" AND idB:"G5EFL5" )  OR  ( idA:"O17218" AND idB:"Q20365" )  OR  ( idA:"O17218" AND idB:"O17927" )  OR  ( idA:"O17218" AND idB:"Q9XVV3" )  OR  ( idA:"O17218" AND idB:"Q9XWG3" )  OR  ( idA:"O17218" AND idB:"Q9TVL3" )  OR  ( idA:"O17218" AND idB:"G5EBJ4" )  OR  ( idA:"O17218" AND idB:"Q94986" )  OR  ( idA:"O17218" AND idB:"G5ECP0" )  OR  ( idA:"O17218" AND idB:"Q7JP67" )  OR  ( idA:"O17218" AND idB:"Q20234" )  OR  ( idA:"O17218" AND idB:"Q9U1W9" )  OR  ( idA:"O17218" AND idB:"Q27535" )  OR  ( idA:"O17218" AND idB:"Q9GYS1" )  OR  ( idA:"P45897" AND idB:"Q20646" )  OR  ( idA:"P45897" AND idB:"P20792" )  OR  ( idA:"P45897" AND idB:"Q20655" )  OR  ( idA:"P45897" AND idB:"O76840" )  OR  ( idA:"P45897" AND idB:"O17218" )  OR  ( idA:"P45897" AND idB:"P45897" )  OR  ( idA:"P45897" AND idB:"O17972" )  OR  ( idA:"P45897" AND idB:"Q20308" )  OR  ( idA:"P45897" AND idB:"Q18688" )  OR  ( idA:"P45897" AND idB:"G5ECY0" )  OR  ( idA:"P45897" AND idB:"P50488" )  OR  ( idA:"P45897" AND idB:"G5EG62" )  OR  ( idA:"P45897" AND idB:"O02108" )  OR  ( idA:"P45897" AND idB:"P02566" )  OR  ( idA:"P45897" AND idB:"P90978" )  OR  ( idA:"P45897" AND idB:"Q03563" )  OR  ( idA:"P45897" AND idB:"Q9UAQ6" )  OR  ( idA:"P45897" AND idB:"Q11184" )  OR  ( idA:"P45897" AND idB:"G5EFL5" )  OR  ( idA:"P45897" AND idB:"Q20365" )  OR  ( idA:"P45897" AND idB:"O17927" )  OR  ( idA:"P45897" AND idB:"Q9XVV3" )  OR  ( idA:"P45897" AND idB:"Q9XWG3" )  OR  ( idA:"P45897" AND idB:"Q9TVL3" )  OR  ( idA:"P45897" AND idB:"G5EBJ4" )  OR  ( idA:"P45897" AND idB:"Q94986" )  OR  ( idA:"P45897" AND idB:"G5ECP0" )  OR  ( idA:"P45897" AND idB:"Q7JP67" )  OR  ( idA:"P45897" AND idB:"Q20234" )  OR  ( idA:"P45897" AND idB:"Q9U1W9" )  OR  ( idA:"P45897" AND idB:"Q27535" )  OR  ( idA:"P45897" AND idB:"Q9GYS1" )  OR  ( idA:"O17972" AND idB:"Q20646" )  OR  ( idA:"O17972" AND idB:"P20792" )  OR  ( idA:"O17972" AND idB:"Q20655" )  OR  ( idA:"O17972" AND idB:"O76840" )  OR  ( idA:"O17972" AND idB:"O17218" )  OR  ( idA:"O17972" AND idB:"P45897" )  OR  ( idA:"O17972" AND idB:"O17972" )  OR  ( idA:"O17972" AND idB:"Q20308" )  )  ) 
+
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:10090 AND taxidB:10090 AND species:10090 AND  (  ( idA:"O35963" AND idB:"P62821" )  OR  ( idA:"O35963" AND idB:"P63011" )  OR  ( idA:"P19426" AND idB:"Q62108" )  OR  ( idA:"P19426" AND idB:"Q9QY53" )  OR  ( idA:"P19426" AND idB:"P59240" )  OR  ( idA:"P19426" AND idB:"O89019" )  OR  ( idA:"P19426" AND idB:"Q921E6" )  OR  ( idA:"P19426" AND idB:"O35963" )  OR  ( idA:"P19426" AND idB:"P19426" )  OR  ( idA:"P19426" AND idB:"P63101" )  OR  ( idA:"P19426" AND idB:"Q8BP00" )  OR  ( idA:"P19426" AND idB:"Q99J95" )  OR  ( idA:"P19426" AND idB:"Q9CQV8" )  OR  ( idA:"P19426" AND idB:"P11499" )  OR  ( idA:"P19426" AND idB:"Q923S6" )  OR  ( idA:"P19426" AND idB:"P35569" )  OR  ( idA:"P19426" AND idB:"P35294" )  OR  ( idA:"P19426" AND idB:"P62821" )  OR  ( idA:"P19426" AND idB:"P63011" )  OR  ( idA:"P63101" AND idB:"Q62108" )  OR  ( idA:"P63101" AND idB:"Q9QY53" )  OR  ( idA:"P63101" AND idB:"P59240" )  OR  ( idA:"P63101" AND idB:"O89019" )  OR  ( idA:"P63101" AND idB:"Q921E6" )  OR  ( idA:"P63101" AND idB:"O35963" )  OR  ( idA:"P63101" AND idB:"P19426" )  OR  ( idA:"P63101" AND idB:"P63101" )  OR  ( idA:"P63101" AND idB:"Q8BP00" )  OR  ( idA:"P63101" AND idB:"Q99J95" )  OR  ( idA:"P63101" AND idB:"Q9CQV8" )  OR  ( idA:"P63101" AND idB:"P11499" )  OR  ( idA:"P63101" AND idB:"Q923S6" )  OR  ( idA:"P63101" AND idB:"P35569" )  OR  ( idA:"P63101" AND idB:"P35294" )  OR  ( idA:"P63101" AND idB:"P62821" )  OR  ( idA:"P63101" AND idB:"P63011" )  OR  ( idA:"Q8BP00" AND idB:"Q62108" )  OR  ( idA:"Q8BP00" AND idB:"Q9QY53" )  OR  ( idA:"Q8BP00" AND idB:"P59240" )  OR  ( idA:"Q8BP00" AND idB:"O89019" )  OR  ( idA:"Q8BP00" AND idB:"Q921E6" )  OR  ( idA:"Q8BP00" AND idB:"O35963" )  OR  ( idA:"Q8BP00" AND idB:"P19426" )  OR  ( idA:"Q8BP00" AND idB:"P63101" )  OR  ( idA:"Q8BP00" AND idB:"Q8BP00" )  OR  ( idA:"Q8BP00" AND idB:"Q99J95" )  OR  ( idA:"Q8BP00" AND idB:"Q9CQV8" )  OR  ( idA:"Q8BP00" AND idB:"P11499" )  OR  ( idA:"Q8BP00" AND idB:"Q923S6" )  OR  ( idA:"Q8BP00" AND idB:"P35569" )  OR  ( idA:"Q8BP00" AND idB:"P35294" )  OR  ( idA:"Q8BP00" AND idB:"P62821" )  OR  ( idA:"Q8BP00" AND idB:"P63011" )  OR  ( idA:"Q99J95" AND idB:"Q62108" )  OR  ( idA:"Q99J95" AND idB:"Q9QY53" )  OR  ( idA:"Q99J95" AND idB:"P59240" )  OR  ( idA:"Q99J95" AND idB:"O89019" )  OR  ( idA:"Q99J95" AND idB:"Q921E6" )  OR  ( idA:"Q99J95" AND idB:"O35963" )  OR  ( idA:"Q99J95" AND idB:"P19426" )  OR  ( idA:"Q99J95" AND idB:"P63101" )  OR  ( idA:"Q99J95" AND idB:"Q8BP00" )  OR  ( idA:"Q99J95" AND idB:"Q99J95" )  OR  ( idA:"Q99J95" AND idB:"Q9CQV8" )  OR  ( idA:"Q99J95" AND idB:"P11499" )  OR  ( idA:"Q99J95" AND idB:"Q923S6" )  OR  ( idA:"Q99J95" AND idB:"P35569" )  OR  ( idA:"Q99J95" AND idB:"P35294" )  OR  ( idA:"Q99J95" AND idB:"P62821" )  OR  ( idA:"Q99J95" AND idB:"P63011" )  OR  ( idA:"Q9CQV8" AND idB:"Q62108" )  OR  ( idA:"Q9CQV8" AND idB:"Q9QY53" )  OR  ( idA:"Q9CQV8" AND idB:"P59240" )  OR  ( idA:"Q9CQV8" AND idB:"O89019" )  OR  ( idA:"Q9CQV8" AND idB:"Q921E6" )  OR  ( idA:"Q9CQV8" AND idB:"O35963" )  OR  ( idA:"Q9CQV8" AND idB:"P19426" )  OR  ( idA:"Q9CQV8" AND idB:"P63101" )  OR  ( idA:"Q9CQV8" AND idB:"Q8BP00" )  OR  ( idA:"Q9CQV8" AND idB:"Q99J95" )  OR  ( idA:"Q9CQV8" AND idB:"Q9CQV8" )  OR  ( idA:"Q9CQV8" AND idB:"P11499" )  OR  ( idA:"Q9CQV8" AND idB:"Q923S6" )  OR  ( idA:"Q9CQV8" AND idB:"P35569" )  OR  ( idA:"Q9CQV8" AND idB:"P35294" )  OR  ( idA:"Q9CQV8" AND idB:"P62821" )  OR  ( idA:"Q9CQV8" AND idB:"P63011" )  OR  ( idA:"P11499" AND idB:"Q62108" )  OR  ( idA:"P11499" AND idB:"Q9QY53" )  OR  ( idA:"P11499" AND idB:"P59240" )  OR  ( idA:"P11499" AND idB:"O89019" )  OR  ( idA:"P11499" AND idB:"Q921E6" )  OR  ( idA:"P11499" AND idB:"O35963" )  OR  ( idA:"P11499" AND idB:"P19426" )  OR  ( idA:"P11499" AND idB:"P63101" )  OR  ( idA:"P11499" AND idB:"Q8BP00" )  OR  ( idA:"P11499" AND idB:"Q99J95" )  OR  ( idA:"P11499" AND idB:"Q9CQV8" )  OR  ( idA:"P11499" AND idB:"P11499" )  OR  ( idA:"P11499" AND idB:"Q923S6" )  )  ) 
+
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:6239 AND taxidB:6239 AND species:6239 AND  (  ( idA:"O17972" AND idB:"Q18688" )  OR  ( idA:"O17972" AND idB:"G5ECY0" )  OR  ( idA:"O17972" AND idB:"P50488" )  OR  ( idA:"O17972" AND idB:"G5EG62" )  OR  ( idA:"O17972" AND idB:"O02108" )  OR  ( idA:"O17972" AND idB:"P02566" )  OR  ( idA:"O17972" AND idB:"P90978" )  OR  ( idA:"O17972" AND idB:"Q03563" )  OR  ( idA:"O17972" AND idB:"Q9UAQ6" )  OR  ( idA:"O17972" AND idB:"Q11184" )  OR  ( idA:"O17972" AND idB:"G5EFL5" )  OR  ( idA:"O17972" AND idB:"Q20365" )  OR  ( idA:"O17972" AND idB:"O17927" )  OR  ( idA:"O17972" AND idB:"Q9XVV3" )  OR  ( idA:"O17972" AND idB:"Q9XWG3" )  OR  ( idA:"O17972" AND idB:"Q9TVL3" )  OR  ( idA:"O17972" AND idB:"G5EBJ4" )  OR  ( idA:"O17972" AND idB:"Q94986" )  OR  ( idA:"O17972" AND idB:"G5ECP0" )  OR  ( idA:"O17972" AND idB:"Q7JP67" )  OR  ( idA:"O17972" AND idB:"Q20234" )  OR  ( idA:"O17972" AND idB:"Q9U1W9" )  OR  ( idA:"O17972" AND idB:"Q27535" )  OR  ( idA:"O17972" AND idB:"Q9GYS1" )  OR  ( idA:"Q20308" AND idB:"Q20646" )  OR  ( idA:"Q20308" AND idB:"P20792" )  OR  ( idA:"Q20308" AND idB:"Q20655" )  OR  ( idA:"Q20308" AND idB:"O76840" )  OR  ( idA:"Q20308" AND idB:"O17218" )  OR  ( idA:"Q20308" AND idB:"P45897" )  OR  ( idA:"Q20308" AND idB:"O17972" )  OR  ( idA:"Q20308" AND idB:"Q20308" )  OR  ( idA:"Q20308" AND idB:"Q18688" )  OR  ( idA:"Q20308" AND idB:"G5ECY0" )  OR  ( idA:"Q20308" AND idB:"P50488" )  OR  ( idA:"Q20308" AND idB:"G5EG62" )  OR  ( idA:"Q20308" AND idB:"O02108" )  OR  ( idA:"Q20308" AND idB:"P02566" )  OR  ( idA:"Q20308" AND idB:"P90978" )  OR  ( idA:"Q20308" AND idB:"Q03563" )  OR  ( idA:"Q20308" AND idB:"Q9UAQ6" )  OR  ( idA:"Q20308" AND idB:"Q11184" )  OR  ( idA:"Q20308" AND idB:"G5EFL5" )  OR  ( idA:"Q20308" AND idB:"Q20365" )  OR  ( idA:"Q20308" AND idB:"O17927" )  OR  ( idA:"Q20308" AND idB:"Q9XVV3" )  OR  ( idA:"Q20308" AND idB:"Q9XWG3" )  OR  ( idA:"Q20308" AND idB:"Q9TVL3" )  OR  ( idA:"Q20308" AND idB:"G5EBJ4" )  OR  ( idA:"Q20308" AND idB:"Q94986" )  OR  ( idA:"Q20308" AND idB:"G5ECP0" )  OR  ( idA:"Q20308" AND idB:"Q7JP67" )  OR  ( idA:"Q20308" AND idB:"Q20234" )  OR  ( idA:"Q20308" AND idB:"Q9U1W9" )  OR  ( idA:"Q20308" AND idB:"Q27535" )  OR  ( idA:"Q20308" AND idB:"Q9GYS1" )  OR  ( idA:"Q18688" AND idB:"Q20646" )  OR  ( idA:"Q18688" AND idB:"P20792" )  OR  ( idA:"Q18688" AND idB:"Q20655" )  OR  ( idA:"Q18688" AND idB:"O76840" )  OR  ( idA:"Q18688" AND idB:"O17218" )  OR  ( idA:"Q18688" AND idB:"P45897" )  OR  ( idA:"Q18688" AND idB:"O17972" )  OR  ( idA:"Q18688" AND idB:"Q20308" )  OR  ( idA:"Q18688" AND idB:"Q18688" )  OR  ( idA:"Q18688" AND idB:"G5ECY0" )  OR  ( idA:"Q18688" AND idB:"P50488" )  OR  ( idA:"Q18688" AND idB:"G5EG62" )  OR  ( idA:"Q18688" AND idB:"O02108" )  OR  ( idA:"Q18688" AND idB:"P02566" )  OR  ( idA:"Q18688" AND idB:"P90978" )  OR  ( idA:"Q18688" AND idB:"Q03563" )  OR  ( idA:"Q18688" AND idB:"Q9UAQ6" )  OR  ( idA:"Q18688" AND idB:"Q11184" )  OR  ( idA:"Q18688" AND idB:"G5EFL5" )  OR  ( idA:"Q18688" AND idB:"Q20365" )  OR  ( idA:"Q18688" AND idB:"O17927" )  OR  ( idA:"Q18688" AND idB:"Q9XVV3" )  OR  ( idA:"Q18688" AND idB:"Q9XWG3" )  OR  ( idA:"Q18688" AND idB:"Q9TVL3" )  OR  ( idA:"Q18688" AND idB:"G5EBJ4" )  OR  ( idA:"Q18688" AND idB:"Q94986" )  OR  ( idA:"Q18688" AND idB:"G5ECP0" )  OR  ( idA:"Q18688" AND idB:"Q7JP67" )  OR  ( idA:"Q18688" AND idB:"Q20234" )  OR  ( idA:"Q18688" AND idB:"Q9U1W9" )  OR  ( idA:"Q18688" AND idB:"Q27535" )  OR  ( idA:"Q18688" AND idB:"Q9GYS1" )  OR  ( idA:"G5ECY0" AND idB:"Q20646" )  OR  ( idA:"G5ECY0" AND idB:"P20792" )  OR  ( idA:"G5ECY0" AND idB:"Q20655" )  OR  ( idA:"G5ECY0" AND idB:"O76840" )  OR  ( idA:"G5ECY0" AND idB:"O17218" )  OR  ( idA:"G5ECY0" AND idB:"P45897" )  OR  ( idA:"G5ECY0" AND idB:"O17972" )  OR  ( idA:"G5ECY0" AND idB:"Q20308" )  OR  ( idA:"G5ECY0" AND idB:"Q18688" )  OR  ( idA:"G5ECY0" AND idB:"G5ECY0" )  OR  ( idA:"G5ECY0" AND idB:"P50488" )  OR  ( idA:"G5ECY0" AND idB:"G5EG62" )  )  ) 
+
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:10090 AND taxidB:10090 AND species:10090 AND  (  ( idA:"P11499" AND idB:"P35569" )  OR  ( idA:"P11499" AND idB:"P35294" )  OR  ( idA:"P11499" AND idB:"P62821" )  OR  ( idA:"P11499" AND idB:"P63011" )  OR  ( idA:"Q923S6" AND idB:"Q62108" )  OR  ( idA:"Q923S6" AND idB:"Q9QY53" )  OR  ( idA:"Q923S6" AND idB:"P59240" )  OR  ( idA:"Q923S6" AND idB:"O89019" )  OR  ( idA:"Q923S6" AND idB:"Q921E6" )  OR  ( idA:"Q923S6" AND idB:"O35963" )  OR  ( idA:"Q923S6" AND idB:"P19426" )  OR  ( idA:"Q923S6" AND idB:"P63101" )  OR  ( idA:"Q923S6" AND idB:"Q8BP00" )  OR  ( idA:"Q923S6" AND idB:"Q99J95" )  OR  ( idA:"Q923S6" AND idB:"Q9CQV8" )  OR  ( idA:"Q923S6" AND idB:"P11499" )  OR  ( idA:"Q923S6" AND idB:"Q923S6" )  OR  ( idA:"Q923S6" AND idB:"P35569" )  OR  ( idA:"Q923S6" AND idB:"P35294" )  OR  ( idA:"Q923S6" AND idB:"P62821" )  OR  ( idA:"Q923S6" AND idB:"P63011" )  OR  ( idA:"P35569" AND idB:"Q62108" )  OR  ( idA:"P35569" AND idB:"Q9QY53" )  OR  ( idA:"P35569" AND idB:"P59240" )  OR  ( idA:"P35569" AND idB:"O89019" )  OR  ( idA:"P35569" AND idB:"Q921E6" )  OR  ( idA:"P35569" AND idB:"O35963" )  OR  ( idA:"P35569" AND idB:"P19426" )  OR  ( idA:"P35569" AND idB:"P63101" )  OR  ( idA:"P35569" AND idB:"Q8BP00" )  OR  ( idA:"P35569" AND idB:"Q99J95" )  OR  ( idA:"P35569" AND idB:"Q9CQV8" )  OR  ( idA:"P35569" AND idB:"P11499" )  OR  ( idA:"P35569" AND idB:"Q923S6" )  OR  ( idA:"P35569" AND idB:"P35569" )  OR  ( idA:"P35569" AND idB:"P35294" )  OR  ( idA:"P35569" AND idB:"P62821" )  OR  ( idA:"P35569" AND idB:"P63011" )  OR  ( idA:"P35294" AND idB:"Q62108" )  OR  ( idA:"P35294" AND idB:"Q9QY53" )  OR  ( idA:"P35294" AND idB:"P59240" )  OR  ( idA:"P35294" AND idB:"O89019" )  OR  ( idA:"P35294" AND idB:"Q921E6" )  OR  ( idA:"P35294" AND idB:"O35963" )  OR  ( idA:"P35294" AND idB:"P19426" )  OR  ( idA:"P35294" AND idB:"P63101" )  OR  ( idA:"P35294" AND idB:"Q8BP00" )  OR  ( idA:"P35294" AND idB:"Q99J95" )  OR  ( idA:"P35294" AND idB:"Q9CQV8" )  OR  ( idA:"P35294" AND idB:"P11499" )  OR  ( idA:"P35294" AND idB:"Q923S6" )  OR  ( idA:"P35294" AND idB:"P35569" )  OR  ( idA:"P35294" AND idB:"P35294" )  OR  ( idA:"P35294" AND idB:"P62821" )  OR  ( idA:"P35294" AND idB:"P63011" )  OR  ( idA:"P62821" AND idB:"Q62108" )  OR  ( idA:"P62821" AND idB:"Q9QY53" )  OR  ( idA:"P62821" AND idB:"P59240" )  OR  ( idA:"P62821" AND idB:"O89019" )  OR  ( idA:"P62821" AND idB:"Q921E6" )  OR  ( idA:"P62821" AND idB:"O35963" )  OR  ( idA:"P62821" AND idB:"P19426" )  OR  ( idA:"P62821" AND idB:"P63101" )  OR  ( idA:"P62821" AND idB:"Q8BP00" )  OR  ( idA:"P62821" AND idB:"Q99J95" )  OR  ( idA:"P62821" AND idB:"Q9CQV8" )  OR  ( idA:"P62821" AND idB:"P11499" )  OR  ( idA:"P62821" AND idB:"Q923S6" )  OR  ( idA:"P62821" AND idB:"P35569" )  OR  ( idA:"P62821" AND idB:"P35294" )  OR  ( idA:"P62821" AND idB:"P62821" )  OR  ( idA:"P62821" AND idB:"P63011" )  OR  ( idA:"P63011" AND idB:"Q62108" )  OR  ( idA:"P63011" AND idB:"Q9QY53" )  OR  ( idA:"P63011" AND idB:"P59240" )  OR  ( idA:"P63011" AND idB:"O89019" )  OR  ( idA:"P63011" AND idB:"Q921E6" )  OR  ( idA:"P63011" AND idB:"O35963" )  OR  ( idA:"P63011" AND idB:"P19426" )  OR  ( idA:"P63011" AND idB:"P63101" )  OR  ( idA:"P63011" AND idB:"Q8BP00" )  OR  ( idA:"P63011" AND idB:"Q99J95" )  OR  ( idA:"P63011" AND idB:"Q9CQV8" )  OR  ( idA:"P63011" AND idB:"P11499" )  OR  ( idA:"P63011" AND idB:"Q923S6" )  OR  ( idA:"P63011" AND idB:"P35569" )  OR  ( idA:"P63011" AND idB:"P35294" )  OR  ( idA:"P63011" AND idB:"P62821" )  OR  ( idA:"P63011" AND idB:"P63011" )  )  ) 
+
+Mus musculus : 38 secondary interactions found.
+Schizosaccharomyces pombe (strain 972 / ATCC 24843) : 0 secondary interactions found.
+38 orthologs secondary interactions in total
+Orthologs interactions brought back to reference organism.
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:6239 AND taxidB:6239 AND species:6239 AND  (  ( idA:"G5ECY0" AND idB:"O02108" )  OR  ( idA:"G5ECY0" AND idB:"P02566" )  OR  ( idA:"G5ECY0" AND idB:"P90978" )  OR  ( idA:"G5ECY0" AND idB:"Q03563" )  OR  ( idA:"G5ECY0" AND idB:"Q9UAQ6" )  OR  ( idA:"G5ECY0" AND idB:"Q11184" )  OR  ( idA:"G5ECY0" AND idB:"G5EFL5" )  OR  ( idA:"G5ECY0" AND idB:"Q20365" )  OR  ( idA:"G5ECY0" AND idB:"O17927" )  OR  ( idA:"G5ECY0" AND idB:"Q9XVV3" )  OR  ( idA:"G5ECY0" AND idB:"Q9XWG3" )  OR  ( idA:"G5ECY0" AND idB:"Q9TVL3" )  OR  ( idA:"G5ECY0" AND idB:"G5EBJ4" )  OR  ( idA:"G5ECY0" AND idB:"Q94986" )  OR  ( idA:"G5ECY0" AND idB:"G5ECP0" )  OR  ( idA:"G5ECY0" AND idB:"Q7JP67" )  OR  ( idA:"G5ECY0" AND idB:"Q20234" )  OR  ( idA:"G5ECY0" AND idB:"Q9U1W9" )  OR  ( idA:"G5ECY0" AND idB:"Q27535" )  OR  ( idA:"G5ECY0" AND idB:"Q9GYS1" )  OR  ( idA:"P50488" AND idB:"Q20646" )  OR  ( idA:"P50488" AND idB:"P20792" )  OR  ( idA:"P50488" AND idB:"Q20655" )  OR  ( idA:"P50488" AND idB:"O76840" )  OR  ( idA:"P50488" AND idB:"O17218" )  OR  ( idA:"P50488" AND idB:"P45897" )  OR  ( idA:"P50488" AND idB:"O17972" )  OR  ( idA:"P50488" AND idB:"Q20308" )  OR  ( idA:"P50488" AND idB:"Q18688" )  OR  ( idA:"P50488" AND idB:"G5ECY0" )  OR  ( idA:"P50488" AND idB:"P50488" )  OR  ( idA:"P50488" AND idB:"G5EG62" )  OR  ( idA:"P50488" AND idB:"O02108" )  OR  ( idA:"P50488" AND idB:"P02566" )  OR  ( idA:"P50488" AND idB:"P90978" )  OR  ( idA:"P50488" AND idB:"Q03563" )  OR  ( idA:"P50488" AND idB:"Q9UAQ6" )  OR  ( idA:"P50488" AND idB:"Q11184" )  OR  ( idA:"P50488" AND idB:"G5EFL5" )  OR  ( idA:"P50488" AND idB:"Q20365" )  OR  ( idA:"P50488" AND idB:"O17927" )  OR  ( idA:"P50488" AND idB:"Q9XVV3" )  OR  ( idA:"P50488" AND idB:"Q9XWG3" )  OR  ( idA:"P50488" AND idB:"Q9TVL3" )  OR  ( idA:"P50488" AND idB:"G5EBJ4" )  OR  ( idA:"P50488" AND idB:"Q94986" )  OR  ( idA:"P50488" AND idB:"G5ECP0" )  OR  ( idA:"P50488" AND idB:"Q7JP67" )  OR  ( idA:"P50488" AND idB:"Q20234" )  OR  ( idA:"P50488" AND idB:"Q9U1W9" )  OR  ( idA:"P50488" AND idB:"Q27535" )  OR  ( idA:"P50488" AND idB:"Q9GYS1" )  OR  ( idA:"G5EG62" AND idB:"Q20646" )  OR  ( idA:"G5EG62" AND idB:"P20792" )  OR  ( idA:"G5EG62" AND idB:"Q20655" )  OR  ( idA:"G5EG62" AND idB:"O76840" )  OR  ( idA:"G5EG62" AND idB:"O17218" )  OR  ( idA:"G5EG62" AND idB:"P45897" )  OR  ( idA:"G5EG62" AND idB:"O17972" )  OR  ( idA:"G5EG62" AND idB:"Q20308" )  OR  ( idA:"G5EG62" AND idB:"Q18688" )  OR  ( idA:"G5EG62" AND idB:"G5ECY0" )  OR  ( idA:"G5EG62" AND idB:"P50488" )  OR  ( idA:"G5EG62" AND idB:"G5EG62" )  OR  ( idA:"G5EG62" AND idB:"O02108" )  OR  ( idA:"G5EG62" AND idB:"P02566" )  OR  ( idA:"G5EG62" AND idB:"P90978" )  OR  ( idA:"G5EG62" AND idB:"Q03563" )  OR  ( idA:"G5EG62" AND idB:"Q9UAQ6" )  OR  ( idA:"G5EG62" AND idB:"Q11184" )  OR  ( idA:"G5EG62" AND idB:"G5EFL5" )  OR  ( idA:"G5EG62" AND idB:"Q20365" )  OR  ( idA:"G5EG62" AND idB:"O17927" )  OR  ( idA:"G5EG62" AND idB:"Q9XVV3" )  OR  ( idA:"G5EG62" AND idB:"Q9XWG3" )  OR  ( idA:"G5EG62" AND idB:"Q9TVL3" )  OR  ( idA:"G5EG62" AND idB:"G5EBJ4" )  OR  ( idA:"G5EG62" AND idB:"Q94986" )  OR  ( idA:"G5EG62" AND idB:"G5ECP0" )  OR  ( idA:"G5EG62" AND idB:"Q7JP67" )  OR  ( idA:"G5EG62" AND idB:"Q20234" )  OR  ( idA:"G5EG62" AND idB:"Q9U1W9" )  OR  ( idA:"G5EG62" AND idB:"Q27535" )  OR  ( idA:"G5EG62" AND idB:"Q9GYS1" )  OR  ( idA:"O02108" AND idB:"Q20646" )  OR  ( idA:"O02108" AND idB:"P20792" )  OR  ( idA:"O02108" AND idB:"Q20655" )  OR  ( idA:"O02108" AND idB:"O76840" )  OR  ( idA:"O02108" AND idB:"O17218" )  OR  ( idA:"O02108" AND idB:"P45897" )  OR  ( idA:"O02108" AND idB:"O17972" )  OR  ( idA:"O02108" AND idB:"Q20308" )  OR  ( idA:"O02108" AND idB:"Q18688" )  OR  ( idA:"O02108" AND idB:"G5ECY0" )  OR  ( idA:"O02108" AND idB:"P50488" )  OR  ( idA:"O02108" AND idB:"G5EG62" )  OR  ( idA:"O02108" AND idB:"O02108" )  OR  ( idA:"O02108" AND idB:"P02566" )  OR  ( idA:"O02108" AND idB:"P90978" )  OR  ( idA:"O02108" AND idB:"Q03563" )  )  ) 
+
+33 proteins to display in total
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:6239 AND taxidB:6239 AND species:6239 AND  (  ( idA:"O02108" AND idB:"Q9UAQ6" )  OR  ( idA:"O02108" AND idB:"Q11184" )  OR  ( idA:"O02108" AND idB:"G5EFL5" )  OR  ( idA:"O02108" AND idB:"Q20365" )  OR  ( idA:"O02108" AND idB:"O17927" )  OR  ( idA:"O02108" AND idB:"Q9XVV3" )  OR  ( idA:"O02108" AND idB:"Q9XWG3" )  OR  ( idA:"O02108" AND idB:"Q9TVL3" )  OR  ( idA:"O02108" AND idB:"G5EBJ4" )  OR  ( idA:"O02108" AND idB:"Q94986" )  OR  ( idA:"O02108" AND idB:"G5ECP0" )  OR  ( idA:"O02108" AND idB:"Q7JP67" )  OR  ( idA:"O02108" AND idB:"Q20234" )  OR  ( idA:"O02108" AND idB:"Q9U1W9" )  OR  ( idA:"O02108" AND idB:"Q27535" )  OR  ( idA:"O02108" AND idB:"Q9GYS1" )  OR  ( idA:"P02566" AND idB:"Q20646" )  OR  ( idA:"P02566" AND idB:"P20792" )  OR  ( idA:"P02566" AND idB:"Q20655" )  OR  ( idA:"P02566" AND idB:"O76840" )  OR  ( idA:"P02566" AND idB:"O17218" )  OR  ( idA:"P02566" AND idB:"P45897" )  OR  ( idA:"P02566" AND idB:"O17972" )  OR  ( idA:"P02566" AND idB:"Q20308" )  OR  ( idA:"P02566" AND idB:"Q18688" )  OR  ( idA:"P02566" AND idB:"G5ECY0" )  OR  ( idA:"P02566" AND idB:"P50488" )  OR  ( idA:"P02566" AND idB:"G5EG62" )  OR  ( idA:"P02566" AND idB:"O02108" )  OR  ( idA:"P02566" AND idB:"P02566" )  OR  ( idA:"P02566" AND idB:"P90978" )  OR  ( idA:"P02566" AND idB:"Q03563" )  OR  ( idA:"P02566" AND idB:"Q9UAQ6" )  OR  ( idA:"P02566" AND idB:"Q11184" )  OR  ( idA:"P02566" AND idB:"G5EFL5" )  OR  ( idA:"P02566" AND idB:"Q20365" )  OR  ( idA:"P02566" AND idB:"O17927" )  OR  ( idA:"P02566" AND idB:"Q9XVV3" )  OR  ( idA:"P02566" AND idB:"Q9XWG3" )  OR  ( idA:"P02566" AND idB:"Q9TVL3" )  OR  ( idA:"P02566" AND idB:"G5EBJ4" )  OR  ( idA:"P02566" AND idB:"Q94986" )  OR  ( idA:"P02566" AND idB:"G5ECP0" )  OR  ( idA:"P02566" AND idB:"Q7JP67" )  OR  ( idA:"P02566" AND idB:"Q20234" )  OR  ( idA:"P02566" AND idB:"Q9U1W9" )  OR  ( idA:"P02566" AND idB:"Q27535" )  OR  ( idA:"P02566" AND idB:"Q9GYS1" )  OR  ( idA:"P90978" AND idB:"Q20646" )  OR  ( idA:"P90978" AND idB:"P20792" )  OR  ( idA:"P90978" AND idB:"Q20655" )  OR  ( idA:"P90978" AND idB:"O76840" )  OR  ( idA:"P90978" AND idB:"O17218" )  OR  ( idA:"P90978" AND idB:"P45897" )  OR  ( idA:"P90978" AND idB:"O17972" )  OR  ( idA:"P90978" AND idB:"Q20308" )  OR  ( idA:"P90978" AND idB:"Q18688" )  OR  ( idA:"P90978" AND idB:"G5ECY0" )  OR  ( idA:"P90978" AND idB:"P50488" )  OR  ( idA:"P90978" AND idB:"G5EG62" )  OR  ( idA:"P90978" AND idB:"O02108" )  OR  ( idA:"P90978" AND idB:"P02566" )  OR  ( idA:"P90978" AND idB:"P90978" )  OR  ( idA:"P90978" AND idB:"Q03563" )  OR  ( idA:"P90978" AND idB:"Q9UAQ6" )  OR  ( idA:"P90978" AND idB:"Q11184" )  OR  ( idA:"P90978" AND idB:"G5EFL5" )  OR  ( idA:"P90978" AND idB:"Q20365" )  OR  ( idA:"P90978" AND idB:"O17927" )  OR  ( idA:"P90978" AND idB:"Q9XVV3" )  OR  ( idA:"P90978" AND idB:"Q9XWG3" )  OR  ( idA:"P90978" AND idB:"Q9TVL3" )  OR  ( idA:"P90978" AND idB:"G5EBJ4" )  OR  ( idA:"P90978" AND idB:"Q94986" )  OR  ( idA:"P90978" AND idB:"G5ECP0" )  OR  ( idA:"P90978" AND idB:"Q7JP67" )  OR  ( idA:"P90978" AND idB:"Q20234" )  OR  ( idA:"P90978" AND idB:"Q9U1W9" )  OR  ( idA:"P90978" AND idB:"Q27535" )  OR  ( idA:"P90978" AND idB:"Q9GYS1" )  OR  ( idA:"Q03563" AND idB:"Q20646" )  OR  ( idA:"Q03563" AND idB:"P20792" )  OR  ( idA:"Q03563" AND idB:"Q20655" )  OR  ( idA:"Q03563" AND idB:"O76840" )  OR  ( idA:"Q03563" AND idB:"O17218" )  OR  ( idA:"Q03563" AND idB:"P45897" )  OR  ( idA:"Q03563" AND idB:"O17972" )  OR  ( idA:"Q03563" AND idB:"Q20308" )  OR  ( idA:"Q03563" AND idB:"Q18688" )  OR  ( idA:"Q03563" AND idB:"G5ECY0" )  OR  ( idA:"Q03563" AND idB:"P50488" )  OR  ( idA:"Q03563" AND idB:"G5EG62" )  OR  ( idA:"Q03563" AND idB:"O02108" )  OR  ( idA:"Q03563" AND idB:"P02566" )  OR  ( idA:"Q03563" AND idB:"P90978" )  OR  ( idA:"Q03563" AND idB:"Q03563" )  OR  ( idA:"Q03563" AND idB:"Q9UAQ6" )  OR  ( idA:"Q03563" AND idB:"Q11184" )  OR  ( idA:"Q03563" AND idB:"G5EFL5" )  OR  ( idA:"Q03563" AND idB:"Q20365" )  )  ) 
+
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:6239 AND taxidB:6239 AND species:6239 AND  (  ( idA:"Q03563" AND idB:"O17927" )  OR  ( idA:"Q03563" AND idB:"Q9XVV3" )  OR  ( idA:"Q03563" AND idB:"Q9XWG3" )  OR  ( idA:"Q03563" AND idB:"Q9TVL3" )  OR  ( idA:"Q03563" AND idB:"G5EBJ4" )  OR  ( idA:"Q03563" AND idB:"Q94986" )  OR  ( idA:"Q03563" AND idB:"G5ECP0" )  OR  ( idA:"Q03563" AND idB:"Q7JP67" )  OR  ( idA:"Q03563" AND idB:"Q20234" )  OR  ( idA:"Q03563" AND idB:"Q9U1W9" )  OR  ( idA:"Q03563" AND idB:"Q27535" )  OR  ( idA:"Q03563" AND idB:"Q9GYS1" )  OR  ( idA:"Q9UAQ6" AND idB:"Q20646" )  OR  ( idA:"Q9UAQ6" AND idB:"P20792" )  OR  ( idA:"Q9UAQ6" AND idB:"Q20655" )  OR  ( idA:"Q9UAQ6" AND idB:"O76840" )  OR  ( idA:"Q9UAQ6" AND idB:"O17218" )  OR  ( idA:"Q9UAQ6" AND idB:"P45897" )  OR  ( idA:"Q9UAQ6" AND idB:"O17972" )  OR  ( idA:"Q9UAQ6" AND idB:"Q20308" )  OR  ( idA:"Q9UAQ6" AND idB:"Q18688" )  OR  ( idA:"Q9UAQ6" AND idB:"G5ECY0" )  OR  ( idA:"Q9UAQ6" AND idB:"P50488" )  OR  ( idA:"Q9UAQ6" AND idB:"G5EG62" )  OR  ( idA:"Q9UAQ6" AND idB:"O02108" )  OR  ( idA:"Q9UAQ6" AND idB:"P02566" )  OR  ( idA:"Q9UAQ6" AND idB:"P90978" )  OR  ( idA:"Q9UAQ6" AND idB:"Q03563" )  OR  ( idA:"Q9UAQ6" AND idB:"Q9UAQ6" )  OR  ( idA:"Q9UAQ6" AND idB:"Q11184" )  OR  ( idA:"Q9UAQ6" AND idB:"G5EFL5" )  OR  ( idA:"Q9UAQ6" AND idB:"Q20365" )  OR  ( idA:"Q9UAQ6" AND idB:"O17927" )  OR  ( idA:"Q9UAQ6" AND idB:"Q9XVV3" )  OR  ( idA:"Q9UAQ6" AND idB:"Q9XWG3" )  OR  ( idA:"Q9UAQ6" AND idB:"Q9TVL3" )  OR  ( idA:"Q9UAQ6" AND idB:"G5EBJ4" )  OR  ( idA:"Q9UAQ6" AND idB:"Q94986" )  OR  ( idA:"Q9UAQ6" AND idB:"G5ECP0" )  OR  ( idA:"Q9UAQ6" AND idB:"Q7JP67" )  OR  ( idA:"Q9UAQ6" AND idB:"Q20234" )  OR  ( idA:"Q9UAQ6" AND idB:"Q9U1W9" )  OR  ( idA:"Q9UAQ6" AND idB:"Q27535" )  OR  ( idA:"Q9UAQ6" AND idB:"Q9GYS1" )  OR  ( idA:"Q11184" AND idB:"Q20646" )  OR  ( idA:"Q11184" AND idB:"P20792" )  OR  ( idA:"Q11184" AND idB:"Q20655" )  OR  ( idA:"Q11184" AND idB:"O76840" )  OR  ( idA:"Q11184" AND idB:"O17218" )  OR  ( idA:"Q11184" AND idB:"P45897" )  OR  ( idA:"Q11184" AND idB:"O17972" )  OR  ( idA:"Q11184" AND idB:"Q20308" )  OR  ( idA:"Q11184" AND idB:"Q18688" )  OR  ( idA:"Q11184" AND idB:"G5ECY0" )  OR  ( idA:"Q11184" AND idB:"P50488" )  OR  ( idA:"Q11184" AND idB:"G5EG62" )  OR  ( idA:"Q11184" AND idB:"O02108" )  OR  ( idA:"Q11184" AND idB:"P02566" )  OR  ( idA:"Q11184" AND idB:"P90978" )  OR  ( idA:"Q11184" AND idB:"Q03563" )  OR  ( idA:"Q11184" AND idB:"Q9UAQ6" )  OR  ( idA:"Q11184" AND idB:"Q11184" )  OR  ( idA:"Q11184" AND idB:"G5EFL5" )  OR  ( idA:"Q11184" AND idB:"Q20365" )  OR  ( idA:"Q11184" AND idB:"O17927" )  OR  ( idA:"Q11184" AND idB:"Q9XVV3" )  OR  ( idA:"Q11184" AND idB:"Q9XWG3" )  OR  ( idA:"Q11184" AND idB:"Q9TVL3" )  OR  ( idA:"Q11184" AND idB:"G5EBJ4" )  OR  ( idA:"Q11184" AND idB:"Q94986" )  OR  ( idA:"Q11184" AND idB:"G5ECP0" )  OR  ( idA:"Q11184" AND idB:"Q7JP67" )  OR  ( idA:"Q11184" AND idB:"Q20234" )  OR  ( idA:"Q11184" AND idB:"Q9U1W9" )  OR  ( idA:"Q11184" AND idB:"Q27535" )  OR  ( idA:"Q11184" AND idB:"Q9GYS1" )  OR  ( idA:"G5EFL5" AND idB:"Q20646" )  OR  ( idA:"G5EFL5" AND idB:"P20792" )  OR  ( idA:"G5EFL5" AND idB:"Q20655" )  OR  ( idA:"G5EFL5" AND idB:"O76840" )  OR  ( idA:"G5EFL5" AND idB:"O17218" )  OR  ( idA:"G5EFL5" AND idB:"P45897" )  OR  ( idA:"G5EFL5" AND idB:"O17972" )  OR  ( idA:"G5EFL5" AND idB:"Q20308" )  OR  ( idA:"G5EFL5" AND idB:"Q18688" )  OR  ( idA:"G5EFL5" AND idB:"G5ECY0" )  OR  ( idA:"G5EFL5" AND idB:"P50488" )  OR  ( idA:"G5EFL5" AND idB:"G5EG62" )  OR  ( idA:"G5EFL5" AND idB:"O02108" )  OR  ( idA:"G5EFL5" AND idB:"P02566" )  OR  ( idA:"G5EFL5" AND idB:"P90978" )  OR  ( idA:"G5EFL5" AND idB:"Q03563" )  OR  ( idA:"G5EFL5" AND idB:"Q9UAQ6" )  OR  ( idA:"G5EFL5" AND idB:"Q11184" )  OR  ( idA:"G5EFL5" AND idB:"G5EFL5" )  OR  ( idA:"G5EFL5" AND idB:"Q20365" )  OR  ( idA:"G5EFL5" AND idB:"O17927" )  OR  ( idA:"G5EFL5" AND idB:"Q9XVV3" )  OR  ( idA:"G5EFL5" AND idB:"Q9XWG3" )  OR  ( idA:"G5EFL5" AND idB:"Q9TVL3" )  )  ) 
+
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:6239 AND taxidB:6239 AND species:6239 AND  (  ( idA:"G5EFL5" AND idB:"G5EBJ4" )  OR  ( idA:"G5EFL5" AND idB:"Q94986" )  OR  ( idA:"G5EFL5" AND idB:"G5ECP0" )  OR  ( idA:"G5EFL5" AND idB:"Q7JP67" )  OR  ( idA:"G5EFL5" AND idB:"Q20234" )  OR  ( idA:"G5EFL5" AND idB:"Q9U1W9" )  OR  ( idA:"G5EFL5" AND idB:"Q27535" )  OR  ( idA:"G5EFL5" AND idB:"Q9GYS1" )  OR  ( idA:"Q20365" AND idB:"Q20646" )  OR  ( idA:"Q20365" AND idB:"P20792" )  OR  ( idA:"Q20365" AND idB:"Q20655" )  OR  ( idA:"Q20365" AND idB:"O76840" )  OR  ( idA:"Q20365" AND idB:"O17218" )  OR  ( idA:"Q20365" AND idB:"P45897" )  OR  ( idA:"Q20365" AND idB:"O17972" )  OR  ( idA:"Q20365" AND idB:"Q20308" )  OR  ( idA:"Q20365" AND idB:"Q18688" )  OR  ( idA:"Q20365" AND idB:"G5ECY0" )  OR  ( idA:"Q20365" AND idB:"P50488" )  OR  ( idA:"Q20365" AND idB:"G5EG62" )  OR  ( idA:"Q20365" AND idB:"O02108" )  OR  ( idA:"Q20365" AND idB:"P02566" )  OR  ( idA:"Q20365" AND idB:"P90978" )  OR  ( idA:"Q20365" AND idB:"Q03563" )  OR  ( idA:"Q20365" AND idB:"Q9UAQ6" )  OR  ( idA:"Q20365" AND idB:"Q11184" )  OR  ( idA:"Q20365" AND idB:"G5EFL5" )  OR  ( idA:"Q20365" AND idB:"Q20365" )  OR  ( idA:"Q20365" AND idB:"O17927" )  OR  ( idA:"Q20365" AND idB:"Q9XVV3" )  OR  ( idA:"Q20365" AND idB:"Q9XWG3" )  OR  ( idA:"Q20365" AND idB:"Q9TVL3" )  OR  ( idA:"Q20365" AND idB:"G5EBJ4" )  OR  ( idA:"Q20365" AND idB:"Q94986" )  OR  ( idA:"Q20365" AND idB:"G5ECP0" )  OR  ( idA:"Q20365" AND idB:"Q7JP67" )  OR  ( idA:"Q20365" AND idB:"Q20234" )  OR  ( idA:"Q20365" AND idB:"Q9U1W9" )  OR  ( idA:"Q20365" AND idB:"Q27535" )  OR  ( idA:"Q20365" AND idB:"Q9GYS1" )  OR  ( idA:"O17927" AND idB:"Q20646" )  OR  ( idA:"O17927" AND idB:"P20792" )  OR  ( idA:"O17927" AND idB:"Q20655" )  OR  ( idA:"O17927" AND idB:"O76840" )  OR  ( idA:"O17927" AND idB:"O17218" )  OR  ( idA:"O17927" AND idB:"P45897" )  OR  ( idA:"O17927" AND idB:"O17972" )  OR  ( idA:"O17927" AND idB:"Q20308" )  OR  ( idA:"O17927" AND idB:"Q18688" )  OR  ( idA:"O17927" AND idB:"G5ECY0" )  OR  ( idA:"O17927" AND idB:"P50488" )  OR  ( idA:"O17927" AND idB:"G5EG62" )  OR  ( idA:"O17927" AND idB:"O02108" )  OR  ( idA:"O17927" AND idB:"P02566" )  OR  ( idA:"O17927" AND idB:"P90978" )  OR  ( idA:"O17927" AND idB:"Q03563" )  OR  ( idA:"O17927" AND idB:"Q9UAQ6" )  OR  ( idA:"O17927" AND idB:"Q11184" )  OR  ( idA:"O17927" AND idB:"G5EFL5" )  OR  ( idA:"O17927" AND idB:"Q20365" )  OR  ( idA:"O17927" AND idB:"O17927" )  OR  ( idA:"O17927" AND idB:"Q9XVV3" )  OR  ( idA:"O17927" AND idB:"Q9XWG3" )  OR  ( idA:"O17927" AND idB:"Q9TVL3" )  OR  ( idA:"O17927" AND idB:"G5EBJ4" )  OR  ( idA:"O17927" AND idB:"Q94986" )  OR  ( idA:"O17927" AND idB:"G5ECP0" )  OR  ( idA:"O17927" AND idB:"Q7JP67" )  OR  ( idA:"O17927" AND idB:"Q20234" )  OR  ( idA:"O17927" AND idB:"Q9U1W9" )  OR  ( idA:"O17927" AND idB:"Q27535" )  OR  ( idA:"O17927" AND idB:"Q9GYS1" )  OR  ( idA:"Q9XVV3" AND idB:"Q20646" )  OR  ( idA:"Q9XVV3" AND idB:"P20792" )  OR  ( idA:"Q9XVV3" AND idB:"Q20655" )  OR  ( idA:"Q9XVV3" AND idB:"O76840" )  OR  ( idA:"Q9XVV3" AND idB:"O17218" )  OR  ( idA:"Q9XVV3" AND idB:"P45897" )  OR  ( idA:"Q9XVV3" AND idB:"O17972" )  OR  ( idA:"Q9XVV3" AND idB:"Q20308" )  OR  ( idA:"Q9XVV3" AND idB:"Q18688" )  OR  ( idA:"Q9XVV3" AND idB:"G5ECY0" )  OR  ( idA:"Q9XVV3" AND idB:"P50488" )  OR  ( idA:"Q9XVV3" AND idB:"G5EG62" )  OR  ( idA:"Q9XVV3" AND idB:"O02108" )  OR  ( idA:"Q9XVV3" AND idB:"P02566" )  OR  ( idA:"Q9XVV3" AND idB:"P90978" )  OR  ( idA:"Q9XVV3" AND idB:"Q03563" )  OR  ( idA:"Q9XVV3" AND idB:"Q9UAQ6" )  OR  ( idA:"Q9XVV3" AND idB:"Q11184" )  OR  ( idA:"Q9XVV3" AND idB:"G5EFL5" )  OR  ( idA:"Q9XVV3" AND idB:"Q20365" )  OR  ( idA:"Q9XVV3" AND idB:"O17927" )  OR  ( idA:"Q9XVV3" AND idB:"Q9XVV3" )  OR  ( idA:"Q9XVV3" AND idB:"Q9XWG3" )  OR  ( idA:"Q9XVV3" AND idB:"Q9TVL3" )  OR  ( idA:"Q9XVV3" AND idB:"G5EBJ4" )  OR  ( idA:"Q9XVV3" AND idB:"Q94986" )  OR  ( idA:"Q9XVV3" AND idB:"G5ECP0" )  OR  ( idA:"Q9XVV3" AND idB:"Q7JP67" )  )  ) 
+
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:6239 AND taxidB:6239 AND species:6239 AND  (  ( idA:"Q9XVV3" AND idB:"Q20234" )  OR  ( idA:"Q9XVV3" AND idB:"Q9U1W9" )  OR  ( idA:"Q9XVV3" AND idB:"Q27535" )  OR  ( idA:"Q9XVV3" AND idB:"Q9GYS1" )  OR  ( idA:"Q9XWG3" AND idB:"Q20646" )  OR  ( idA:"Q9XWG3" AND idB:"P20792" )  OR  ( idA:"Q9XWG3" AND idB:"Q20655" )  OR  ( idA:"Q9XWG3" AND idB:"O76840" )  OR  ( idA:"Q9XWG3" AND idB:"O17218" )  OR  ( idA:"Q9XWG3" AND idB:"P45897" )  OR  ( idA:"Q9XWG3" AND idB:"O17972" )  OR  ( idA:"Q9XWG3" AND idB:"Q20308" )  OR  ( idA:"Q9XWG3" AND idB:"Q18688" )  OR  ( idA:"Q9XWG3" AND idB:"G5ECY0" )  OR  ( idA:"Q9XWG3" AND idB:"P50488" )  OR  ( idA:"Q9XWG3" AND idB:"G5EG62" )  OR  ( idA:"Q9XWG3" AND idB:"O02108" )  OR  ( idA:"Q9XWG3" AND idB:"P02566" )  OR  ( idA:"Q9XWG3" AND idB:"P90978" )  OR  ( idA:"Q9XWG3" AND idB:"Q03563" )  OR  ( idA:"Q9XWG3" AND idB:"Q9UAQ6" )  OR  ( idA:"Q9XWG3" AND idB:"Q11184" )  OR  ( idA:"Q9XWG3" AND idB:"G5EFL5" )  OR  ( idA:"Q9XWG3" AND idB:"Q20365" )  OR  ( idA:"Q9XWG3" AND idB:"O17927" )  OR  ( idA:"Q9XWG3" AND idB:"Q9XVV3" )  OR  ( idA:"Q9XWG3" AND idB:"Q9XWG3" )  OR  ( idA:"Q9XWG3" AND idB:"Q9TVL3" )  OR  ( idA:"Q9XWG3" AND idB:"G5EBJ4" )  OR  ( idA:"Q9XWG3" AND idB:"Q94986" )  OR  ( idA:"Q9XWG3" AND idB:"G5ECP0" )  OR  ( idA:"Q9XWG3" AND idB:"Q7JP67" )  OR  ( idA:"Q9XWG3" AND idB:"Q20234" )  OR  ( idA:"Q9XWG3" AND idB:"Q9U1W9" )  OR  ( idA:"Q9XWG3" AND idB:"Q27535" )  OR  ( idA:"Q9XWG3" AND idB:"Q9GYS1" )  OR  ( idA:"Q9TVL3" AND idB:"Q20646" )  OR  ( idA:"Q9TVL3" AND idB:"P20792" )  OR  ( idA:"Q9TVL3" AND idB:"Q20655" )  OR  ( idA:"Q9TVL3" AND idB:"O76840" )  OR  ( idA:"Q9TVL3" AND idB:"O17218" )  OR  ( idA:"Q9TVL3" AND idB:"P45897" )  OR  ( idA:"Q9TVL3" AND idB:"O17972" )  OR  ( idA:"Q9TVL3" AND idB:"Q20308" )  OR  ( idA:"Q9TVL3" AND idB:"Q18688" )  OR  ( idA:"Q9TVL3" AND idB:"G5ECY0" )  OR  ( idA:"Q9TVL3" AND idB:"P50488" )  OR  ( idA:"Q9TVL3" AND idB:"G5EG62" )  OR  ( idA:"Q9TVL3" AND idB:"O02108" )  OR  ( idA:"Q9TVL3" AND idB:"P02566" )  OR  ( idA:"Q9TVL3" AND idB:"P90978" )  OR  ( idA:"Q9TVL3" AND idB:"Q03563" )  OR  ( idA:"Q9TVL3" AND idB:"Q9UAQ6" )  OR  ( idA:"Q9TVL3" AND idB:"Q11184" )  OR  ( idA:"Q9TVL3" AND idB:"G5EFL5" )  OR  ( idA:"Q9TVL3" AND idB:"Q20365" )  OR  ( idA:"Q9TVL3" AND idB:"O17927" )  OR  ( idA:"Q9TVL3" AND idB:"Q9XVV3" )  OR  ( idA:"Q9TVL3" AND idB:"Q9XWG3" )  OR  ( idA:"Q9TVL3" AND idB:"Q9TVL3" )  OR  ( idA:"Q9TVL3" AND idB:"G5EBJ4" )  OR  ( idA:"Q9TVL3" AND idB:"Q94986" )  OR  ( idA:"Q9TVL3" AND idB:"G5ECP0" )  OR  ( idA:"Q9TVL3" AND idB:"Q7JP67" )  OR  ( idA:"Q9TVL3" AND idB:"Q20234" )  OR  ( idA:"Q9TVL3" AND idB:"Q9U1W9" )  OR  ( idA:"Q9TVL3" AND idB:"Q27535" )  OR  ( idA:"Q9TVL3" AND idB:"Q9GYS1" )  OR  ( idA:"G5EBJ4" AND idB:"Q20646" )  OR  ( idA:"G5EBJ4" AND idB:"P20792" )  OR  ( idA:"G5EBJ4" AND idB:"Q20655" )  OR  ( idA:"G5EBJ4" AND idB:"O76840" )  OR  ( idA:"G5EBJ4" AND idB:"O17218" )  OR  ( idA:"G5EBJ4" AND idB:"P45897" )  OR  ( idA:"G5EBJ4" AND idB:"O17972" )  OR  ( idA:"G5EBJ4" AND idB:"Q20308" )  OR  ( idA:"G5EBJ4" AND idB:"Q18688" )  OR  ( idA:"G5EBJ4" AND idB:"G5ECY0" )  OR  ( idA:"G5EBJ4" AND idB:"P50488" )  OR  ( idA:"G5EBJ4" AND idB:"G5EG62" )  OR  ( idA:"G5EBJ4" AND idB:"O02108" )  OR  ( idA:"G5EBJ4" AND idB:"P02566" )  OR  ( idA:"G5EBJ4" AND idB:"P90978" )  OR  ( idA:"G5EBJ4" AND idB:"Q03563" )  OR  ( idA:"G5EBJ4" AND idB:"Q9UAQ6" )  OR  ( idA:"G5EBJ4" AND idB:"Q11184" )  OR  ( idA:"G5EBJ4" AND idB:"G5EFL5" )  OR  ( idA:"G5EBJ4" AND idB:"Q20365" )  OR  ( idA:"G5EBJ4" AND idB:"O17927" )  OR  ( idA:"G5EBJ4" AND idB:"Q9XVV3" )  OR  ( idA:"G5EBJ4" AND idB:"Q9XWG3" )  OR  ( idA:"G5EBJ4" AND idB:"Q9TVL3" )  OR  ( idA:"G5EBJ4" AND idB:"G5EBJ4" )  OR  ( idA:"G5EBJ4" AND idB:"Q94986" )  OR  ( idA:"G5EBJ4" AND idB:"G5ECP0" )  OR  ( idA:"G5EBJ4" AND idB:"Q7JP67" )  OR  ( idA:"G5EBJ4" AND idB:"Q20234" )  OR  ( idA:"G5EBJ4" AND idB:"Q9U1W9" )  OR  ( idA:"G5EBJ4" AND idB:"Q27535" )  OR  ( idA:"G5EBJ4" AND idB:"Q9GYS1" )  )  ) 
+
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:6239 AND taxidB:6239 AND species:6239 AND  (  ( idA:"Q94986" AND idB:"Q20646" )  OR  ( idA:"Q94986" AND idB:"P20792" )  OR  ( idA:"Q94986" AND idB:"Q20655" )  OR  ( idA:"Q94986" AND idB:"O76840" )  OR  ( idA:"Q94986" AND idB:"O17218" )  OR  ( idA:"Q94986" AND idB:"P45897" )  OR  ( idA:"Q94986" AND idB:"O17972" )  OR  ( idA:"Q94986" AND idB:"Q20308" )  OR  ( idA:"Q94986" AND idB:"Q18688" )  OR  ( idA:"Q94986" AND idB:"G5ECY0" )  OR  ( idA:"Q94986" AND idB:"P50488" )  OR  ( idA:"Q94986" AND idB:"G5EG62" )  OR  ( idA:"Q94986" AND idB:"O02108" )  OR  ( idA:"Q94986" AND idB:"P02566" )  OR  ( idA:"Q94986" AND idB:"P90978" )  OR  ( idA:"Q94986" AND idB:"Q03563" )  OR  ( idA:"Q94986" AND idB:"Q9UAQ6" )  OR  ( idA:"Q94986" AND idB:"Q11184" )  OR  ( idA:"Q94986" AND idB:"G5EFL5" )  OR  ( idA:"Q94986" AND idB:"Q20365" )  OR  ( idA:"Q94986" AND idB:"O17927" )  OR  ( idA:"Q94986" AND idB:"Q9XVV3" )  OR  ( idA:"Q94986" AND idB:"Q9XWG3" )  OR  ( idA:"Q94986" AND idB:"Q9TVL3" )  OR  ( idA:"Q94986" AND idB:"G5EBJ4" )  OR  ( idA:"Q94986" AND idB:"Q94986" )  OR  ( idA:"Q94986" AND idB:"G5ECP0" )  OR  ( idA:"Q94986" AND idB:"Q7JP67" )  OR  ( idA:"Q94986" AND idB:"Q20234" )  OR  ( idA:"Q94986" AND idB:"Q9U1W9" )  OR  ( idA:"Q94986" AND idB:"Q27535" )  OR  ( idA:"Q94986" AND idB:"Q9GYS1" )  OR  ( idA:"G5ECP0" AND idB:"Q20646" )  OR  ( idA:"G5ECP0" AND idB:"P20792" )  OR  ( idA:"G5ECP0" AND idB:"Q20655" )  OR  ( idA:"G5ECP0" AND idB:"O76840" )  OR  ( idA:"G5ECP0" AND idB:"O17218" )  OR  ( idA:"G5ECP0" AND idB:"P45897" )  OR  ( idA:"G5ECP0" AND idB:"O17972" )  OR  ( idA:"G5ECP0" AND idB:"Q20308" )  OR  ( idA:"G5ECP0" AND idB:"Q18688" )  OR  ( idA:"G5ECP0" AND idB:"G5ECY0" )  OR  ( idA:"G5ECP0" AND idB:"P50488" )  OR  ( idA:"G5ECP0" AND idB:"G5EG62" )  OR  ( idA:"G5ECP0" AND idB:"O02108" )  OR  ( idA:"G5ECP0" AND idB:"P02566" )  OR  ( idA:"G5ECP0" AND idB:"P90978" )  OR  ( idA:"G5ECP0" AND idB:"Q03563" )  OR  ( idA:"G5ECP0" AND idB:"Q9UAQ6" )  OR  ( idA:"G5ECP0" AND idB:"Q11184" )  OR  ( idA:"G5ECP0" AND idB:"G5EFL5" )  OR  ( idA:"G5ECP0" AND idB:"Q20365" )  OR  ( idA:"G5ECP0" AND idB:"O17927" )  OR  ( idA:"G5ECP0" AND idB:"Q9XVV3" )  OR  ( idA:"G5ECP0" AND idB:"Q9XWG3" )  OR  ( idA:"G5ECP0" AND idB:"Q9TVL3" )  OR  ( idA:"G5ECP0" AND idB:"G5EBJ4" )  OR  ( idA:"G5ECP0" AND idB:"Q94986" )  OR  ( idA:"G5ECP0" AND idB:"G5ECP0" )  OR  ( idA:"G5ECP0" AND idB:"Q7JP67" )  OR  ( idA:"G5ECP0" AND idB:"Q20234" )  OR  ( idA:"G5ECP0" AND idB:"Q9U1W9" )  OR  ( idA:"G5ECP0" AND idB:"Q27535" )  OR  ( idA:"G5ECP0" AND idB:"Q9GYS1" )  OR  ( idA:"Q7JP67" AND idB:"Q20646" )  OR  ( idA:"Q7JP67" AND idB:"P20792" )  OR  ( idA:"Q7JP67" AND idB:"Q20655" )  OR  ( idA:"Q7JP67" AND idB:"O76840" )  OR  ( idA:"Q7JP67" AND idB:"O17218" )  OR  ( idA:"Q7JP67" AND idB:"P45897" )  OR  ( idA:"Q7JP67" AND idB:"O17972" )  OR  ( idA:"Q7JP67" AND idB:"Q20308" )  OR  ( idA:"Q7JP67" AND idB:"Q18688" )  OR  ( idA:"Q7JP67" AND idB:"G5ECY0" )  OR  ( idA:"Q7JP67" AND idB:"P50488" )  OR  ( idA:"Q7JP67" AND idB:"G5EG62" )  OR  ( idA:"Q7JP67" AND idB:"O02108" )  OR  ( idA:"Q7JP67" AND idB:"P02566" )  OR  ( idA:"Q7JP67" AND idB:"P90978" )  OR  ( idA:"Q7JP67" AND idB:"Q03563" )  OR  ( idA:"Q7JP67" AND idB:"Q9UAQ6" )  OR  ( idA:"Q7JP67" AND idB:"Q11184" )  OR  ( idA:"Q7JP67" AND idB:"G5EFL5" )  OR  ( idA:"Q7JP67" AND idB:"Q20365" )  OR  ( idA:"Q7JP67" AND idB:"O17927" )  OR  ( idA:"Q7JP67" AND idB:"Q9XVV3" )  OR  ( idA:"Q7JP67" AND idB:"Q9XWG3" )  OR  ( idA:"Q7JP67" AND idB:"Q9TVL3" )  OR  ( idA:"Q7JP67" AND idB:"G5EBJ4" )  OR  ( idA:"Q7JP67" AND idB:"Q94986" )  OR  ( idA:"Q7JP67" AND idB:"G5ECP0" )  OR  ( idA:"Q7JP67" AND idB:"Q7JP67" )  OR  ( idA:"Q7JP67" AND idB:"Q20234" )  OR  ( idA:"Q7JP67" AND idB:"Q9U1W9" )  OR  ( idA:"Q7JP67" AND idB:"Q27535" )  OR  ( idA:"Q7JP67" AND idB:"Q9GYS1" )  OR  ( idA:"Q20234" AND idB:"Q20646" )  OR  ( idA:"Q20234" AND idB:"P20792" )  OR  ( idA:"Q20234" AND idB:"Q20655" )  OR  ( idA:"Q20234" AND idB:"O76840" )  )  ) 
+
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:6239 AND taxidB:6239 AND species:6239 AND  (  ( idA:"Q20234" AND idB:"O17218" )  OR  ( idA:"Q20234" AND idB:"P45897" )  OR  ( idA:"Q20234" AND idB:"O17972" )  OR  ( idA:"Q20234" AND idB:"Q20308" )  OR  ( idA:"Q20234" AND idB:"Q18688" )  OR  ( idA:"Q20234" AND idB:"G5ECY0" )  OR  ( idA:"Q20234" AND idB:"P50488" )  OR  ( idA:"Q20234" AND idB:"G5EG62" )  OR  ( idA:"Q20234" AND idB:"O02108" )  OR  ( idA:"Q20234" AND idB:"P02566" )  OR  ( idA:"Q20234" AND idB:"P90978" )  OR  ( idA:"Q20234" AND idB:"Q03563" )  OR  ( idA:"Q20234" AND idB:"Q9UAQ6" )  OR  ( idA:"Q20234" AND idB:"Q11184" )  OR  ( idA:"Q20234" AND idB:"G5EFL5" )  OR  ( idA:"Q20234" AND idB:"Q20365" )  OR  ( idA:"Q20234" AND idB:"O17927" )  OR  ( idA:"Q20234" AND idB:"Q9XVV3" )  OR  ( idA:"Q20234" AND idB:"Q9XWG3" )  OR  ( idA:"Q20234" AND idB:"Q9TVL3" )  OR  ( idA:"Q20234" AND idB:"G5EBJ4" )  OR  ( idA:"Q20234" AND idB:"Q94986" )  OR  ( idA:"Q20234" AND idB:"G5ECP0" )  OR  ( idA:"Q20234" AND idB:"Q7JP67" )  OR  ( idA:"Q20234" AND idB:"Q20234" )  OR  ( idA:"Q20234" AND idB:"Q9U1W9" )  OR  ( idA:"Q20234" AND idB:"Q27535" )  OR  ( idA:"Q20234" AND idB:"Q9GYS1" )  OR  ( idA:"Q9U1W9" AND idB:"Q20646" )  OR  ( idA:"Q9U1W9" AND idB:"P20792" )  OR  ( idA:"Q9U1W9" AND idB:"Q20655" )  OR  ( idA:"Q9U1W9" AND idB:"O76840" )  OR  ( idA:"Q9U1W9" AND idB:"O17218" )  OR  ( idA:"Q9U1W9" AND idB:"P45897" )  OR  ( idA:"Q9U1W9" AND idB:"O17972" )  OR  ( idA:"Q9U1W9" AND idB:"Q20308" )  OR  ( idA:"Q9U1W9" AND idB:"Q18688" )  OR  ( idA:"Q9U1W9" AND idB:"G5ECY0" )  OR  ( idA:"Q9U1W9" AND idB:"P50488" )  OR  ( idA:"Q9U1W9" AND idB:"G5EG62" )  OR  ( idA:"Q9U1W9" AND idB:"O02108" )  OR  ( idA:"Q9U1W9" AND idB:"P02566" )  OR  ( idA:"Q9U1W9" AND idB:"P90978" )  OR  ( idA:"Q9U1W9" AND idB:"Q03563" )  OR  ( idA:"Q9U1W9" AND idB:"Q9UAQ6" )  OR  ( idA:"Q9U1W9" AND idB:"Q11184" )  OR  ( idA:"Q9U1W9" AND idB:"G5EFL5" )  OR  ( idA:"Q9U1W9" AND idB:"Q20365" )  OR  ( idA:"Q9U1W9" AND idB:"O17927" )  OR  ( idA:"Q9U1W9" AND idB:"Q9XVV3" )  OR  ( idA:"Q9U1W9" AND idB:"Q9XWG3" )  OR  ( idA:"Q9U1W9" AND idB:"Q9TVL3" )  OR  ( idA:"Q9U1W9" AND idB:"G5EBJ4" )  OR  ( idA:"Q9U1W9" AND idB:"Q94986" )  OR  ( idA:"Q9U1W9" AND idB:"G5ECP0" )  OR  ( idA:"Q9U1W9" AND idB:"Q7JP67" )  OR  ( idA:"Q9U1W9" AND idB:"Q20234" )  OR  ( idA:"Q9U1W9" AND idB:"Q9U1W9" )  OR  ( idA:"Q9U1W9" AND idB:"Q27535" )  OR  ( idA:"Q9U1W9" AND idB:"Q9GYS1" )  OR  ( idA:"Q27535" AND idB:"Q20646" )  OR  ( idA:"Q27535" AND idB:"P20792" )  OR  ( idA:"Q27535" AND idB:"Q20655" )  OR  ( idA:"Q27535" AND idB:"O76840" )  OR  ( idA:"Q27535" AND idB:"O17218" )  OR  ( idA:"Q27535" AND idB:"P45897" )  OR  ( idA:"Q27535" AND idB:"O17972" )  OR  ( idA:"Q27535" AND idB:"Q20308" )  OR  ( idA:"Q27535" AND idB:"Q18688" )  OR  ( idA:"Q27535" AND idB:"G5ECY0" )  OR  ( idA:"Q27535" AND idB:"P50488" )  OR  ( idA:"Q27535" AND idB:"G5EG62" )  OR  ( idA:"Q27535" AND idB:"O02108" )  OR  ( idA:"Q27535" AND idB:"P02566" )  OR  ( idA:"Q27535" AND idB:"P90978" )  OR  ( idA:"Q27535" AND idB:"Q03563" )  OR  ( idA:"Q27535" AND idB:"Q9UAQ6" )  OR  ( idA:"Q27535" AND idB:"Q11184" )  OR  ( idA:"Q27535" AND idB:"G5EFL5" )  OR  ( idA:"Q27535" AND idB:"Q20365" )  OR  ( idA:"Q27535" AND idB:"O17927" )  OR  ( idA:"Q27535" AND idB:"Q9XVV3" )  OR  ( idA:"Q27535" AND idB:"Q9XWG3" )  OR  ( idA:"Q27535" AND idB:"Q9TVL3" )  OR  ( idA:"Q27535" AND idB:"G5EBJ4" )  OR  ( idA:"Q27535" AND idB:"Q94986" )  OR  ( idA:"Q27535" AND idB:"G5ECP0" )  OR  ( idA:"Q27535" AND idB:"Q7JP67" )  OR  ( idA:"Q27535" AND idB:"Q20234" )  OR  ( idA:"Q27535" AND idB:"Q9U1W9" )  OR  ( idA:"Q27535" AND idB:"Q27535" )  OR  ( idA:"Q27535" AND idB:"Q9GYS1" )  OR  ( idA:"Q9GYS1" AND idB:"Q20646" )  OR  ( idA:"Q9GYS1" AND idB:"P20792" )  OR  ( idA:"Q9GYS1" AND idB:"Q20655" )  OR  ( idA:"Q9GYS1" AND idB:"O76840" )  OR  ( idA:"Q9GYS1" AND idB:"O17218" )  OR  ( idA:"Q9GYS1" AND idB:"P45897" )  OR  ( idA:"Q9GYS1" AND idB:"O17972" )  OR  ( idA:"Q9GYS1" AND idB:"Q20308" )  )  ) 
+
+Warning: A request failed with an exception:
+java.lang.NullPointerException
+Client: nil
+The query was: 
+countByQuery  ( taxidA:6239 AND taxidB:6239 AND species:6239 AND  (  ( idA:"Q9GYS1" AND idB:"Q18688" )  OR  ( idA:"Q9GYS1" AND idB:"G5ECY0" )  OR  ( idA:"Q9GYS1" AND idB:"P50488" )  OR  ( idA:"Q9GYS1" AND idB:"G5EG62" )  OR  ( idA:"Q9GYS1" AND idB:"O02108" )  OR  ( idA:"Q9GYS1" AND idB:"P02566" )  OR  ( idA:"Q9GYS1" AND idB:"P90978" )  OR  ( idA:"Q9GYS1" AND idB:"Q03563" )  OR  ( idA:"Q9GYS1" AND idB:"Q9UAQ6" )  OR  ( idA:"Q9GYS1" AND idB:"Q11184" )  OR  ( idA:"Q9GYS1" AND idB:"G5EFL5" )  OR  ( idA:"Q9GYS1" AND idB:"Q20365" )  OR  ( idA:"Q9GYS1" AND idB:"O17927" )  OR  ( idA:"Q9GYS1" AND idB:"Q9XVV3" )  OR  ( idA:"Q9GYS1" AND idB:"Q9XWG3" )  OR  ( idA:"Q9GYS1" AND idB:"Q9TVL3" )  OR  ( idA:"Q9GYS1" AND idB:"G5EBJ4" )  OR  ( idA:"Q9GYS1" AND idB:"Q94986" )  OR  ( idA:"Q9GYS1" AND idB:"G5ECP0" )  OR  ( idA:"Q9GYS1" AND idB:"Q7JP67" )  OR  ( idA:"Q9GYS1" AND idB:"Q20234" )  OR  ( idA:"Q9GYS1" AND idB:"Q9U1W9" )  OR  ( idA:"Q9GYS1" AND idB:"Q27535" )  OR  ( idA:"Q9GYS1" AND idB:"Q9GYS1" )  )  ) 
+
+49 secondary interactions in reference organism
+48 interactions to display in total
+#########################################
+###     END FETCH PROTEIN NETWORK     ###
+#########################################
+
+
+nodes
+({:label Q20646, :id Q20646} {:label P20792, :id P20792} {:label Q20655, :id Q20655} {:label O76840, :id O76840} {:label O17218, :id O17218} {:label P45897, :id P45897} {:label O17972, :id O17972} {:label Q20308, :id Q20308} {:label Q18688, :id Q18688} {:label G5ECY0, :id G5ECY0} {:label P50488, :id P50488} {:label G5EG62, :id G5EG62} {:label O02108, :id O02108} {:label P02566, :id P02566} {:label P90978, :id P90978} {:label Q03563, :id Q03563} {:label Q9UAQ6, :id Q9UAQ6} {:label Q11184, :id Q11184} {:label G5EFL5, :id G5EFL5} {:label Q20365, :id Q20365} {:label O17927, :id O17927} {:label Q9XVV3, :id Q9XVV3} {:label Q9XWG3, :id Q9XWG3} {:label Q9TVL3, :id Q9TVL3} {:label G5EBJ4, :id G5EBJ4} {:label Q94986, :id Q94986} {:label G5ECP0, :id G5ECP0} {:label Q7JP67, :id Q7JP67} {:label Q20234, :id Q20234} {:label Q9U1W9, :id Q9U1W9} {:label Q27535, :id Q27535} {:label Q9GYS1, :id Q9GYS1})
+edges
+{:from Q9TVL3, :to Q18688, :color orange, :label Q99J95<->P11499}
+{:from O17972, :to G5EBJ4, :color orange, :label Q9QY53<->O89019}
+{:from Q20655, :to Q94986, :color orange, :label Q9CQV8<->P63011}
+{:from Q94986, :to Q9UAQ6, :color orange, :label P63011<->P62821}
+{:from Q18688, :to Q20234, :color red, :label }
+{:from Q9U1W9, :to Q18688, :color orange, :label P35294<->P11499}
+{:from G5ECY0, :to G5EFL5, :color red, :label }
+{:from Q20365, :to Q18688, :color orange, :label O35963<->P11499}
+{:from G5EG62, :to Q18688, :color red, :label }
+{:from Q18688, :to Q18688, :color red, :label }
+{:from G5ECP0, :to G5ECP0, :color orange, :label P59240<->P59240}
+{:from Q18688, :to O02108, :color red, :label }
+{:from Q18688, :to Q9XWG3, :color red, :label }
+{:from Q20655, :to Q20655, :color orange, :label Q9CQV8<->P63101}
+{:from Q94986, :to Q18688, :color orange, :label P63011<->P11499}
+{:from Q18688, :to Q03563, :color red, :label }
+{:from P45897, :to Q18688, :color red, :label }
+{:from Q18688, :to O17927, :color red, :label }
+{:from Q9UAQ6, :to Q18688, :color orange, :label P62821<->P11499}
+{:from O17972, :to G5ECP0, :color orange, :label Q9QY53<->P59240}
+{:from Q18688, :to Q11184, :color red, :label }
+{:from Q18688, :to P50488, :color red, :label }
+{:from G5EBJ4, :to Q18688, :color orange, :label O89019<->P11499}
+{:from G5EFL5, :to G5EFL5, :color red, :label }
+{:from G5EG62, :to G5EG62, :color red, :label }
+{:from Q20655, :to Q18688, :color orange, :label P63101<->P11499}
+{:from Q18688, :to O17218, :color red, :label }
+{:from Q11184, :to Q11184, :color red, :label }
+{:from Q18688, :to P20792, :color red, :label }
+{:from Q18688, :to G5EFL5, :color red, :label }
+{:from G5EG62, :to P02566, :color red, :label }
+{:from Q18688, :to O76840, :color red, :label }
+{:from G5ECP0, :to Q18688, :color orange, :label P59240<->P11499}
+{:from O17972, :to Q18688, :color orange, :label Q9QY53<->P11499}
+{:from G5ECY0, :to G5ECY0, :color red, :label }
+{:from Q18688, :to P90978, :color red, :label }
+{:from Q18688, :to P02566, :color red, :label }
+{:from Q11184, :to Q20655, :color red, :label }
+{:from Q18688, :to Q20308, :color red, :label }
+{:from Q9GYS1, :to Q18688, :color orange, :label Q921E6<->P11499}
+{:from Q18688, :to Q9XVV3, :color red, :label }
+{:from Q20655, :to Q18688, :color orange, :label Q9CQV8<->P11499}
+{:from G5EFL5, :to Q9XWG3, :color red, :label }
+{:from Q20655, :to G5ECY0, :color orange, :label Q9CQV8<->Q62108}
+{:from Q18688, :to Q27535, :color red, :label }
+{:from G5ECY0, :to Q18688, :color orange, :label Q62108<->P11499}
+{:from O02108, :to Q9TVL3, :color red, :label }
+{:from Q7JP67, :to Q18688, :color orange, :label Q923S6<->P11499}
+ppi-query.network-graph-test=>
+[:proto-repl-code-execution-extension
+ "proto-repl-charts"
+ {:name "Psicquic interactions",
+  :type "graph",
+  :data {:nodes ({:label "Q20646", :id "Q20646"}
+                 {:label "P20792", :id "P20792"}
+                 {:label "Q20655", :id "Q20655"}
+                 {:label "O76840", :id "O76840"}
+                 {:label "O17218", :id "O17218"}
+                 {:label "P45897", :id "P45897"}
+                 {:label "O17972", :id "O17972"}
+                 {:label "Q20308", :id "Q20308"}
+                 {:label "Q18688", :id "Q18688"}
+                 {:label "G5ECY0", :id "G5ECY0"}
+                 {:label "P50488", :id "P50488"}
+                 {:label "G5EG62", :id "G5EG62"}
+                 {:label "O02108", :id "O02108"}
+                 {:label "P02566", :id "P02566"}
+                 {:label "P90978", :id "P90978"}
+                 {:label "Q03563", :id "Q03563"}
+                 {:label "Q9UAQ6", :id "Q9UAQ6"}
+                 {:label "Q11184", :id "Q11184"}
+                 {:label "G5EFL5", :id "G5EFL5"}
+                 {:label "Q20365", :id "Q20365"}
+                 {:label "O17927", :id "O17927"}
+                 {:label "Q9XVV3", :id "Q9XVV3"}
+                 {:label "Q9XWG3", :id "Q9XWG3"}
+                 {:label "Q9TVL3", :id "Q9TVL3"}
+                 {:label "G5EBJ4", :id "G5EBJ4"}
+                 {:label "Q94986", :id "Q94986"}
+                 {:label "G5ECP0", :id "G5ECP0"}
+                 {:label "Q7JP67", :id "Q7JP67"}
+                 {:label "Q20234", :id "Q20234"}
+                 {:label "Q9U1W9", :id "Q9U1W9"}
+                 {:label "Q27535", :id "Q27535"}
+                 {:label "Q9GYS1", :id "Q9GYS1"}),
+         :options nil,
+         :edges ({:color "orange",
+                  :from "Q9TVL3",
+                  :label "Q99J95<->P11499",
+                  :to "Q18688"}
+                 {:color "orange",
+                  :from "O17972",
+                  :label "Q9QY53<->O89019",
+                  :to "G5EBJ4"}
+                 {:color "orange",
+                  :from "Q20655",
+                  :label "Q9CQV8<->P63011",
+                  :to "Q94986"}
+                 {:color "orange",
+                  :from "Q94986",
+                  :label "P63011<->P62821",
+                  :to "Q9UAQ6"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "Q20234"}
+                 {:color "orange",
+                  :from "Q9U1W9",
+                  :label "P35294<->P11499",
+                  :to "Q18688"}
+                 {:color "red",
+                  :from "G5ECY0",
+                  :label "",
+                  :to "G5EFL5"}
+                 {:color "orange",
+                  :from "Q20365",
+                  :label "O35963<->P11499",
+                  :to "Q18688"}
+                 {:color "red",
+                  :from "G5EG62",
+                  :label "",
+                  :to "Q18688"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "Q18688"}
+                 {:color "orange",
+                  :from "G5ECP0",
+                  :label "P59240<->P59240",
+                  :to "G5ECP0"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "O02108"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "Q9XWG3"}
+                 {:color "orange",
+                  :from "Q20655",
+                  :label "Q9CQV8<->P63101",
+                  :to "Q20655"}
+                 {:color "orange",
+                  :from "Q94986",
+                  :label "P63011<->P11499",
+                  :to "Q18688"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "Q03563"}
+                 {:color "red",
+                  :from "P45897",
+                  :label "",
+                  :to "Q18688"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "O17927"}
+                 {:color "orange",
+                  :from "Q9UAQ6",
+                  :label "P62821<->P11499",
+                  :to "Q18688"}
+                 {:color "orange",
+                  :from "O17972",
+                  :label "Q9QY53<->P59240",
+                  :to "G5ECP0"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "Q11184"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "P50488"}
+                 {:color "orange",
+                  :from "G5EBJ4",
+                  :label "O89019<->P11499",
+                  :to "Q18688"}
+                 {:color "red",
+                  :from "G5EFL5",
+                  :label "",
+                  :to "G5EFL5"}
+                 {:color "red",
+                  :from "G5EG62",
+                  :label "",
+                  :to "G5EG62"}
+                 {:color "orange",
+                  :from "Q20655",
+                  :label "P63101<->P11499",
+                  :to "Q18688"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "O17218"}
+                 {:color "red",
+                  :from "Q11184",
+                  :label "",
+                  :to "Q11184"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "P20792"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "G5EFL5"}
+                 {:color "red",
+                  :from "G5EG62",
+                  :label "",
+                  :to "P02566"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "O76840"}
+                 {:color "orange",
+                  :from "G5ECP0",
+                  :label "P59240<->P11499",
+                  :to "Q18688"}
+                 {:color "orange",
+                  :from "O17972",
+                  :label "Q9QY53<->P11499",
+                  :to "Q18688"}
+                 {:color "red",
+                  :from "G5ECY0",
+                  :label "",
+                  :to "G5ECY0"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "P90978"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "P02566"}
+                 {:color "red",
+                  :from "Q11184",
+                  :label "",
+                  :to "Q20655"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "Q20308"}
+                 {:color "orange",
+                  :from "Q9GYS1",
+                  :label "Q921E6<->P11499",
+                  :to "Q18688"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "Q9XVV3"}
+                 {:color "orange",
+                  :from "Q20655",
+                  :label "Q9CQV8<->P11499",
+                  :to "Q18688"}
+                 {:color "red",
+                  :from "G5EFL5",
+                  :label "",
+                  :to "Q9XWG3"}
+                 {:color "orange",
+                  :from "Q20655",
+                  :label "Q9CQV8<->Q62108",
+                  :to "G5ECY0"}
+                 {:color "red",
+                  :from "Q18688",
+                  :label "",
+                  :to "Q27535"}
+                 {:color "orange",
+                  :from "G5ECY0",
+                  :label "Q62108<->P11499",
+                  :to "Q18688"}
+                 {:color "red",
+                  :from "O02108",
+                  :label "",
+                  :to "Q9TVL3"}
+                 {:color "orange",
+                  :from "Q7JP67",
+                  :label "Q923S6<->P11499",
+                  :to "Q18688"})}}]
