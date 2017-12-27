@@ -25,7 +25,8 @@
           merged-group (merge group1 group2)]
 
       (testing "Ortholog cache should be empty at first"
-               (is (nil? (cache/get-ortholog-group catalase-human))))
+               (is (= :ortholog/not-found
+                      (cache/get-ortholog-group catalase-human))))
 
       ; add a mouse ortholog
       (cache/add-ortholog-group catalase-human group1)
@@ -42,4 +43,3 @@
                 human to mouse and guinea pig"
               (is (= (cache/get-ortholog-group catalase-human)
                      merged-group))))))
-

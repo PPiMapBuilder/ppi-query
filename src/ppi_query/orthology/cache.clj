@@ -13,12 +13,15 @@
 ; Ortholog memory cache
 (def ^:dynamic mem-cache (atom {}))
 
+(defn not-found->nil
+  "Change a :not-found element into nil"
+  [o] (if (= o :ortholog/not-found) nil o))
 
 (defn get-ortholog-group
   "Get from memory cache an ortholog group for a protein."
   [protein]
   (let [organism (:organism protein)]
-    (get-in @mem-cache [organism protein]) :ortholog/not-found))
+    (get-in @mem-cache [organism protein] :ortholog/not-found)))
 
 (s/fdef get-ortholog-group
   :args (s/cat :protein ::prot/protein)
@@ -35,7 +38,7 @@
       assoc-in
       [organism protein]
       (utils/merge-distinct
-        (get-ortholog-group protein)
+        (not-found->nil (get-ortholog-group protein))
         ortholog-group))))
 
 (s/fdef add-ortholog-group
