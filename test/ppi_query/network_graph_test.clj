@@ -100,7 +100,7 @@
             dbs ; PSICQUIC databases to query
                    ref-org-1   ; Organism of Interest
               proteins-set-1   ; Proteins of Interest
-            [])];other-orgs-set-1)] ; Other Organisms to check
+            other-orgs-set-1)] ; Other Organisms to check
         ;  proteins-set-1)]
     (println "#########################################")
     (println "###     END FETCH PROTEIN NETWORK     ###")
