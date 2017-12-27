@@ -1,4 +1,4 @@
-(ns ppi-query.interaction-test
+(ns ppi-query.interaction.miql-test
   (:require [clojure.test :refer :all]
             [clojure.spec.alpha :as s]
             [clojure.spec.test.alpha :as stest]
@@ -70,4 +70,3 @@
 
     (is (= (to-miql [:and [:taxidA 9606] [:taxidB 9606] [:species 9606] [:or [:id "P04040"]]])
            " ( taxidA:9606 AND taxidB:9606 AND species:9606 AND  ( id:\"P04040\" )  ) "))))
-

@@ -50,11 +50,11 @@
 (deftest test-get-by-query
   ;(println test-query-1-res)
   (is (s/valid? ::intrd/interactions test-query-1-res))
-  (count-is 282 test-query-1-res)
+  (count-is 284 test-query-1-res)
 
   (when do-test-query-2
     (is (s/valid? ::intrd/interactions test-query-2-res))
-    (count-is 282 test-query-1-res))
+    (count-is 284 test-query-1-res))
 
   (is (s/valid? ::intrd/interactions test-query-3-res))
   (is (= (intrq/get-by-query test-client-1 test-query-3)
@@ -64,7 +64,7 @@
   (is (s/valid? ::intrd/interactions test-query-4-res))
   (is (= (intrq/get-by-query test-client-1 test-query-4)
          test-query-4-res))
-  (count-is 11 test-query-4-res))
+  (count-is 13 test-query-4-res))
 
 (deftest test-fetch-by-query
   (is (= test-query-1-res

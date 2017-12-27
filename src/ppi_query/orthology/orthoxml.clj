@@ -113,7 +113,8 @@
            genes))))
 
 (s/fdef parse-species-xml
-  :args (s/cat :species-xml ::species-xml)
+  :args (s/cat :species-zip
+           (s/spec (s/cat :species-xml ::species-xml :zip any?)))
   :ret (s/map-of int? ::protein/protein))
 
 
@@ -140,8 +141,12 @@
        (zx/xml-> orth-group :geneRef)))
 
 (s/fdef parse-ortholog-group-xml
-  :args (s/cat :ortholog-groups-xml ::ortholog-groups-xml)
-  :ret (s/coll-of (s/spec (s/coll-of ::orthd/ortholog-scored-protein))))
+  :args (s/cat
+          :proteins-map
+            (s/spec (s/map-of int? ::protein/protein))
+          :ortholog-groups-zip
+            (s/spec  (s/cat :ortholog-group ::ortholog-group-xml :zip any?)))
+  :ret (s/coll-of ::orthd/ortholog-scored-protein))
 
 
 (defn as-protein [ortholog-prot]
@@ -198,41 +203,3 @@
 (s/fdef fetch-ortholog-species-pair!
   :args (s/cat :organism1 ::orgn/organism :organism2 ::orgn/organism)
   :ret ::ortholog.cache/ortholog-cache)
-
-
-(comment
-  (def orgs orgn/inparanoid-organism-repository)
-
-  (->>
-    (for [org1 orgs org2 orgs :when (not= org1 org2)]
-      #{(orgn/get-shortname org1) (orgn/get-shortname org2)})
-    (distinct)
-    (map sort)
-    (def org-pairs))
-
-  (require '[clojure.spec.test.alpha :as stest])
-  (stest/instrument)
-  (def o1 (orgn/inparanoid-organism-by-id 272561))
-  (def o2 (orgn/inparanoid-organism-by-id 7159))
-  (def orthoxml
-    (fetch-orthoxml! o1 o2))
-  (def rootzip (zip/xml-zip orthoxml))
-  (def orthozip (zx/xml1-> rootzip :orthoXML))
-  (def specieszip1 (first (zx/xml-> orthozip :species)))
-  (def geneszip (zx/xml1-> specieszip1 :database :genes :gene))
-  (def proteins-map
-    (apply merge
-      (map parse-species-xml
-           (zx/xml-> orthozip :species))))
-  (binding [*print-level* 1]
-    (parse-ortholog-group-xml proteins-map
-      (zx/xml1-> orthozip :groups :orthologGroup)))
-  (zip/node
-    (zx/xml1-> orthozip :groups :orthologGroup :geneRef))
-  (zip/node
-    (zx/xml1->
-      (zx/xml1-> orthozip :groups :orthologGroup :geneRef)
-      :score (zx/attr= :id "inparalog")))
-  (def ortholog-group (parse-ortholog-xml orthoxml))
-
-  nil)
