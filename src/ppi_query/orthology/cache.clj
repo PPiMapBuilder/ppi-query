@@ -46,8 +46,66 @@
                :ortholog-group ::orth/ortholog-group)
   :ret ::ortholog-cache)
 
+(defn filename-species-pair
+  "Get the name of the file were to save or get a species-pair from."
+  [organism1 organism2]
+  (let [[short-org-1 short-org-2]
+        (sort [(org/get-shortname organism1)
+               (org/get-shortname organism2)])]
+     (str "ortholog-cache/" short-org-1 "-" short-org-2 ".clj")))
 
-(defn get-ortholog-species-pair
+(defn write-disk-ortholog-species
+  "Add species pair ortholog groups to disk cache"
+  [organism1 organism2 species-pair]
+  (let [filename (filename-species-pair organism1 organism2)]
+    (do (println "## Ortholog cache ## Writing to disk:" filename)
+        (with-open [w (clojure.java.io/writer filename)]
+          (binding [*out* w
+                    *print-level* nil]
+            (pr species-pair))))))
+
+(defn add-ortholog-species-pair-mem
+  "Add species pair ortholog groups to mem cache"
+  [species-pair]
+  (swap!
+    mem-cache
+    utils/merge-distinct
+    species-pair))
+
+(s/fdef add-ortholog-species-pair-mem
+  :args (s/cat :ortholog-species-pair ::ortholog-cache)
+  :ret ::ortholog-cache)
+
+(defn add-ortholog-species-pair-disk
+  "Add species pair ortholog groups to disk"
+  [species-pair]
+  (let [[org1 org2] (keys species-pair)]
+     (write-disk-ortholog-species org1 org2 species-pair)))
+
+(s/fdef add-ortholog-species-pair-disk
+  :args (s/cat :ortholog-species-pair ::ortholog-cache))
+
+(defn add-ortholog-species-pair
+  "Add species pair ortholog groups to disk and memory"
+  [species-pair]
+  (if species-pair
+    (do (add-ortholog-species-pair-disk species-pair)
+        (add-ortholog-species-pair-mem  species-pair))))
+
+(s/fdef add-ortholog-species-pair
+  :args (s/cat :ortholog-species-pair ::ortholog-cache)
+  :ret ::ortholog-cache)
+
+(defn read-disk-ortholog-species
+  "Get species pair ortholog groups from disk"
+  [organism1 organism2]
+  (let [filename (filename-species-pair organism1 organism2)]
+    (if (.exists (clojure.java.io/as-file filename))
+      (do (println "## Ortholog cache ## Reading from disk:" filename)
+          (with-open [r (java.io.PushbackReader. (clojure.java.io/reader filename))]
+            (read r))))))
+
+(defn get-ortholog-species-pair-mem
   "Get species pair ortholog groups from mem cache"
   [organism1 organism2]
   (let [orthologs-org1 (get @mem-cache organism1)
@@ -56,19 +114,26 @@
       {organism1 orthologs-org1, organism2 orthologs-org2}
       nil)))
 
-(s/fdef get-ortholog-species-pair
+(s/fdef get-ortholog-species-pair-mem
   :args (s/cat :organism1 ::org/organism :organism2 ::org/organism)
   :ret (s/nilable ::ortholog-cache))
 
+(defn get-ortholog-species-pair-disk
+  "Get species pair ortholog groups from disk cache and add them in mem cache"
+  [organism1 organism2]
+  (if-let [species-pair (read-disk-ortholog-species organism1 organism2)]
+    (add-ortholog-species-pair-mem species-pair)))
 
-(defn add-ortholog-species-pair
-  "Add species pair ortholog groups to mem cache"
-  [species-pair]
-  (swap!
-    mem-cache
-    utils/merge-distinct
-    species-pair))
+(s/fdef get-ortholog-species-pair-disk
+  :args (s/cat :organism1 ::org/organism :organism2 ::org/organism)
+  :ret (s/nilable ::ortholog-cache))
 
-(s/fdef add-ortholog-species-pair
-  :args (s/cat :ortholog-species-pair ::ortholog-cache)
-  :ret ::ortholog-cache)
+(defn get-ortholog-species-pair
+  "Get species pair ortholog groups from mem cache if possible, else get from disk"
+  [organism1 organism2]
+  (or (get-ortholog-species-pair-mem  organism1 organism2)
+      (get-ortholog-species-pair-disk organism1 organism2)))
+
+(s/fdef get-ortholog-species-pair
+  :args (s/cat :organism1 ::org/organism :organism2 ::org/organism)
+  :ret (s/nilable ::ortholog-cache))
