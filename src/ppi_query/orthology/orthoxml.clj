@@ -10,7 +10,8 @@
             [ppi-query.organism :as orgn]
             [clojure.data.zip.xml :as zx]
             [clojure.zip :as zip]
-            [ppi-query.spec :as ps]))
+            [ppi-query.spec :as ps]
+            [ppi-query.utils :refer :all]))
 
 
 (def registry "http://inparanoid.sbc.su.se/download/8.0_current/Orthologs_OrthoXML/")
@@ -155,45 +156,109 @@
     (:organism ortholog-prot)
     (:uniprotid ortholog-prot)))
 
+(defn ortholog-groups->couples [ortholog-groups]
+  (mapcat
+    (fn [ortholog-group]
+        (for [prot1 ortholog-group
+              prot2 ortholog-group
+              :when (not= (:organism prot1) (:organism prot2))]
+           [prot1 prot2]))
+    ortholog-groups))
+
+(s/fdef ortholog-groups->couples
+  :args (s/cat
+          :ortholog-groups
+            (s/spec (s/coll-of (s/coll-of ::orthd/ortholog-scored-protein :distinct true))))
+  :ret (s/coll-of (s/coll-of ::orthd/ortholog-scored-protein :count 2 :distinct true)))
+
+(defn first-arg [arg1 arg2] arg1)
+; This function in used when computing the score of an ortholog-protein score in the cache.
+; Should it be the min score of the two proteins in the ortholog group ?
+;   The multiplication of the two scores ?
+;   Just the initial score of this ortholog scored protein in the ortholog group ?
+;   TODO Verify with @gcornut
+(def default-score-func min)
+
+(s/fdef default-score-func
+  :args (s/cat :score-1 number? :score-2 number?)
+  :ret number?)
+
+(defn ortholgs-couples->ortholog-cache
+  [ortholog-couples]
+  (reduce
+    (fn [cache-map
+         [{org1 :organism protid1 :uniprotid score1 :ortholog-score :as prot1}
+          {org2 :organism protid2 :uniprotid score2 :ortholog-score :as prot2}]]
+        (-> cache-map
+          (update-in
+             [org1 (protein/->Protein org1 protid1) org2]
+             (fnil conj #{})
+             (orthd/->OrthologScoredProtein
+                org2
+                protid2
+                (default-score-func score2 score1)))
+          (update-in
+             [org2 (protein/->Protein org2 protid2) org1]
+             (fnil conj #{})
+             (orthd/->OrthologScoredProtein
+                org1
+                protid1
+                (default-score-func score1 score2)))))
+    {}
+    ortholog-couples))
+
+(s/fdef ortholgs-couples->ortholog-cache
+  :args (s/cat
+          :ortholog-groups
+            (s/spec (s/coll-of (s/coll-of ::orthd/ortholog-scored-protein :count 2 :distinct true))))
+  :ret ::ortholog.cache/ortholog-cache)
+
+(defn ortholgs-couples->score-min->ortholog-cache
+  [ortholog-couples]
+  (ortholgs-couples->ortholog-cache ortholog-couples min))
+
+(defn ortholgs-couples->standard->ortholog-cache
+  [ortholog-couples]
+  (ortholgs-couples->ortholog-cache ortholog-couples (fn [sc1 sc2] sc1)))
 
 (defn parse-ortholog-xml
   "Parse an orthoXML"
   [orthoxml]
   (let [rootzip
           (do (println "## Orthoxml downloaded, starting parsing.")
-              (zip/xml-zip orthoxml))
+              (time (zip/xml-zip orthoxml)))
         orthozip
           (zx/xml1-> rootzip :orthoXML)
         proteins-map
-          (do (println "## Calculating protein-map (could be parallellized)...")
-              (apply merge
-                (map parse-species-xml
-                     (zx/xml-> orthozip :species))))
+          ; (Could be parallellized, but quite short)
+          (do (println "## Calculating protein-map...")
+              (time
+               (doall
+                (apply merge
+                  (map parse-species-xml
+                       (zx/xml-> orthozip :species))))))
+        ortholog-groups-xml
+          (do (println "## Getting all ortholog groups...")
+              (time
+               (doall
+                 (zx/xml-> orthozip :groups :orthologGroup))))
         ortholog-groups
-          (do (println "## Parsing ortholog groups (could be parallellized)...")
-              (map (partial parse-ortholog-group-xml proteins-map)
-                   (zx/xml-> orthozip :groups :orthologGroup)))]
-    (println "## Generating cache-style data from ortholog groups..")
-    (reduce
-      (fn [cache-map ortholog-group]
-         (reduce
-            (fn [sub-cache-map [prot1 prot2]]
-                (-> sub-cache-map
-                  (update-in
-                     [(:organism prot1) (as-protein prot1) (:organism prot2)]
-                     (fnil conj #{})
-                     prot2)
-                  (update-in
-                     [(:organism prot2) (as-protein prot2) (:organism prot1)]
-                     (fnil conj #{})
-                     prot1)))
-            cache-map
-            (for [prot1 ortholog-group
-                  prot2 ortholog-group
-                  :when (not= (:organism prot1) (:organism prot2))]
-               [prot1 prot2])))
-      {}
-      ortholog-groups)))
+          (do (println "## Parsing ortholog groups (very long, to optimize)...")
+              (println (count ortholog-groups-xml) "ortholog groups to parse.")
+              (time
+               (doall
+                (ppmap2 (partial parse-ortholog-group-xml proteins-map)
+                        ortholog-groups-xml))))
+        ortholog-couples
+          (do (println "## Generating orthologs proteins couples..")
+              (time
+               (doall
+                (ortholog-groups->couples ortholog-groups))))]
+    ;(dorun (map println (take 10 ortholog-groups-proteins)))
+    (println "## Generating cache-style data from ortholog couples..")
+    (time
+     (doall
+      (ortholgs-couples->ortholog-cache ortholog-couples)))))
 
 (s/fdef parse-ortholog-xml
   :args (s/cat :orthoxml ::orthoxml)
