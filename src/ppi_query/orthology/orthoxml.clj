@@ -160,16 +160,20 @@
   "Parse an orthoXML"
   [orthoxml]
   (let [rootzip
-          (zip/xml-zip orthoxml)
+          (do (println "## Orthoxml downloaded, starting parsing.")
+              (zip/xml-zip orthoxml))
         orthozip
           (zx/xml1-> rootzip :orthoXML)
         proteins-map
-          (apply merge
-            (map parse-species-xml
-                 (zx/xml-> orthozip :species)))
+          (do (println "## Calculating protein-map (could be parallellized)...")
+              (apply merge
+                (map parse-species-xml
+                     (zx/xml-> orthozip :species))))
         ortholog-groups
-          (map (partial parse-ortholog-group-xml proteins-map)
-               (zx/xml-> orthozip :groups :orthologGroup))]
+          (do (println "## Parsing ortholog groups (could be parallellized)...")
+              (map (partial parse-ortholog-group-xml proteins-map)
+                   (zx/xml-> orthozip :groups :orthologGroup)))]
+    (println "## Generating cache-style data from ortholog groups..")
     (reduce
       (fn [cache-map ortholog-group]
          (reduce
