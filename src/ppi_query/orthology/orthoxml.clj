@@ -267,8 +267,12 @@
 
 (defn fetch-ortholog-species-pair! [organism1 organism2]
   "Fetch orthoXML from inparanoid and parse it"
-  (-> (fetch-orthoxml! organism1 organism2)
-      (parse-ortholog-xml)))
+  (try
+    (-> (fetch-orthoxml! organism1 organism2)
+        (parse-ortholog-xml))
+    (catch Exception  e
+      (println "Fail in fetch-ortholog-species-pair! " organism1 organism2)
+      (println "Caught Exception:" (.getMessage e)))))
 
 (s/fdef fetch-ortholog-species-pair!
   :args (s/cat :organism1 ::orgn/organism :organism2 ::orgn/organism)

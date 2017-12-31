@@ -38,5 +38,5 @@
         (for [org1 orgs org2 orgs :when (not= org1 org2)]
             [org1 org2])]
 
-    (map (fn [[org1 org2]] (orth/get-ortholog-species-pair org1 org2))
-         (shuffle org-pairs))))
+    (dorun (map (fn [[org1 org2]] (orth/get-ortholog-species-pair org1 org2))
+                (shuffle org-pairs)))))
