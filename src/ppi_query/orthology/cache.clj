@@ -3,7 +3,8 @@
             [ppi-query.orthology.data :as orth]
             [ppi-query.organism :as org]
             [ppi-query.protein :as prot]
-            [ppi-query.utils :as utils]))
+            [ppi-query.utils :as utils]
+            [taoensso.nippy :as nippy]))
 
 ; Ortholog group by protein by organism (protein's organism)
 (s/def ::ortholog-cache
@@ -52,17 +53,22 @@
   (let [[short-org-1 short-org-2]
         (sort [(org/get-shortname organism1)
                (org/get-shortname organism2)])]
-     (str "ortholog-cache/" short-org-1 "-" short-org-2 ".clj")))
+     (str "ortholog-cache/" short-org-1 "-" short-org-2 ".npy")))
 
 (defn write-disk-ortholog-species
   "Add species pair ortholog groups to disk cache"
   [organism1 organism2 species-pair]
   (let [filename (filename-species-pair organism1 organism2)]
     (do (println "## Ortholog cache ## Writing to disk:" filename)
-        (with-open [w (clojure.java.io/writer filename)]
-          (binding [*out* w
-                    *print-level* nil]
-            (pr species-pair))))))
+        (nippy/freeze-to-file filename species-pair))))
+
+(defn read-disk-ortholog-species
+  "Get species pair ortholog groups from disk"
+  [organism1 organism2]
+  (let [filename (filename-species-pair organism1 organism2)]
+    (if (.exists (clojure.java.io/as-file filename))
+      (do (println "## Ortholog cache ## Reading from disk:" filename)
+          (nippy/thaw-from-file filename)))))
 
 (defn add-ortholog-species-pair-mem
   "Add species pair ortholog groups to mem cache"
@@ -95,15 +101,6 @@
 (s/fdef add-ortholog-species-pair
   :args (s/cat :ortholog-species-pair ::ortholog-cache)
   :ret ::ortholog-cache)
-
-(defn read-disk-ortholog-species
-  "Get species pair ortholog groups from disk"
-  [organism1 organism2]
-  (let [filename (filename-species-pair organism1 organism2)]
-    (if (.exists (clojure.java.io/as-file filename))
-      (do (println "## Ortholog cache ## Reading from disk:" filename)
-          (with-open [r (java.io.PushbackReader. (clojure.java.io/reader filename))]
-            (read r))))))
 
 (defn get-ortholog-species-pair-mem
   "Get species pair ortholog groups from mem cache"
