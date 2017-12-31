@@ -98,9 +98,9 @@
         ;(network/remove-proteins)
         (network/fetch-protein-network
             dbs ; PSICQUIC databases to query
-                   ref-org-1   ; Organism of Interest
-              proteins-set-1   ; Proteins of Interest
-            other-orgs-set-1)] ; Other Organisms to check
+                   ref-org-2   ; Organism of Interest
+              proteins-set-2   ; Proteins of Interest
+            other-orgs-set-2)] ; Other Organisms to check
         ;  proteins-set-1)]
     (println "#########################################")
     (println "###     END FETCH PROTEIN NETWORK     ###")

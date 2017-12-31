@@ -91,3 +91,11 @@
       ;(println ortholog-group)
       (is (s/valid? ::ortholog.cache/ortholog-cache
                     ortholog-group)))))
+
+(deftest* test-orthoxml-perfs
+  (binding [*print-level* 3]
+    (testing "Full code"
+      (def ortholog-group (orthoxml/parse-ortholog-xml orthoxml))
+      ;(println ortholog-group)
+      (is (s/valid? ::ortholog.cache/ortholog-cache
+                    ortholog-group)))))
