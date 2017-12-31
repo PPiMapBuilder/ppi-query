@@ -32,7 +32,7 @@
     (count-is 1 orths)
     (is (s/valid? ::orthd/ortholog-scored-protein (first orths)))))
 
-(comment ;generate-cache-species
+(deftest generate-cache-species
   (let [orgs orgn/inparanoid-organism-repository
         org-pairs
         (for [org1 orgs org2 orgs :when (not= org1 org2)]
