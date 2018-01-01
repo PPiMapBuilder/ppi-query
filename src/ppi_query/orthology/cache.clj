@@ -53,13 +53,16 @@
   (let [[short-org-1 short-org-2]
         (sort [(org/get-shortname organism1)
                (org/get-shortname organism2)])]
-     (str "ortholog-cache/" short-org-1 "-" short-org-2 ".npy")))
+     (str "ortholog-cache/"
+          short-org-1 "/"
+          short-org-1 "-" short-org-2 ".npy")))
 
 (defn write-disk-ortholog-species
   "Add species pair ortholog groups to disk cache"
   [organism1 organism2 species-pair]
   (let [filename (filename-species-pair organism1 organism2)]
     (do (println "## Ortholog cache ## Writing to disk:" filename)
+        (clojure.java.io/make-parents filename)
         (nippy/freeze-to-file filename species-pair))))
 
 (defn read-disk-ortholog-species
