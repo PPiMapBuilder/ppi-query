@@ -6,7 +6,8 @@
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
             [ppi-query.orthology :as orth]
-            [ppi-query.orthology.data :as orthd]))
+            [ppi-query.orthology.data :as orthd]
+            [ppi-query.orthology.cache :as cache]))
 
 (def dbs ["IntAct"])
 (def elegans (orgn/inparanoid-organism-by-shortname "C.elegans"))
@@ -38,5 +39,7 @@
         (for [org1 orgs org2 orgs :when (not= org1 org2)]
             [org1 org2])]
 
-    (dorun (map (fn [[org1 org2]] (orth/get-ortholog-species-pair org1 org2))
+    (dorun (map (fn [[org1 org2]]
+                  (do (orth/get-ortholog-species-pair org1 org2)
+                      (reset! cache/mem-cache {})))
                 (shuffle org-pairs)))))
