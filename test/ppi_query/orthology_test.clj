@@ -17,6 +17,8 @@
 (def eleg2 (prot/->Protein elegans "Q20646"))
 (def melag1 (prot/->Protein melanogaster "Q9W1K2"))
 (def catalase (prot/->Protein human "P04040"))
+(def prot-human-1 (prot/->Protein human "Q08752"))
+(def prot-human-2 (prot/->Protein human "P08238"))
 
 (deftest test-get-best-orthologs
   (let [orths (orth/get-best-orthologs elegans catalase)]

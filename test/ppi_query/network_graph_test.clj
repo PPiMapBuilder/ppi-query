@@ -66,10 +66,7 @@
   (def proteins-set-2 [prot-celegans-1
                        prot-celegans-2])
   (def other-orgs-set-2 [org-musculus org-spombe org-thaliana
-                         org-taurus org-norvegicus])
-
-  ; Around 20 seconds ; FAIL
-  (def other-orgs-set-2-fail [org-melanogaster])
+                         org-taurus org-norvegicus org-melanogaster])
 
 
   ; Around 8 minutes ; FAIL @ Secondary interactions
@@ -98,9 +95,9 @@
         ;(network/remove-proteins)
         (network/fetch-protein-network
             dbs ; PSICQUIC databases to query
-                   ref-org-2   ; Organism of Interest
-              proteins-set-2   ; Proteins of Interest
-            other-orgs-set-2)] ; Other Organisms to check
+                   ref-org-1   ; Organism of Interest
+              proteins-set-1   ; Proteins of Interest
+            other-orgs-set-1)] ; Other Organisms to check
         ;  proteins-set-1)]
     (println "#########################################")
     (println "###     END FETCH PROTEIN NETWORK     ###")
@@ -144,8 +141,8 @@
                             (= org-a (nth all-orgs 2)) "orange" ;Mus musculus
                             (= org-a (nth all-orgs 3)) "yellow" ;Schizosaccharomyces pombe
                             (= org-a (nth all-orgs 4)) "purple" ;Arabidopsis thaliana
-                            (= org-a (nth all-orgs 5)) "violet" ;Bos taurus
-                            (= org-a (nth all-orgs 6)) "salmon" ;Drosophila melanogaster
+                            (= org-a (nth all-orgs 5)) "MediumVioletRed  " ;Bos taurus
+                            (= org-a (nth all-orgs 6)) "darkgreen" ;Drosophila melanogaster
                             (= org-a (nth all-orgs 7)) "teal" ;Saccharomyces cerevisiae
                             (= org-a (nth all-orgs 8)) "grey") ;Rattus norvegicus
                         label
