@@ -1,12 +1,15 @@
 (ns ppi-query.network-graph-test
   (:require [clojure.test :refer :all]
+            [clojure.pprint :refer :all]
             [clojure.spec.alpha :as s]
             [clojure.spec.test :as stest]
             [ppi-query.test.utils :refer :all]
             [ppi-query.organism :as orgn]
             [ppi-query.protein :as prot]
             [ppi-query.network :as network]
-            [proto-repl-charts.graph :as g]))
+            [ppi-query.interaction.display :as dintr]
+            [proto-repl-charts.graph :as g]
+            [clojure.data.json :as json]))
 (stest/instrument)
 
 (do
@@ -90,22 +93,25 @@
 
   ;(dorun (map println all-orgs)))
 (comment
- (binding [*print-level* 3]
+ (binding [*print-level* nil]
   (let [[ret-proteins ret-interactions]
         ;(network/remove-proteins)
         (network/fetch-protein-network
             dbs ; PSICQUIC databases to query
-                   ref-org-1   ; Organism of Interest
-              proteins-set-1   ; Proteins of Interest
-            other-orgs-set-1)] ; Other Organisms to check
+                   ref-org-2   ; Organism of Interest
+              proteins-set-2   ; Proteins of Interest
+            other-orgs-set-2)] ; Other Organisms to check
         ;  proteins-set-1)]
     (println "#########################################")
     (println "###     END FETCH PROTEIN NETWORK     ###")
     (println "#########################################")
-    ;(println "ret-proteins" ret-proteins)
-    (println "")
-    ;(println "ret-interactions" ret-interactions)
-    (println "")
+    ;(println "ret-proteins")
+    ;(println (take 2 ret-proteins))
+    ;(println "ret-interactions")
+    ;(dintr/display-prot-orths-multi-interactions
+    ;   (take 2 ret-interactions
+    ;(println "")
+
 
     (let [nodes-uniprots
             (into #{}
@@ -149,14 +155,20 @@
                           (if ortholog-protein-a
                             (apply str
                               (:uniprotid ortholog-protein-a)
+                              " (" (:ortholog-score ortholog-protein-a) ")"
                               "<->"
-                              (:uniprotid ortholog-protein-b))
-                            "")]
-
+                              (:uniprotid ortholog-protein-b)
+                              " (" (:ortholog-score ortholog-protein-b) ")")
+                            "")
+                        desc
+                          (if ortholog-protein-a
+                            (:scientific-name org-a)
+                            (:scientific-name (:organism protein-a)))]
                        {:from (:uniprotid protein-a)
                         :to   (:uniprotid protein-b)
                         :color color
-                        :label label}))
+                        :label label
+                        :desc desc}))
                  ret-interactions)]
       (if (not (empty? edges-verify))
           (do (println edges-verify)
@@ -165,10 +177,11 @@
       ;(println nodes-uniprots)
       ;(println "edges-verify")
       ;(println edges-verify)
+
       (println "nodes")
-      (println nodes)
+      (json/pprint nodes)
       (println "edges")
-      (doall (map println edges))
+      (json/pprint edges)
 
       (g/graph
         "Psicquic interactions"

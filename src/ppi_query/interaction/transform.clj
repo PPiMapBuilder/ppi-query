@@ -148,10 +148,9 @@
     [ref-organism prot]
   (if (= ref-organism (:organism prot))
      [prot nil]
-     [(-> (orth/get-best-orthologs ref-organism prot)
-          first
-          orthd/ortholog-scored->protein)
-      prot]))
+     (let [ref-prot (first (orth/get-best-orthologs ref-organism prot))]
+          [(orthd/ortholog-scored->protein ref-prot)
+           (orthd/protein->ortholog-scored prot (:ortholog-score ref-prot))])))
 
 (s/fdef orth-prot->ref-organism
   :args (s/cat :ref-organism ::orgn/organism

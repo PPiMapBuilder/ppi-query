@@ -52,11 +52,12 @@
   "Get the best orthologs for a protein in a target organism."
   [target-organism protein]
   (try
-    (when-let [orthologs (get-ortholog-group target-organism protein)]
-      (let [best-score (apply max (map :ortholog-score orthologs))]
-        (filter #(and (= best-score (:ortholog-score %))
-                      (>= (:ortholog-score %) default-ortholog-score-threshold))
-          orthologs)))
+    (let [prot (if (:ortholog-score protein) (orth/ortholog-scored->protein protein) protein)]
+      (when-let [orthologs (get-ortholog-group target-organism prot)]
+        (let [best-score (apply max (map :ortholog-score orthologs))]
+          (filter #(and (= best-score (:ortholog-score %))
+                        (>= (:ortholog-score %) default-ortholog-score-threshold))
+            orthologs))))
     (catch Exception ex
       (println "Warning: A request to get-best-orthologs failed with an exception:")
       (println (.toString ex))

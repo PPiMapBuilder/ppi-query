@@ -5,8 +5,6 @@
 -- other-organisms: [#ppi_query.organism.Organism{:common-name Mouse, :taxon-id 10090, :scientific-name Mus musculus} #ppi_query.organism.Organism{:common-name Fission yeast, :taxon-id 284812, :scientific-name Schizosaccharomyces pombe (strain 972 / ATCC 24843)}]
 /!\ Warning: No Psicquic client found for database ToToRo
 == orthologs-direct-interactions finished. Fetched : 
-## Ortholog cache ## Reading from disk: ortholog-cache/C.elegans/C.elegans-M.musculus.npy
-## Ortholog cache ## Reading from disk: ortholog-cache/C.elegans/C.elegans-S.pombe.npy
 === Mus musculus : 1 orthologs and 18 interactions found.
 === Schizosaccharomyces pombe (strain 972 / ATCC 24843) : 1 orthologs and 0 interactions found.
 == 31 direct interactions fetched
@@ -20,49 +18,213 @@ Schizosaccharomyces pombe (strain 972 / ATCC 24843) : 0 secondary interactions f
 #########################################
 ###     END FETCH PROTEIN NETWORK     ###
 #########################################
-
-
 nodes
-({:label Q20646, :id Q20646} {:label P20792, :id P20792} {:label Q20655, :id Q20655} {:label O76840, :id O76840} {:label O17218, :id O17218} {:label P45897, :id P45897} {:label O17972, :id O17972} {:label Q20308, :id Q20308} {:label Q18688, :id Q18688} {:label P50488, :id P50488} {:label G5EG62, :id G5EG62} {:label O02108, :id O02108} {:label P02566, :id P02566} {:label P90978, :id P90978} {:label Q03563, :id Q03563} {:label Q9UAQ6, :id Q9UAQ6} {:label Q11184, :id Q11184} {:label G5EFL5, :id G5EFL5} {:label Q20365, :id Q20365} {:label O17927, :id O17927} {:label Q9XVV3, :id Q9XVV3} {:label Q9XWG3, :id Q9XWG3} {:label Q9TVL3, :id Q9TVL3} {:label G5EBJ4, :id G5EBJ4} {:label G5ECP0, :id G5ECP0} {:label Q7JP67, :id Q7JP67} {:label Q20234, :id Q20234} {:label Q27535, :id Q27535} {:label Q9GYS1, :id Q9GYS1})
+[{"label":"Q20646", "id":"Q20646"}, {"label":"P20792", "id":"P20792"},
+ {"label":"Q20655", "id":"Q20655"}, {"label":"O76840", "id":"O76840"},
+ {"label":"O17218", "id":"O17218"}, {"label":"P45897", "id":"P45897"},
+ {"label":"O17972", "id":"O17972"}, {"label":"Q20308", "id":"Q20308"},
+ {"label":"Q18688", "id":"Q18688"}, {"label":"P50488", "id":"P50488"},
+ {"label":"G5EG62", "id":"G5EG62"}, {"label":"O02108", "id":"O02108"},
+ {"label":"P02566", "id":"P02566"}, {"label":"P90978", "id":"P90978"},
+ {"label":"Q03563", "id":"Q03563"}, {"label":"Q9UAQ6", "id":"Q9UAQ6"},
+ {"label":"Q11184", "id":"Q11184"}, {"label":"G5EFL5", "id":"G5EFL5"},
+ {"label":"Q20365", "id":"Q20365"}, {"label":"O17927", "id":"O17927"},
+ {"label":"Q9XVV3", "id":"Q9XVV3"}, {"label":"Q9XWG3", "id":"Q9XWG3"},
+ {"label":"Q9TVL3", "id":"Q9TVL3"}, {"label":"G5EBJ4", "id":"G5EBJ4"},
+ {"label":"G5ECP0", "id":"G5ECP0"}, {"label":"Q7JP67", "id":"Q7JP67"},
+ {"label":"Q20234", "id":"Q20234"}, {"label":"Q27535", "id":"Q27535"},
+ {"label":"Q9GYS1", "id":"Q9GYS1"}]
 edges
-{:from Q9TVL3, :to Q18688, :color orange, :label Q99J95<->P11499}
-{:from O17972, :to G5EBJ4, :color orange, :label Q9QY53<->O89019}
-{:from Q18688, :to Q20234, :color red, :label }
-{:from Q20365, :to Q18688, :color orange, :label O35963<->P11499}
-{:from G5EG62, :to Q18688, :color red, :label }
-{:from Q18688, :to Q18688, :color red, :label }
-{:from P02566, :to G5EG62, :color red, :label }
-{:from G5ECP0, :to G5ECP0, :color orange, :label P59240<->P59240}
-{:from Q18688, :to O02108, :color red, :label }
-{:from Q18688, :to Q9XWG3, :color red, :label }
-{:from Q18688, :to Q03563, :color red, :label }
-{:from P45897, :to Q18688, :color red, :label }
-{:from Q18688, :to O17927, :color red, :label }
-{:from Q9UAQ6, :to Q18688, :color orange, :label P62821<->P11499}
-{:from O17972, :to G5ECP0, :color orange, :label Q9QY53<->P59240}
-{:from Q18688, :to Q11184, :color red, :label }
-{:from Q18688, :to P50488, :color red, :label }
-{:from G5EBJ4, :to Q18688, :color orange, :label O89019<->P11499}
-{:from G5EFL5, :to G5EFL5, :color red, :label }
-{:from G5EG62, :to G5EG62, :color red, :label }
-{:from Q20655, :to Q18688, :color orange, :label P63101<->P11499}
-{:from Q18688, :to O17218, :color red, :label }
-{:from Q11184, :to Q11184, :color red, :label }
-{:from Q18688, :to P20792, :color red, :label }
-{:from Q18688, :to G5EFL5, :color red, :label }
-{:from Q18688, :to O76840, :color red, :label }
-{:from G5ECP0, :to Q18688, :color orange, :label P59240<->P11499}
-{:from O17972, :to Q18688, :color orange, :label Q9QY53<->P11499}
-{:from Q18688, :to P90978, :color red, :label }
-{:from Q18688, :to P02566, :color red, :label }
-{:from Q11184, :to Q20655, :color red, :label }
-{:from Q18688, :to Q20308, :color red, :label }
-{:from Q9GYS1, :to Q18688, :color orange, :label Q921E6<->P11499}
-{:from Q18688, :to Q9XVV3, :color red, :label }
-{:from G5EFL5, :to Q9XWG3, :color red, :label }
-{:from Q18688, :to Q27535, :color red, :label }
-{:from O02108, :to Q9TVL3, :color red, :label }
-{:from Q7JP67, :to Q18688, :color orange, :label Q923S6<->P11499}
+[{"from":"Q9TVL3",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"Q99J95 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"O17972",
+  "to":"G5EBJ4",
+  "color":"orange",
+  "label":"Q9QY53 (1.0)<->O89019 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"Q18688",
+  "to":"Q20234",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q20365",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"O35963 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"G5EG62",
+  "to":"Q18688",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"Q18688",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"P02566",
+  "to":"G5EG62",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"G5ECP0",
+  "to":"G5ECP0",
+  "color":"orange",
+  "label":"P59240 (1.0)<->P59240 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"Q18688",
+  "to":"O02108",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"Q9XWG3",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"Q03563",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"P45897",
+  "to":"Q18688",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"O17927",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q9UAQ6",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"P62821 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"O17972",
+  "to":"G5ECP0",
+  "color":"orange",
+  "label":"Q9QY53 (1.0)<->P59240 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"Q18688",
+  "to":"Q11184",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"P50488",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"G5EBJ4",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"O89019 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"G5EFL5",
+  "to":"G5EFL5",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"G5EG62",
+  "to":"G5EG62",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q20655",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"P63101 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"Q18688",
+  "to":"O17218",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q11184",
+  "to":"Q11184",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"P20792",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"G5EFL5",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"O76840",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"G5ECP0",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"P59240 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"O17972",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"Q9QY53 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"Q18688",
+  "to":"P90978",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"P02566",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q11184",
+  "to":"Q20655",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"Q20308",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q9GYS1",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"Q921E6 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"Q18688",
+  "to":"Q9XVV3",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"G5EFL5",
+  "to":"Q9XWG3",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"Q27535",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"O02108",
+  "to":"Q9TVL3",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q7JP67",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"Q923S6 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"}]
 ppi-query.network-graph-test=>
 [:proto-repl-code-execution-extension
  "proto-repl-charts"
@@ -98,155 +260,193 @@ ppi-query.network-graph-test=>
                  {:label "Q27535", :id "Q27535"}
                  {:label "Q9GYS1", :id "Q9GYS1"}),
          :options nil,
-         :edges ({:color "orange",
+         :edges ({:desc "Mus musculus",
+                  :color "orange",
                   :from "Q9TVL3",
-                  :label "Q99J95<->P11499",
+                  :label "Q99J95 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "O17972",
-                  :label "Q9QY53<->O89019",
+                  :label "Q9QY53 (1.0)<->O89019 (1.0)",
                   :to "G5EBJ4"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q20234"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "Q20365",
-                  :label "O35963<->P11499",
+                  :label "O35963 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "G5EG62",
                   :label "",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "P02566",
                   :label "",
                   :to "G5EG62"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "G5ECP0",
-                  :label "P59240<->P59240",
+                  :label "P59240 (1.0)<->P59240 (1.0)",
                   :to "G5ECP0"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "O02108"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q9XWG3"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q03563"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "P45897",
                   :label "",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "O17927"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "Q9UAQ6",
-                  :label "P62821<->P11499",
+                  :label "P62821 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "O17972",
-                  :label "Q9QY53<->P59240",
+                  :label "Q9QY53 (1.0)<->P59240 (1.0)",
                   :to "G5ECP0"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q11184"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "P50488"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "G5EBJ4",
-                  :label "O89019<->P11499",
+                  :label "O89019 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "G5EFL5",
                   :label "",
                   :to "G5EFL5"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "G5EG62",
                   :label "",
                   :to "G5EG62"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "Q20655",
-                  :label "P63101<->P11499",
+                  :label "P63101 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "O17218"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q11184",
                   :label "",
                   :to "Q11184"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "P20792"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "G5EFL5"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "O76840"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "G5ECP0",
-                  :label "P59240<->P11499",
+                  :label "P59240 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "O17972",
-                  :label "Q9QY53<->P11499",
+                  :label "Q9QY53 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "P90978"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "P02566"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q11184",
                   :label "",
                   :to "Q20655"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q20308"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "Q9GYS1",
-                  :label "Q921E6<->P11499",
+                  :label "Q921E6 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q9XVV3"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "G5EFL5",
                   :label "",
                   :to "Q9XWG3"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q27535"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "O02108",
                   :label "",
                   :to "Q9TVL3"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "Q7JP67",
-                  :label "Q923S6<->P11499",
+                  :label "Q923S6 (1.0)<->P11499 (1.0)",
                   :to "Q18688"})}}]

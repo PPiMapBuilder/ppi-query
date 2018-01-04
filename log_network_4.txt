@@ -30,25 +30,83 @@ Rattus norvegicus : 0 secondary interactions found.
 #########################################
 ###     END FETCH PROTEIN NETWORK     ###
 #########################################
-
-
 nodes
-({:label O95433, :id O95433} {:label P19320, :id P19320} {:label Q8IXQ4, :id Q8IXQ4} {:label Q15185, :id Q15185} {:label Q16543, :id Q16543} {:label Q08752, :id Q08752} {:label P54257, :id P54257} {:label O95251, :id O95251} {:label P02751, :id P02751} {:label Q15051, :id Q15051})
+[{"label":"O95433", "id":"O95433"}, {"label":"P19320", "id":"P19320"},
+ {"label":"Q8IXQ4", "id":"Q8IXQ4"}, {"label":"Q15185", "id":"Q15185"},
+ {"label":"Q16543", "id":"Q16543"}, {"label":"Q08752", "id":"Q08752"},
+ {"label":"P54257", "id":"P54257"}, {"label":"O95251", "id":"O95251"},
+ {"label":"P02751", "id":"P02751"}, {"label":"Q15051", "id":"Q15051"}]
 edges
-{:from P02751, :to Q15185, :color red, :label }
-{:from Q08752, :to Q8IXQ4, :color red, :label }
-{:from Q16543, :to O95433, :color red, :label }
-{:from P19320, :to Q15185, :color red, :label }
-{:from P02751, :to P02751, :color red, :label }
-{:from O95251, :to Q08752, :color red, :label }
-{:from Q16543, :to Q08752, :color red, :label }
-{:from O95433, :to Q08752, :color red, :label }
-{:from P02751, :to Q08752, :color red, :label }
-{:from Q15051, :to Q08752, :color red, :label }
-{:from P19320, :to P19320, :color red, :label }
-{:from P19320, :to Q08752, :color red, :label }
-{:from P54257, :to Q08752, :color red, :label }
-{:from Q08752, :to Q15185, :color red, :label }
+[{"from":"P02751",
+  "to":"Q15185",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"},
+ {"from":"Q08752",
+  "to":"Q8IXQ4",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"},
+ {"from":"Q16543",
+  "to":"O95433",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"},
+ {"from":"P19320",
+  "to":"Q15185",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"},
+ {"from":"P02751",
+  "to":"P02751",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"},
+ {"from":"O95251",
+  "to":"Q08752",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"},
+ {"from":"Q16543",
+  "to":"Q08752",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"},
+ {"from":"O95433",
+  "to":"Q08752",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"},
+ {"from":"P02751",
+  "to":"Q08752",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"},
+ {"from":"Q15051",
+  "to":"Q08752",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"},
+ {"from":"P19320",
+  "to":"P19320",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"},
+ {"from":"P19320",
+  "to":"Q08752",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"},
+ {"from":"P54257",
+  "to":"Q08752",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"},
+ {"from":"Q08752",
+  "to":"Q15185",
+  "color":"red",
+  "label":"",
+  "desc":"Homo sapiens"}]
 ppi-query.network-graph-test=>
 [:proto-repl-code-execution-extension
  "proto-repl-charts"
@@ -65,59 +123,73 @@ ppi-query.network-graph-test=>
                  {:label "P02751", :id "P02751"}
                  {:label "Q15051", :id "Q15051"}),
          :options nil,
-         :edges ({:color "red",
+         :edges ({:desc "Homo sapiens",
+                  :color "red",
                   :from "P02751",
                   :label "",
                   :to "Q15185"}
-                 {:color "red",
+                 {:desc "Homo sapiens",
+                  :color "red",
                   :from "Q08752",
                   :label "",
                   :to "Q8IXQ4"}
-                 {:color "red",
+                 {:desc "Homo sapiens",
+                  :color "red",
                   :from "Q16543",
                   :label "",
                   :to "O95433"}
-                 {:color "red",
+                 {:desc "Homo sapiens",
+                  :color "red",
                   :from "P19320",
                   :label "",
                   :to "Q15185"}
-                 {:color "red",
+                 {:desc "Homo sapiens",
+                  :color "red",
                   :from "P02751",
                   :label "",
                   :to "P02751"}
-                 {:color "red",
+                 {:desc "Homo sapiens",
+                  :color "red",
                   :from "O95251",
                   :label "",
                   :to "Q08752"}
-                 {:color "red",
+                 {:desc "Homo sapiens",
+                  :color "red",
                   :from "Q16543",
                   :label "",
                   :to "Q08752"}
-                 {:color "red",
+                 {:desc "Homo sapiens",
+                  :color "red",
                   :from "O95433",
                   :label "",
                   :to "Q08752"}
-                 {:color "red",
+                 {:desc "Homo sapiens",
+                  :color "red",
                   :from "P02751",
                   :label "",
                   :to "Q08752"}
-                 {:color "red",
+                 {:desc "Homo sapiens",
+                  :color "red",
                   :from "Q15051",
                   :label "",
                   :to "Q08752"}
-                 {:color "red",
+                 {:desc "Homo sapiens",
+                  :color "red",
                   :from "P19320",
                   :label "",
                   :to "P19320"}
-                 {:color "red",
+                 {:desc "Homo sapiens",
+                  :color "red",
                   :from "P19320",
                   :label "",
                   :to "Q08752"}
-                 {:color "red",
+                 {:desc "Homo sapiens",
+                  :color "red",
                   :from "P54257",
                   :label "",
                   :to "Q08752"}
-                 {:color "red",
+                 {:desc "Homo sapiens",
+                  :color "red",
                   :from "Q08752",
                   :label "",
                   :to "Q15185"})}}]

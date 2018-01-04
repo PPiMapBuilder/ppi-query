@@ -13,6 +13,7 @@
                  [org.clojure/spec.alpha "0.1.123"]
                  [org.clojure/java.data "0.1.1"]
                  [org.clojure/data.zip "0.1.2"]
+                 [org.clojure/data.json "0.2.6"]
                  [com.taoensso/nippy "2.13.0"]
 
                  ; HTTP client
