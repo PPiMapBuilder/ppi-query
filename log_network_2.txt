@@ -5,6 +5,10 @@
 -- other-organisms: [#ppi_query.organism.Organism{:common-name Mouse, :taxon-id 10090, :scientific-name Mus musculus} #ppi_query.organism.Organism{:common-name Fission yeast, :taxon-id 284812, :scientific-name Schizosaccharomyces pombe (strain 972 / ATCC 24843)} #ppi_query.organism.Organism{:common-name Mouse-ear cress, :taxon-id 3702, :scientific-name Arabidopsis thaliana} #ppi_query.organism.Organism{:common-name Bovine, :taxon-id 9913, :scientific-name Bos taurus} #ppi_query.organism.Organism{:common-name Rat, :taxon-id 10116, :scientific-name Rattus norvegicus} #ppi_query.organism.Organism{:common-name Fruit fly, :taxon-id 7227, :scientific-name Drosophila melanogaster}]
 /!\ Warning: No Psicquic client found for database ToToRo
 == orthologs-direct-interactions finished. Fetched : 
+## Ortholog cache ## Reading from disk: ortholog-cache/A.thaliana/A.thaliana-C.elegans.npy
+## Ortholog cache ## Reading from disk: ortholog-cache/B.taurus/B.taurus-C.elegans.npy
+## Ortholog cache ## Reading from disk: ortholog-cache/C.elegans/C.elegans-R.norvegicus.npy
+## Ortholog cache ## Reading from disk: ortholog-cache/C.elegans/C.elegans-D.melanogaster.npy
 === Mus musculus : 1 orthologs and 18 interactions found.
 === Schizosaccharomyces pombe (strain 972 / ATCC 24843) : 1 orthologs and 0 interactions found.
 === Arabidopsis thaliana : 1 orthologs and 8 interactions found.
@@ -12,13 +16,15 @@
 === Rattus norvegicus : 1 orthologs and 3 interactions found.
 === Drosophila melanogaster : 1 orthologs and 64 interactions found.
 == 31 direct interactions fetched
-Mus musculus : 38 secondary interactions found.
+Retry getByQuery 4
+Retry countByQuery 4
+Mus musculus : 27 secondary interactions found.
 Schizosaccharomyces pombe (strain 972 / ATCC 24843) : 0 secondary interactions found.
 Arabidopsis thaliana : 10 secondary interactions found.
 Bos taurus : 0 secondary interactions found.
 Rattus norvegicus : 7 secondary interactions found.
 Drosophila melanogaster : 33 secondary interactions found.
-== 88 orthologs secondary interactions in total
+== 77 orthologs secondary interactions in total
 == Orthologs interactions brought back to reference organism.
 == 44 proteins to display in total
 == 47 secondary interactions in reference organism
@@ -26,65 +32,300 @@ Drosophila melanogaster : 33 secondary interactions found.
 #########################################
 ###     END FETCH PROTEIN NETWORK     ###
 #########################################
-
-
 nodes
-({:label Q09974, :id Q09974} {:label Q20646, :id Q20646} {:label C7IVS4, :id C7IVS4} {:label P20792, :id P20792} {:label O77469, :id O77469} {:label Q20655, :id Q20655} {:label O76840, :id O76840} {:label O17218, :id O17218} {:label O45418, :id O45418} {:label P45897, :id P45897} {:label Q18406, :id Q18406} {:label O17972, :id O17972} {:label Q20308, :id Q20308} {:label Q18688, :id Q18688} {:label Q9BL34, :id Q9BL34} {:label P30628, :id P30628} {:label P50488, :id P50488} {:label Q9N2L7, :id Q9N2L7} {:label Q9BKQ8, :id Q9BKQ8} {:label G5EG62, :id G5EG62} {:label O02108, :id O02108} {:label O16259, :id O16259} {:label P02566, :id P02566} {:label P90978, :id P90978} {:label Q03563, :id Q03563} {:label Q9UAQ6, :id Q9UAQ6} {:label Q11184, :id Q11184} {:label G5EFL5, :id G5EFL5} {:label Q20365, :id Q20365} {:label O17927, :id O17927} {:label Q9XVV3, :id Q9XVV3} {:label Q9XU67, :id Q9XU67} {:label Q9XWG3, :id Q9XWG3} {:label Q9TVL3, :id Q9TVL3} {:label G5EBJ4, :id G5EBJ4} {:label G5ECP0, :id G5ECP0} {:label G5EEI8, :id G5EEI8} {:label Q7JP67, :id Q7JP67} {:label Q20234, :id Q20234} {:label Q09647, :id Q09647} {:label P34686, :id P34686} {:label Q27535, :id Q27535} {:label Q9GYS1, :id Q9GYS1})
+[{"label":"Q09974", "id":"Q09974"}, {"label":"Q20646", "id":"Q20646"},
+ {"label":"C7IVS4", "id":"C7IVS4"}, {"label":"P20792", "id":"P20792"},
+ {"label":"O77469", "id":"O77469"}, {"label":"Q20655", "id":"Q20655"},
+ {"label":"O76840", "id":"O76840"}, {"label":"O17218", "id":"O17218"},
+ {"label":"O45418", "id":"O45418"}, {"label":"P45897", "id":"P45897"},
+ {"label":"Q18406", "id":"Q18406"}, {"label":"O17972", "id":"O17972"},
+ {"label":"Q20308", "id":"Q20308"}, {"label":"Q18688", "id":"Q18688"},
+ {"label":"Q9BL34", "id":"Q9BL34"}, {"label":"P30628", "id":"P30628"},
+ {"label":"P50488", "id":"P50488"}, {"label":"Q9N2L7", "id":"Q9N2L7"},
+ {"label":"Q9BKQ8", "id":"Q9BKQ8"}, {"label":"G5EG62", "id":"G5EG62"},
+ {"label":"O02108", "id":"O02108"}, {"label":"O16259", "id":"O16259"},
+ {"label":"P02566", "id":"P02566"}, {"label":"P90978", "id":"P90978"},
+ {"label":"Q03563", "id":"Q03563"}, {"label":"Q9UAQ6", "id":"Q9UAQ6"},
+ {"label":"Q11184", "id":"Q11184"}, {"label":"G5EFL5", "id":"G5EFL5"},
+ {"label":"Q20365", "id":"Q20365"}, {"label":"O17927", "id":"O17927"},
+ {"label":"Q9XVV3", "id":"Q9XVV3"}, {"label":"Q9XU67", "id":"Q9XU67"},
+ {"label":"Q9XWG3", "id":"Q9XWG3"}, {"label":"Q9TVL3", "id":"Q9TVL3"},
+ {"label":"G5EBJ4", "id":"G5EBJ4"}, {"label":"G5ECP0", "id":"G5ECP0"},
+ {"label":"G5EEI8", "id":"G5EEI8"}, {"label":"Q7JP67", "id":"Q7JP67"},
+ {"label":"Q20234", "id":"Q20234"}, {"label":"Q09647", "id":"Q09647"},
+ {"label":"P34686", "id":"P34686"}, {"label":"Q27535", "id":"Q27535"},
+ {"label":"Q9GYS1", "id":"Q9GYS1"}]
 edges
-{:from Q9TVL3, :to Q18688, :color orange, :label Q99J95<->P11499}
-{:from O17972, :to G5EBJ4, :color orange, :label Q9QY53<->O89019}
-{:from Q18688, :to Q9BL34, :color darkgreen, :label P02828<->Q9VWD1}
-{:from Q18688, :to Q20234, :color red, :label }
-{:from Q20365, :to Q18688, :color orange, :label O35963<->P11499}
-{:from Q9N2L7, :to Q18688, :color darkgreen, :label P52304<->P02828}
-{:from G5EG62, :to Q18688, :color red, :label }
-{:from Q18688, :to Q18688, :color red, :label }
-{:from G5ECP0, :to G5ECP0, :color orange, :label P59240<->P59240}
-{:from Q18688, :to O02108, :color red, :label }
-{:from Q18688, :to O77469, :color darkgreen, :label P02828<->Q9V4B8}
-{:from Q18688, :to Q9XWG3, :color red, :label }
-{:from Q18688, :to Q03563, :color red, :label }
-{:from P45897, :to Q18688, :color red, :label }
-{:from Q18688, :to O17927, :color red, :label }
-{:from Q18688, :to G5EEI8, :color purple, :label P27323<->Q9SE33}
-{:from Q18688, :to O16259, :color darkgreen, :label P02828<->Q9VPN5}
-{:from Q9UAQ6, :to Q18688, :color orange, :label P62821<->P11499}
-{:from O17972, :to G5ECP0, :color orange, :label Q9QY53<->P59240}
-{:from Q18406, :to Q18406, :color darkgreen, :label Q9XTM1<->Q9XTM1}
-{:from Q18688, :to Q11184, :color red, :label }
-{:from Q18688, :to P50488, :color red, :label }
-{:from Q18688, :to Q09974, :color darkgreen, :label P02828<->A1Z6M6}
-{:from G5EBJ4, :to Q18688, :color orange, :label O89019<->P11499}
-{:from G5EFL5, :to G5EFL5, :color red, :label }
-{:from G5EG62, :to G5EG62, :color red, :label }
-{:from Q20655, :to Q18688, :color orange, :label P63101<->P11499}
-{:from Q18688, :to O45418, :color purple, :label P27323<->Q38931}
-{:from Q18688, :to O17218, :color red, :label }
-{:from Q18688, :to P34686, :color darkgreen, :label P02828<->P48603}
-{:from Q11184, :to Q11184, :color red, :label }
-{:from Q09974, :to C7IVS4, :color darkgreen, :label A1Z6M6<->P26019}
-{:from Q18688, :to Q9BKQ8, :color darkgreen, :label P02828<->Q9VR29}
-{:from Q18688, :to P20792, :color red, :label }
-{:from Q18688, :to G5EFL5, :color red, :label }
-{:from Q18688, :to Q18406, :color darkgreen, :label P02828<->Q9XTM1}
-{:from G5EG62, :to P02566, :color red, :label }
-{:from Q18688, :to O76840, :color red, :label }
-{:from G5ECP0, :to Q18688, :color orange, :label P59240<->P11499}
-{:from O17972, :to Q18688, :color orange, :label Q9QY53<->P11499}
-{:from Q18688, :to P90978, :color red, :label }
-{:from Q18688, :to P02566, :color red, :label }
-{:from Q18688, :to Q9XU67, :color darkgreen, :label P02828<->Q9VT19}
-{:from Q11184, :to Q20655, :color red, :label }
-{:from Q18688, :to Q09647, :color darkgreen, :label P02828<->Q8IPB2}
-{:from Q18688, :to Q20308, :color red, :label }
-{:from Q9GYS1, :to Q18688, :color orange, :label Q921E6<->P11499}
-{:from Q18688, :to Q9XVV3, :color red, :label }
-{:from Q18688, :to C7IVS4, :color darkgreen, :label P02828<->P26019}
-{:from G5EFL5, :to Q9XWG3, :color red, :label }
-{:from Q18688, :to Q27535, :color red, :label }
-{:from O02108, :to Q9TVL3, :color red, :label }
-{:from Q18688, :to P30628, :color darkgreen, :label P02828<->Q9XZ10}
-{:from Q7JP67, :to Q18688, :color orange, :label Q923S6<->P11499}
+[{"from":"Q9TVL3",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"Q99J95 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"O17972",
+  "to":"G5EBJ4",
+  "color":"orange",
+  "label":"Q9QY53 (1.0)<->O89019 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"Q18688",
+  "to":"Q9BL34",
+  "color":"darkgreen",
+  "label":"P02828 (1.0)<->Q9VWD1 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"Q18688",
+  "to":"Q20234",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q20365",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"O35963 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"Q9N2L7",
+  "to":"Q18688",
+  "color":"darkgreen",
+  "label":"P52304 (1.0)<->P02828 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"G5EG62",
+  "to":"Q18688",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"Q18688",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"G5ECP0",
+  "to":"G5ECP0",
+  "color":"orange",
+  "label":"P59240 (1.0)<->P59240 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"Q18688",
+  "to":"O02108",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"O77469",
+  "color":"darkgreen",
+  "label":"P02828 (1.0)<->Q9V4B8 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"Q18688",
+  "to":"Q9XWG3",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"Q03563",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"P45897",
+  "to":"Q18688",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"O17927",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"G5EEI8",
+  "color":"purple",
+  "label":"P27323 (1.0)<->Q9SE33 (1.0)",
+  "desc":"Arabidopsis thaliana"},
+ {"from":"Q18688",
+  "to":"O16259",
+  "color":"darkgreen",
+  "label":"P02828 (1.0)<->Q9VPN5 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"Q9UAQ6",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"P62821 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"O17972",
+  "to":"G5ECP0",
+  "color":"orange",
+  "label":"Q9QY53 (1.0)<->P59240 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"Q18406",
+  "to":"Q18406",
+  "color":"darkgreen",
+  "label":"Q9XTM1 (1.0)<->Q9XTM1 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"Q18688",
+  "to":"Q11184",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"P50488",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"Q09974",
+  "color":"darkgreen",
+  "label":"P02828 (1.0)<->A1Z6M6 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"G5EBJ4",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"O89019 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"G5EFL5",
+  "to":"G5EFL5",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"G5EG62",
+  "to":"G5EG62",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q20655",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"P63101 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"Q18688",
+  "to":"O45418",
+  "color":"purple",
+  "label":"P27323 (1.0)<->Q38931 (1.0)",
+  "desc":"Arabidopsis thaliana"},
+ {"from":"Q18688",
+  "to":"O17218",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"P34686",
+  "color":"darkgreen",
+  "label":"P02828 (1.0)<->P48603 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"Q11184",
+  "to":"Q11184",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q09974",
+  "to":"C7IVS4",
+  "color":"darkgreen",
+  "label":"A1Z6M6 (1.0)<->P26019 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"Q18688",
+  "to":"Q9BKQ8",
+  "color":"darkgreen",
+  "label":"P02828 (1.0)<->Q9VR29 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"Q18688",
+  "to":"P20792",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"G5EFL5",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"Q18406",
+  "color":"darkgreen",
+  "label":"P02828 (1.0)<->Q9XTM1 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"G5EG62",
+  "to":"P02566",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"O76840",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"G5ECP0",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"P59240 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"O17972",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"Q9QY53 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"Q18688",
+  "to":"P90978",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"P02566",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"Q9XU67",
+  "color":"darkgreen",
+  "label":"P02828 (1.0)<->Q9VT19 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"Q11184",
+  "to":"Q20655",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"Q09647",
+  "color":"darkgreen",
+  "label":"P02828 (1.0)<->Q8IPB2 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"Q18688",
+  "to":"Q20308",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q9GYS1",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"Q921E6 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"},
+ {"from":"Q18688",
+  "to":"Q9XVV3",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"C7IVS4",
+  "color":"darkgreen",
+  "label":"P02828 (1.0)<->P26019 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"G5EFL5",
+  "to":"Q9XWG3",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"Q27535",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"O02108",
+  "to":"Q9TVL3",
+  "color":"red",
+  "label":"",
+  "desc":"Caenorhabditis elegans"},
+ {"from":"Q18688",
+  "to":"P30628",
+  "color":"darkgreen",
+  "label":"P02828 (1.0)<->Q9XZ10 (1.0)",
+  "desc":"Drosophila melanogaster"},
+ {"from":"Q7JP67",
+  "to":"Q18688",
+  "color":"orange",
+  "label":"Q923S6 (1.0)<->P11499 (1.0)",
+  "desc":"Mus musculus"}]
 ppi-query.network-graph-test=>
 [:proto-repl-code-execution-extension
  "proto-repl-charts"
@@ -134,219 +375,273 @@ ppi-query.network-graph-test=>
                  {:label "Q27535", :id "Q27535"}
                  {:label "Q9GYS1", :id "Q9GYS1"}),
          :options nil,
-         :edges ({:color "orange",
+         :edges ({:desc "Mus musculus",
+                  :color "orange",
                   :from "Q9TVL3",
-                  :label "Q99J95<->P11499",
+                  :label "Q99J95 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "O17972",
-                  :label "Q9QY53<->O89019",
+                  :label "Q9QY53 (1.0)<->O89019 (1.0)",
                   :to "G5EBJ4"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q18688",
-                  :label "P02828<->Q9VWD1",
+                  :label "P02828 (1.0)<->Q9VWD1 (1.0)",
                   :to "Q9BL34"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q20234"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "Q20365",
-                  :label "O35963<->P11499",
+                  :label "O35963 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q9N2L7",
-                  :label "P52304<->P02828",
+                  :label "P52304 (1.0)<->P02828 (1.0)",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "G5EG62",
                   :label "",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q18688"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "G5ECP0",
-                  :label "P59240<->P59240",
+                  :label "P59240 (1.0)<->P59240 (1.0)",
                   :to "G5ECP0"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "O02108"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q18688",
-                  :label "P02828<->Q9V4B8",
+                  :label "P02828 (1.0)<->Q9V4B8 (1.0)",
                   :to "O77469"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q9XWG3"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q03563"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "P45897",
                   :label "",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "O17927"}
-                 {:color "purple",
+                 {:desc "Arabidopsis thaliana",
+                  :color "purple",
                   :from "Q18688",
-                  :label "P27323<->Q9SE33",
+                  :label "P27323 (1.0)<->Q9SE33 (1.0)",
                   :to "G5EEI8"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q18688",
-                  :label "P02828<->Q9VPN5",
+                  :label "P02828 (1.0)<->Q9VPN5 (1.0)",
                   :to "O16259"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "Q9UAQ6",
-                  :label "P62821<->P11499",
+                  :label "P62821 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "O17972",
-                  :label "Q9QY53<->P59240",
+                  :label "Q9QY53 (1.0)<->P59240 (1.0)",
                   :to "G5ECP0"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q18406",
-                  :label "Q9XTM1<->Q9XTM1",
+                  :label "Q9XTM1 (1.0)<->Q9XTM1 (1.0)",
                   :to "Q18406"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q11184"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "P50488"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q18688",
-                  :label "P02828<->A1Z6M6",
+                  :label "P02828 (1.0)<->A1Z6M6 (1.0)",
                   :to "Q09974"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "G5EBJ4",
-                  :label "O89019<->P11499",
+                  :label "O89019 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "G5EFL5",
                   :label "",
                   :to "G5EFL5"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "G5EG62",
                   :label "",
                   :to "G5EG62"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "Q20655",
-                  :label "P63101<->P11499",
+                  :label "P63101 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "purple",
+                 {:desc "Arabidopsis thaliana",
+                  :color "purple",
                   :from "Q18688",
-                  :label "P27323<->Q38931",
+                  :label "P27323 (1.0)<->Q38931 (1.0)",
                   :to "O45418"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "O17218"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q18688",
-                  :label "P02828<->P48603",
+                  :label "P02828 (1.0)<->P48603 (1.0)",
                   :to "P34686"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q11184",
                   :label "",
                   :to "Q11184"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q09974",
-                  :label "A1Z6M6<->P26019",
+                  :label "A1Z6M6 (1.0)<->P26019 (1.0)",
                   :to "C7IVS4"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q18688",
-                  :label "P02828<->Q9VR29",
+                  :label "P02828 (1.0)<->Q9VR29 (1.0)",
                   :to "Q9BKQ8"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "P20792"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "G5EFL5"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q18688",
-                  :label "P02828<->Q9XTM1",
+                  :label "P02828 (1.0)<->Q9XTM1 (1.0)",
                   :to "Q18406"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "G5EG62",
                   :label "",
                   :to "P02566"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "O76840"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "G5ECP0",
-                  :label "P59240<->P11499",
+                  :label "P59240 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "O17972",
-                  :label "Q9QY53<->P11499",
+                  :label "Q9QY53 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "P90978"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "P02566"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q18688",
-                  :label "P02828<->Q9VT19",
+                  :label "P02828 (1.0)<->Q9VT19 (1.0)",
                   :to "Q9XU67"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q11184",
                   :label "",
                   :to "Q20655"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q18688",
-                  :label "P02828<->Q8IPB2",
+                  :label "P02828 (1.0)<->Q8IPB2 (1.0)",
                   :to "Q09647"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q20308"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "Q9GYS1",
-                  :label "Q921E6<->P11499",
+                  :label "Q921E6 (1.0)<->P11499 (1.0)",
                   :to "Q18688"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q9XVV3"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q18688",
-                  :label "P02828<->P26019",
+                  :label "P02828 (1.0)<->P26019 (1.0)",
                   :to "C7IVS4"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "G5EFL5",
                   :label "",
                   :to "Q9XWG3"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "Q18688",
                   :label "",
                   :to "Q27535"}
-                 {:color "red",
+                 {:desc "Caenorhabditis elegans",
+                  :color "red",
                   :from "O02108",
                   :label "",
                   :to "Q9TVL3"}
-                 {:color "darkgreen",
+                 {:desc "Drosophila melanogaster",
+                  :color "darkgreen",
                   :from "Q18688",
-                  :label "P02828<->Q9XZ10",
+                  :label "P02828 (1.0)<->Q9XZ10 (1.0)",
                   :to "P30628"}
-                 {:color "orange",
+                 {:desc "Mus musculus",
+                  :color "orange",
                   :from "Q7JP67",
-                  :label "Q923S6<->P11499",
+                  :label "Q923S6 (1.0)<->P11499 (1.0)",
                   :to "Q18688"})}}]

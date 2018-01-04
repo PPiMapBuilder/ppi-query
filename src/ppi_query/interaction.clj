@@ -5,3 +5,4 @@
 ; Miql is for construction of queries
 ; Query is for queries to DB
 ; Transform is for data transformation/extraction)
+; Display is for displaying interaction/interactors (print)

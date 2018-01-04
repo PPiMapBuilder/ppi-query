@@ -5,6 +5,8 @@
             [ppi-query.test.utils :refer :all]
             [ppi-query.protein :as prot]
             [ppi-query.organism :as orgn]
+            [ppi-query.orthology :as orth]
+            [ppi-query.orthology.data :as orthd]
             [ppi-query.interaction.data :as intrd]
             [ppi-query.interaction.transform :as intrt]))
 (stest/instrument)
@@ -16,6 +18,8 @@
                protein-2])
 (def other-organism-1 (orgn/inparanoid-organism-by-shortname "M.musculus"))
 (def other-organism-2 (orgn/inparanoid-organism-by-shortname "S.pombe"))
+(def oprotein-1 (orthd/->OrthologScoredProtein other-organism-1 "Q9QY53" 0.6))
+(def oprotein-2 (orthd/->OrthologScoredProtein other-organism-1 "O89019" 0.75))
 (def other-organisms [other-organism-1
                       other-organism-2])
 
@@ -143,21 +147,22 @@
       (is (= original-interaction fake-interaction))
       (is (s/valid? ::intrd/prot-orths-interaction prot-orths-interaction)))))
 
-  (let [prot-orths-interaction
+  (is (s/valid? ::prot/protein oprotein-2))
+  (let [protein-interaction
          (intrd/->ProteinsInteraction
-           protein-1 protein-1 fake-interaction)]
+           oprotein-1 oprotein-2 fake-interaction)]
     (let [[prot-orths-interaction]
           (intrt/proteins-interactions->prot-orths-interactions
-             other-organism-1
-             [prot-orths-interaction])]
+             ref-organism
+             [protein-interaction])]
      (let [{:keys [protein-a ortholog-protein-a
                    protein-b ortholog-protein-b
                    original-interaction]}
            prot-orths-interaction]
-      (is (= (:organism protein-a) other-organism-1))
-      (is (= ortholog-protein-a protein-1))
-      (is (= (:organism protein-b) other-organism-1))
-      (is (= ortholog-protein-b protein-1))
+      (is (= (:organism protein-a) ref-organism))
+      (is (= ortholog-protein-a oprotein-1))
+      (is (= (:organism protein-b) ref-organism))
+      (is (= ortholog-protein-b oprotein-2))
       (is (= original-interaction fake-interaction))
       (is (s/valid? ::intrd/prot-orths-interaction prot-orths-interaction)))))
 

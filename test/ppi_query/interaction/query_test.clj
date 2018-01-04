@@ -1,5 +1,6 @@
 (ns ppi-query.interaction.query-test
   (:require [clojure.test :refer :all]
+            [clojure.pprint :refer :all]
             [clojure.spec.alpha :as s]
             [clojure.spec.test :as stest]
             [ppi-query.test.utils :refer :all]
@@ -9,6 +10,7 @@
             [ppi-query.interaction.miql :as miql]
             [ppi-query.interaction.psicquic.registry :as reg]
             [proto-repl-charts.graph :as g]))
+
 (stest/instrument)
 
 (defn get-edges [interactions]
@@ -46,6 +48,9 @@
        (intrq/get-by-query test-client-1 test-query-2)))
 (def test-query-3-res '())
 (def test-query-4-res (intrq/get-by-query test-client-1 test-query-4))
+
+(deftest test-display-interactor
+  (pprint (first (intrq/get-by-query test-client-1 "P04040"))))
 
 (deftest test-get-by-query
   ;(println test-query-1-res)
