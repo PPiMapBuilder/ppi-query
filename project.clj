@@ -46,6 +46,8 @@
 
   :plugins [[lein-auto "0.1.3"]]
 
+  :jvm-opts ["-Dfile.encoding=utf-8"]
+
   :profiles {:dev {:aot :all
                    :dependencies [[proto-repl "0.3.1"]
                                   [proto-repl-charts "0.3.2"]
@@ -53,4 +55,5 @@
                                   [io.aviso/pretty "0.1.33"]
                                   [org.clojure/test.check "0.9.0"]]}}
 
-  :main ppi-query.network-launch)
+  :main ppi-query.network-launch
+  :aot [ppi-query.network-launch])
