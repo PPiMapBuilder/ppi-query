@@ -21,7 +21,17 @@
 
                  ; PSICQUIC
                  [psidev.psi.mi/psimitab "1.8.4"]
-                 [org.hupo.psi.mi.psicquic/psicquic-simple-client "1.3.3"]]
+                 [org.hupo.psi.mi.psicquic/psicquic-simple-client "1.3.3"]
+
+                 ; Web server
+                 [compojure "1.6.0"] ; Routes
+                 [hiccup "1.0.5"] ; Create HTML
+                 [ring/ring-core "1.6.3"] ; Server web
+                 [ring/ring-devel "1.6.3"]
+                 [ring/ring-jetty-adapter "1.6.3"]]
+
+  :dev-dependencies
+                [[lein-run "1.0.0"]]
 
   :pom-plugins [[com.theoryinpractise/clojure-maven-plugin "1.8.1"
                  ;; this section is optional, values have the same syntax as pom-addition
@@ -38,4 +48,5 @@
                                   [proto-repl-charts "0.3.2"]
                                   [aprint "0.1.3"]
                                   [io.aviso/pretty "0.1.33"]
-                                  [org.clojure/test.check "0.9.0"]]}})
+                                  [org.clojure/test.check "0.9.0"]]}}
+  :main ppi-query.web)
