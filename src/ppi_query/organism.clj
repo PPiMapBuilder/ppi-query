@@ -50,6 +50,13 @@
   :args (s/cat :short-name string?)
   :ret (s/nilable ::organism))
 
+(defn inparanoid-organism-by-id-or-shortname
+  "Get an inparanoid organism by id if parameter is an int, short name if string."
+  [org-name]
+  (if (int? org-name)
+     (inparanoid-organism-by-id org-name)
+     (inparanoid-organism-by-shortname org-name)))
+
 (s/def ::organism
   (s/and
     ; restrict organisms to be in this set:
