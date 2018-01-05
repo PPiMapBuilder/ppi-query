@@ -2,7 +2,8 @@
   (:require [ppi-query.network :as network]
             [ppi-query.graph   :as graph]
             [clojure.tools.cli :refer [cli]]
-            [clojure.data.json :as json]))
+            [clojure.data.json :as json])
+  (:gen-class))
 
 (defn add-to-list [m k c]
   (update m k (fnil conj []) c))
@@ -16,9 +17,12 @@
 (defn print-help [banner]
   (println banner)
   (println "Example: lein run -m ppi-query.network-launch -- -d IntAct -r C.elegans -p Q18688 -p Q20646 -o M.musculus -o S.pombe -o 3702")
-  (println "Short: lein run -- -d IntAct -r C.elegans -p Q18688 -p Q20646 -o M.musculus -o S.pombe -o 3702"))
+  (println "Short: lein run -- -d IntAct -r C.elegans -p Q18688 -p Q20646 -o M.musculus -o S.pombe -o 3702")
+  (println "Long: lein run -- -d IntAct -r 9606 -p Q08752 -o C.elegans -o M.musculus -o S.pombe -o 3702 -o 9913 -o 7227 -o S.cerevisiae -o 10116"))
 
 (defn -main [& args]
+  (System/setProperty "sun.net.spi.nameservice.nameservers" "8.8.8.8")
+  (System/setProperty "sun.net.spi.nameservice.provider.1" "dns,sun")
   (let [[opts args banner]
         (cli args
           ["-h" "--help" "Print this help"
