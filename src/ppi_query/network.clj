@@ -343,6 +343,30 @@
                :all-interactions-ref-organism ::intrd/prot-orths-multi-interactions))
 
 
+
+(defn fetch-protein-network-strings
+    "Generate the full protein network (with simple string an int arguments)"
+    [databases ; PSICQUIC databases to query
+     ref-organism-name  ; Organism of Interest
+     uniprotids ; Proteins of Interest
+     other-organism-names] ; Other Organisms to check
+  (let [ref-organism
+          (orgn/inparanoid-organism-by-id-or-shortname ref-organism-name)
+        proteins
+          (map (partial prot/->Protein ref-organism)
+               uniprotids)
+        other-organisms
+          (map orgn/inparanoid-organism-by-id-or-shortname other-organism-names)]
+    (fetch-protein-network databases ref-organism proteins other-organisms)))
+
+(s/fdef fetch-protein-network-strings
+  :args (s/cat :databases            ::intrd/databases
+               :ref-organism-name    (s/or :org-id int? :org-short-name string?)
+               :uniprotids           string?
+               :other-organism-names (s/coll-of (s/or :org-id int? :org-short-name string?)))
+  :ret  (s/cat :return-proteins               ::prot/proteins
+               :all-interactions-ref-organism ::intrd/prot-orths-multi-interactions))
+
 (defn remove-proteins
   "Filter out a set of proteins from a generated network"
   [proteins-interactions ; Set of proteins and interactions of a network
