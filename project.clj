@@ -4,7 +4,7 @@
   :license {:name "GNU GENERAL PUBLIC LICENSE Version 3"
             :url "http://www.gnu.org/licenses/gpl.txt"}
 
-  :repositories {"EBI-IntAct" "http://www.ebi.ac.uk/intact/maven/nexus/content/groups/public"}
+  :repositories {"EBI-IntAct" "https://www.ebi.ac.uk/intact/maven/nexus/content/groups/public"}
 
   ; Avoid random exception when using clojure.spec.test/check with clojure.test
   :monkeypatch-clojure-test false
@@ -18,6 +18,9 @@
 
                  ; HTTP client
                  [clj-http "2.3.0"]
+
+                 ; Command line arguments
+                 [org.clojure/tools.cli "0.3.5"]
 
                  ; PSICQUIC
                  [psidev.psi.mi/psimitab "1.8.4"]
@@ -43,10 +46,14 @@
 
   :plugins [[lein-auto "0.1.3"]]
 
+  :jvm-opts ["-Dfile.encoding=utf-8"]
+
   :profiles {:dev {:aot :all
                    :dependencies [[proto-repl "0.3.1"]
                                   [proto-repl-charts "0.3.2"]
                                   [aprint "0.1.3"]
                                   [io.aviso/pretty "0.1.33"]
                                   [org.clojure/test.check "0.9.0"]]}}
-  :main ppi-query.web)
+
+  :main ppi-query.network-launch
+  :aot [ppi-query.network-launch])
