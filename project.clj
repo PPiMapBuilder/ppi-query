@@ -31,7 +31,7 @@
                  [ring/ring-jetty-adapter "1.6.3"]]
 
   :dev-dependencies
-                [[lein-run "1.0.0"]]
+                [[lein-ancient "0.6.15"]]
 
   :pom-plugins [[com.theoryinpractise/clojure-maven-plugin "1.8.1"
                  ;; this section is optional, values have the same syntax as pom-addition
