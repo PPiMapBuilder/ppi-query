@@ -1,30 +1,38 @@
 (ns ppi-query.web.view
-  (:use [hiccup core page])
+  (:use [hiccup core page form])
   (:require [ppi-query.organism :as orgn]
-            [ppi-query.interaction.psicquic.registry :as reg]))
+            [ppi-query.interaction.psicquic.registry :as reg]
+            [ppi-query.network :as network]
+            [ppi-query.graph   :as graph]
+            [clojure.data.json :as json]
+            [clojure.string :as str])
+  (:import java.net.URI
+           java.net.URLEncoder))
 
-(defn html-select [name options & {mult :multiple :as args}]
-  (into []
-   (concat
-    [:select {:name name :id name :multiple mult}]
-    (map #(vector :option {:value %} %)
-         options))))
-(defn html-select-multiple [name options]
-  (select name options :multiple true))
+(defn select-orgs [name & {mult :multiple sel :selected :as args}]
+  (let [selected
+        (set (if (coll? sel) sel [sel]))]
+    (into []
+     (concat
+      [:select {:name name :id name :multiple mult}]
+      (map (fn [{id :taxon-id :as org}]
+             (vector
+               :option {:value id
+                        :selected (contains? selected id)}
+                       (or (:scientific-name org) (:common-name org))))
+           (sort-by :scientific-name orgn/inparanoid-organism-repository))))))
 
-(defn select-orgs [name & {mult :multiple :as args}]
-  (into []
-   (concat
-    [:select {:name name :id name :multiple mult}]
-    (map (fn [org] (vector :option {:value (:taxon-id org)} (or (:scientific-name org) (:common-name org))))
-         (sort-by :scientific-name orgn/inparanoid-organism-repository)))))
-
-(defn select-dbs [name & {mult :multiple :as args}]
-  (into []
-   (concat
-    [:select {:name name :id name :multiple mult}]
-    (map (fn [db] (vector :option {:value db} db))
-         (sort (keys (reg/fetch-registry true)))))))
+(defn select-dbs [name & {mult :multiple sel :selected :as args}]
+  (let [selected
+        (set (if (coll? sel) sel [sel]))]
+    (into []
+     (concat
+      [:select {:name name :id name :multiple mult}]
+      (map (fn [db]
+             (vector :option {:value db
+                              :selected (contains? selected db)}
+                             db))
+           (sort (keys (reg/get-registry!))))))))
 
 (defn view-layout [& content]
   (html
@@ -36,38 +44,83 @@
         [:title "ppi-query"]]
       [:body content])))
 
-(defn view-input []
+(defn view-input [dbs ref-org uniprotids oth-orgs]
   (view-layout
     [:h2 "Query a protein"]
-    [:form {:method "get" :action "/graph"}
-      [:label {:for "dbs"} "Databases: "]
-      (select-dbs "dbs" :multiple true)
+    (form-to [:get "/"]
+      (label "dbs" "Databases: ")
+      (select-dbs "dbs" :multiple true :selected dbs)
       [:br]
-      [:label {:for "org-name"} "Organism: "]
-      (select-orgs "org-name")
+      (label "ref-org" "Organism: ")
+      (select-orgs "ref-org" :selected ref-org)
       [:br]
-      [:label {:for "uniprotids"} "Proteins (separated by `,` or `;`): "]
-      [:input#uniprotids {:type "text" :name "uniprotids"}]
+      (label "uniprotids" "Proteins (separated by `,` or `;`): ")
+      [:input#uniprotids {:type "text" :name "uniprotids" :value (str/join ", " uniprotids)}]
       [:br]
-      [:label {:for "oth-orgs"} "Other organisms: "]
-      (select-orgs "oth-orgs" :multiple true)
+      (label "oth-orgs" "Other organisms: ")
+      (select-orgs "oth-orgs" :multiple true :selected oth-orgs)
       [:br]
-      [:input.action {:type "submit" :value "Fetch network"}]]))
-
+      (submit-button "Fetch network"))
+    [:a {:href "/?dbs=IntAct&ref-org=C.elegans&uniprotids=Q18688,Q20646&oth-orgs=M.musculus&oth-orgs=S.pombe&oth-orgs=3702"}
+        "Quick network"]))
 (defn html-mutlilines [args]
   (into []
     (concat [:p]
       (map #(vector :p %)
            args))))
 
-(defn view-output [dbs org-name uniprotids oth-orgs]
+(def ^:dynamic *encoding* "UTF-8")
+
+(defmacro with-encoding
+  "Sets a default encoding for URL encoding strings. Defaults to UTF-8."
+  [encoding & body]
+  `(binding [*encoding* ~encoding]
+     ~@body))
+
+(defprotocol URLEncode
+  (url-encode [x] "Turn a value into a URL-encoded string."))
+
+(extend-protocol URLEncode
+  String
+  (url-encode [s] (URLEncoder/encode s *encoding*))
+  java.util.Map
+  (url-encode [m]
+    (str/join "&"
+      (for [[k v] m]
+        (if (vector? v)
+          (str/join "&"
+            (map #(str (url-encode k) "=" (url-encode %))
+                 v))
+          (str (url-encode k) "=" (url-encode v)))))))
+
+(defn href-back [dbs ref-org uniprotids oth-orgs]
+  (str "/?"
+    (url-encode
+      {"dbs" (vec dbs)
+       "ref-org" (str ref-org)
+       "uniprotids" (str/join "," uniprotids)
+       "oth-orgs" (vec (map str oth-orgs))
+       "force-input" "true"})))
+
+(defn view-output-html [dbs ref-org uniprotids oth-orgs]
   (view-layout
     [:h2 "Databases:"]
     (html-mutlilines dbs)
     [:h2 "Reference organism:"]
-    [:p org-name]
+    [:p ref-org]
     [:h2 "Uniprot Ids:"]
     (html-mutlilines uniprotids)
     [:h2 "Other orthologs:"]
     (html-mutlilines oth-orgs)
-    [:a.action {:href "/"} "Get another network"]))
+    [:a {:href (href-back dbs ref-org uniprotids oth-orgs)}
+        "Get another network"]))
+
+(defn view-output-graph [dbs ref-org uniprotids oth-orgs]
+  (let [[ret-proteins ret-interactions]
+        (network/fetch-protein-network-strings
+          dbs ref-org uniprotids oth-orgs)
+        nodes-edges (graph/to-graph-data ret-proteins ret-interactions)]
+    (view-layout
+      (json/write-str nodes-edges))))
+
+(def view-output view-output-html)

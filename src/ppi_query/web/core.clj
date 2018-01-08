@@ -12,7 +12,7 @@
 ; Launch with `lein run -m ppi-query.web`
 
 (defn rm-space [string]
-  (str/replace string #"[\s]" ""))
+  (str/replace (str string) #"[\s]" ""))
 
 (defn parse-int-or-string [arg]
   (try
@@ -26,20 +26,26 @@
         :else (map parse-fn arg)))
 
 (defn split-s [string]
-  (str/split (rm-space string) #"[,;]"))
+  (set (str/split (rm-space string) #"[,;]")))
 
-(defn parse-input [dbs org-name uniprotid oth-orgs]
-  [(make-vector str dbs)
-   (parse-int-or-string org-name)
-   (make-vector str (split-s uniprotid))
+(defn parse-input [dbs ref-org uniprotids oth-orgs]
+  [(make-vector rm-space dbs)
+   (parse-int-or-string ref-org)
+   (make-vector str (split-s uniprotids))
    (make-vector parse-int-or-string oth-orgs)])
 
 (defroutes main-routes
-  (GET "/" []
-    (view/view-input))
-  (GET "/graph" [dbs org-name uniprotids oth-orgs]
-    (let [[d o p oo] (parse-input dbs org-name uniprotids oth-orgs)]
-      (view/view-output d o p oo)))
+  (GET "/" [dbs ref-org uniprotids oth-orgs force-input]
+    (let [[d r p o] (parse-input dbs ref-org uniprotids oth-orgs)]
+      (if (or (and force-input (contains? #{"t" "T" "true" "True" "TRUE"} force-input))
+              (empty? d)
+              (nil? r)
+              (= "" r)
+              (empty? p)
+              (empty? o))
+        (view/view-input d r p o)
+        (view/view-output d r p o))))
+
   (route/resources "/")
   (route/not-found "<h1>404: Page not found</h1>"))
 
