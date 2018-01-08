@@ -33,9 +33,6 @@
                  [ring/ring-devel "1.6.3"]
                  [ring/ring-jetty-adapter "1.6.3"]]
 
-  :dev-dependencies
-                [[lein-ancient "0.6.15"]]
-
   :pom-plugins [[com.theoryinpractise/clojure-maven-plugin "1.8.1"
                  ;; this section is optional, values have the same syntax as pom-addition
                  {:configuration [:sourceDirectories [:sourceDirectory "src"]]
@@ -44,7 +41,9 @@
                                 [:goals ([:goal "compile"])]
                                 [:phase "compile"]])}]]
 
-  :plugins [[lein-auto "0.1.3"]]
+  :plugins [[lein-auto "0.1.3"]
+            [lein-ring "0.12.3"]
+            [lein-ancient "0.6.15"]]
 
   :jvm-opts ["-Dfile.encoding=utf-8"]
 
@@ -56,4 +55,5 @@
                                   [org.clojure/test.check "0.9.0"]]}}
 
   :main ppi-query.network-launch
-  :aot [ppi-query.network-launch])
+  :aot [ppi-query.network-launch ppi-query.web.core]
+  :ring {:handler ppi-query.web.core/app})
