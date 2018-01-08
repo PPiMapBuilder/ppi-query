@@ -40,9 +40,13 @@
     (xhtml-tag "en"
       [:head
         [:meta {:http-equiv "Content-type"
-                :content "text/html; charset=utf-8"}]
-        [:title "ppi-query"]]
+                :content "text/html; charset=utf-8"
+                :name "ppi-query" :description "Fetch interactions from PSIQUICK from multiple orthologs, display them in VR"}]
+        [:title "Ppi-query"]
+        [:script {:src "https://aframe.io/releases/0.7.1/aframe.min.js"}]
+        [:script {:src "https://unpkg.com/aframe-forcegraph-component/dist/aframe-forcegraph-component.js"}]]
       [:body content])))
+
 
 (defn view-input [dbs ref-org uniprotids oth-orgs]
   (view-layout
@@ -115,12 +119,26 @@
     [:a {:href (href-back dbs ref-org uniprotids oth-orgs)}
         "Get another network"]))
 
+(defn view-graph-json [nodes-edges]
+  (view-layout
+    [:a-scene {:stats ""}
+      [:a-camera {:wasd-controls "fly: true; acceleration: 600"}
+        [:a-cursor {:color "lavender" :opacity "0.5"}]]
+      [:a-sky {:color "#002"}]
+
+      [:a-entity {:forcegraph
+                  (str "nodes:" (json/write-str (nodes-edges :nodes))
+                       ";links:" (json/write-str (nodes-edges :edges))
+                       ";node-id: id;node-label: label;"
+                       "link-source:from;link-target:to;"
+                       "link-label:label;link-desc:desc;"
+                       "link-auto-color-by:desc;")}]]))
+
 (defn view-output-graph [dbs ref-org uniprotids oth-orgs]
   (let [[ret-proteins ret-interactions]
         (network/fetch-protein-network-strings
           dbs ref-org uniprotids oth-orgs)
         nodes-edges (graph/to-graph-data ret-proteins ret-interactions)]
-    (view-layout
-      (json/write-str nodes-edges))))
+    (view-graph-json nodes-edges)))
 
-(def view-output view-output-html)
+(def view-output view-output-graph)
