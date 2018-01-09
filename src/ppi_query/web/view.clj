@@ -63,7 +63,8 @@
                   :crossorigin "anonymous"}]
         (include-js "/js/selectize.min.js"
                     "https://aframe.io/releases/0.7.1/aframe.min.js"
-                    "https://unpkg.com/aframe-forcegraph-component/dist/aframe-forcegraph-component.js")]
+                    "https://unpkg.com/aframe-forcegraph-component/dist/aframe-forcegraph-component.js"
+                    "/js/aframe-gamepad-controls.min.js")]
       [:body content])))
 
 (defn view-input [dbs ref-org uniprotids oth-orgs]
@@ -157,7 +158,11 @@
 (defn view-graph-json [nodes-edges]
   (view-layout
     [:a-scene {:stats ""}
-      [:a-camera {:wasd-controls "fly: true; acceleration: 600"}
+      [:a-camera {:wasd-controls "fly: true; acceleration: 300"
+                  :gamepad-controls__0 "controller:0;flyEnabled: true; acceleration: 300;"
+                  :gamepad-controls__1 "controller:1;flyEnabled: true; acceleration: 300;"
+                  :gamepad-controls__2 "controller:2;flyEnabled: true; acceleration: 300;"
+                  :gamepad-controls__3 "controller:3;flyEnabled: true; acceleration: 300;"}
         [:a-cursor {:color "lavender" :opacity "0.5"}]]
       [:a-sky {:color "#002"}]
 
