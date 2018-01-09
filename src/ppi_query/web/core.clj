@@ -42,6 +42,8 @@
               (nil? r)
               (= "" r)
               (empty? p)
+              (nil? (first p))
+              (= "" (first p))
               (empty? o))
         (view/view-input d r p o)
         (view/view-output d r p o))))

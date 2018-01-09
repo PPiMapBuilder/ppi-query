@@ -9,12 +9,12 @@
   (:import java.net.URI
            java.net.URLEncoder))
 
-(defn select-orgs [name & {mult :multiple sel :selected :as args}]
+(defn select-orgs [name & {mult :multiple sel :selected plac :placeholder :as args}]
   (let [selected
         (set (if (coll? sel) sel [sel]))]
     (into []
      (concat
-      [:select {:name name :id name :multiple mult}]
+      [:select {:name name :id name :multiple mult :placeholder plac}]
       (map (fn [{id :taxon-id :as org}]
              (vector
                :option {:value id
@@ -22,12 +22,13 @@
                        (or (:scientific-name org) (:common-name org))))
            (sort-by :scientific-name orgn/inparanoid-organism-repository))))))
 
-(defn select-dbs [name & {mult :multiple sel :selected :as args}]
+
+(defn select-dbs [name & {mult :multiple sel :selected plac :placeholder :as args}]
   (let [selected
         (set (if (coll? sel) sel [sel]))]
     (into []
      (concat
-      [:select {:name name :id name :multiple mult}]
+      [:select {:name name :id name :multiple mult :placeholder plac}]
       (map (fn [db]
              (vector :option {:value db
                               :selected (contains? selected db)}
@@ -39,37 +40,61 @@
     (doctype :xhtml-strict)
     (xhtml-tag "en"
       [:head
-        [:meta {:http-equiv "Content-type"
-                :content "text/html; charset=utf-8"
-                :name "ppi-query" :description "Fetch interactions from PSIQUICK from multiple orthologs, display them in VR"}]
+        [:meta {:charset "utf-8"}]
+        [:meta {:http-equiv "X-UA-Compatible"
+                :content "IE=edge,chrome=1"}]
+        [:meta {:name "description"
+                :content "Fetch interactions from PSIQUICK from multiple orthologs, display them in VR"}]
+        [:meta {:name "viewport"
+                :content "width=device-width,initial-scale=1,maximum-scale=1,shrink-to-fit=no"}]
         [:title "Ppi-query"]
-        [:script {:src "https://aframe.io/releases/0.7.1/aframe.min.js"}]
-        [:script {:src "https://unpkg.com/aframe-forcegraph-component/dist/aframe-forcegraph-component.js"}]]
+        (include-css "/css/normalize.css"
+                     "/css/selectize.default.css")
+        [:link {:rel "stylesheet"
+                :href "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css"
+                :integrity "sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy"
+                :crossorigin "anonymous"}]
+        (include-js "/js/jquery-3.2.1.min.js")
+        [:script {:src "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                  :integrity "sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                  :crossorigin "anonymous"}]
+        [:script {:src "https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"
+                  :integrity "sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4"
+                  :crossorigin "anonymous"}]
+        (include-js "/js/selectize.min.js"
+                    "https://aframe.io/releases/0.7.1/aframe.min.js"
+                    "https://unpkg.com/aframe-forcegraph-component/dist/aframe-forcegraph-component.js")]
       [:body content])))
-
 
 (defn view-input [dbs ref-org uniprotids oth-orgs]
   (view-layout
-    [:h2 "Query a protein"]
-    (form-to [:get "/"]
-      (label "dbs" "Databases: ")
-      (select-dbs "dbs" :multiple true :selected dbs)
-      [:br]
-      (label "ref-org" "Organism: ")
-      (select-orgs "ref-org" :selected ref-org)
-      [:br]
-      (label "uniprotids" "Proteins (separated by `,` or `;`): ")
-      [:input#uniprotids {:type "text" :name "uniprotids" :value (str/join ", " uniprotids)}]
-      [:br]
-      (label "oth-orgs" "Other organisms: ")
-      (select-orgs "oth-orgs" :multiple true :selected oth-orgs)
-      [:br]
-      (submit-button "Fetch network"))
-    [:a {:href "/?dbs=IntAct&ref-org=C.elegans&uniprotids=Q18688,Q20646&oth-orgs=M.musculus&oth-orgs=S.pombe&oth-orgs=3702"}
-        "Quick network"]))
+    [:br]
+    [:div.container
+      [:h2 "Query a protein"]
+      (form-to [:get "/"]
+        [:div.form-group
+          (label "uniprotids" "Proteins (separated by `,` or `;`): ")
+          [:input#uniprotids.form-control {:type "text" :name "uniprotids" :value (str/join ", " uniprotids)}]]
+        [:div.form-group
+          (label "ref-org" "Reference organism: ")
+          (select-orgs "ref-org" :selected ref-org :placeholder "Choose a reference organism...")]
+        [:script "$('#ref-org').selectize();"]
+        [:div.form-group
+          (label "oth-orgs" "Other organisms: ")
+          (select-orgs "oth-orgs" :multiple true :selected oth-orgs :placeholder "Choose some orthologs...")]
+        [:script "$('#oth-orgs').selectize();"]
+        [:div.form-group
+          (label "dbs" "Databases: ")
+          (select-dbs "dbs" :multiple true :selected dbs :placeholder "Choose some databases...")]
+        [:script "$('#dbs').selectize();"]
+        [:div.row.justify-content-around
+          [:button.btn.btn-primary.col-4 {:type "submit"} "Fetch network"]
+          [:a.btn.btn-secondary.col-4 {:href "/?dbs=IntAct&ref-org=C.elegans&uniprotids=Q18688,Q20646&oth-orgs=M.musculus&oth-orgs=S.pombe&oth-orgs=3702"}
+              "Quick network"]])]))
+
 (defn html-mutlilines [args]
   (into []
-    (concat [:p]
+    (concat [:div]
       (map #(vector :p %)
            args))))
 
@@ -108,16 +133,26 @@
 
 (defn view-output-html [dbs ref-org uniprotids oth-orgs]
   (view-layout
-    [:h2 "Databases:"]
-    (html-mutlilines dbs)
-    [:h2 "Reference organism:"]
-    [:p ref-org]
-    [:h2 "Uniprot Ids:"]
-    (html-mutlilines uniprotids)
-    [:h2 "Other orthologs:"]
-    (html-mutlilines oth-orgs)
-    [:a {:href (href-back dbs ref-org uniprotids oth-orgs)}
-        "Get another network"]))
+    [:br]
+    [:div.container
+      [:h2 "Fetching the network for:"]
+      [:div.row
+        [:div.col
+          [:h3 "Uniprot Ids:"]
+          (html-mutlilines uniprotids)]
+        [:div.col
+          [:h3 "Reference organism:"]
+          [:p ref-org]]]
+      [:div.row
+        [:div.col
+          [:h3 "Databases:"]
+          (html-mutlilines dbs)]
+        [:div.col
+          [:h3 "Other orthologs:"]
+          (html-mutlilines oth-orgs)]]
+      [:div.row.justify-content-center
+        [:a.col-8.btn.btn-primary {:href (href-back dbs ref-org uniprotids oth-orgs)}
+            "Get another network"]]]))
 
 (defn view-graph-json [nodes-edges]
   (view-layout
@@ -128,7 +163,7 @@
 
       [:a-entity {:forcegraph
                   (str "nodes:" (json/write-str (nodes-edges :nodes))
-                       ";links:" (json/write-str (nodes-edges :edges))
+                       ";links:" (json/write-str (nodes-edges :links))
                        ";node-id: id;node-label: label;"
                        "link-source:from;link-target:to;"
                        "link-label:label;link-desc:desc;"
