@@ -47,6 +47,6 @@
                       :desc desc}))
                ret-interactions)]
     (if (empty? edges-verify)
-        {:nodes nodes :edges edges}
+        {:nodes nodes :links edges}
         (do (println edges-verify)
             (throw (Exception. "An interaction exist between proteins not in ret-proteins !"))))))
