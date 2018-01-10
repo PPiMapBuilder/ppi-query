@@ -1,6 +1,7 @@
 (ns ppi-query.web.view
   (:use [hiccup core page form])
   (:require [ppi-query.organism :as orgn]
+            [ppi-query.protein :as prot]
             [ppi-query.interaction.psicquic.registry :as reg]
             [ppi-query.network :as network]
             [ppi-query.graph   :as graph]
@@ -15,11 +16,13 @@
     (into []
      (concat
       [:select {:name name :id name :multiple mult :placeholder plac}]
-      (map (fn [{id :taxon-id :as org}]
+      (map (fn [{id :taxon-id com :common-name scient :scientific-name :as org}]
              (vector
                :option {:value id
-                        :selected (contains? selected id)}
-                       (or (:scientific-name org) (:common-name org))))
+                        :selected (or (contains? selected id)
+                                      (contains? selected com)
+                                      (contains? selected scient))}
+                       (or scient com)))
            (sort-by :scientific-name orgn/inparanoid-organism-repository))))))
 
 
@@ -63,7 +66,8 @@
                   :crossorigin "anonymous"}]
         (include-js "/js/selectize.min.js"
                     "https://aframe.io/releases/0.7.1/aframe.min.js"
-                    "https://unpkg.com/aframe-forcegraph-component/dist/aframe-forcegraph-component.js")]
+                    ;"https://unpkg.com/aframe-forcegraph-component/dist/aframe-forcegraph-component.js")]
+                    "/js/aframe-forcegraph-component.min.js")]
       [:body content])))
 
 (defn view-input [dbs ref-org uniprotids oth-orgs]
@@ -88,9 +92,17 @@
           (select-dbs "dbs" :multiple true :selected dbs :placeholder "Choose some databases...")]
         [:script "$('#dbs').selectize();"]
         [:div.row.justify-content-around
-          [:button.btn.btn-primary.col-4 {:type "submit"} "Fetch network"]
-          [:a.btn.btn-secondary.col-4 {:href "/?dbs=IntAct&ref-org=C.elegans&uniprotids=Q18688,Q20646&oth-orgs=M.musculus&oth-orgs=S.pombe&oth-orgs=3702"}
-              "Quick network"]])]))
+          [:button.btn.btn-primary.col-4 {:type "submit"} "Fetch network"]]
+        [:br]
+        [:div.row.justify-content-around
+          [:a.btn.btn-secondary.col-2 {:href "/?dbs=IntAct&ref-org=6239&uniprotids=Q20646%2CQ18688&oth-orgs=10090&oth-orgs=284812&oth-orgs=3702"}
+              "C.elegans + 3 orgs"]
+          [:a.btn.btn-secondary.col-2 {:href "/?dbs=IntAct&ref-org=6239&uniprotids=Q20646%2CQ18688&oth-orgs=10090&oth-orgs=284812&oth-orgs=3702&oth-orgs=9913&oth-orgs=7227&oth-orgs=10116"}
+              "C.elegans + 6 orgs"]
+          [:a.btn.btn-secondary.col-2 {:href "/?dbs=IntAct&ref-org=6239&uniprotids=Q20646%2CQ18688&oth-orgs=10090&oth-orgs=284812&oth-orgs=3702&oth-orgs=9913&oth-orgs=7227&oth-orgs=10116&oth-orgs=9606&oth-orgs=S.cerevisiae"}
+              "C.elegans + 8 orgs"]
+          [:a.btn.btn-secondary.col-2 {:href "/?dbs=IntAct&ref-org=9606&uniprotids=P08238&oth-orgs=10090&oth-orgs=10090&oth-orgs=284812&oth-orgs=3702&oth-orgs=9913&oth-orgs=7227&oth-orgs=10116&oth-orgs=9606&oth-orgs=S.cerevisiae2"}
+              "Human + 8 orgs"]])]))
 
 (defn html-mutlilines [args]
   (into []
@@ -130,6 +142,14 @@
        "uniprotids" (str/join "," uniprotids)
        "oth-orgs" (vec (map str oth-orgs))
        "force-input" "true"})))
+(defn href-back-objs [dbs ref-org prots oth-orgs]
+  (str "/?"
+    (url-encode
+      {"dbs" (vec dbs)
+       "ref-org" (str (:taxon-id ref-org))
+       "uniprotids" (str/join "," (map :uniprotid prots))
+       "oth-orgs" (vec (map (comp str :taxon-id) oth-orgs))
+       "force-input" "true"})))
 
 (defn view-output-html [dbs ref-org uniprotids oth-orgs]
   (view-layout
@@ -155,25 +175,55 @@
             "Get another network"]]]))
 
 (defn view-graph-json [nodes-edges]
-  (view-layout
-    [:a-scene {:stats ""}
-      [:a-camera {:wasd-controls "fly: true; acceleration: 600"}
-        [:a-cursor {:color "lavender" :opacity "0.5"}]]
-      [:a-sky {:color "#002"}]
+  [:a-scene ;{:stats ""}
+    [:a-camera {:wasd-controls "fly: true; acceleration: 600"}
+      [:a-cursor {:color "lavender" :opacity "0.5"}]]
+    [:a-sky {:color "#002"}]
 
-      [:a-entity {:forcegraph
-                  (str "nodes:" (json/write-str (nodes-edges :nodes))
-                       ";links:" (json/write-str (nodes-edges :links))
-                       ";node-id: id;node-label: label;"
-                       "link-source:from;link-target:to;"
-                       "link-label:label;link-desc:desc;"
-                       "link-auto-color-by:desc;")}]]))
+    [:a-entity {:forcegraph
+                (str "nodes:" (json/write-str (nodes-edges :nodes))
+                     ";links:" (json/write-str (nodes-edges :links))
+                     ";node-id: id;node-label: label;"
+                     "link-source:from;link-target:to;"
+                     "link-label:label;link-desc:desc;"
+                     "link-auto-color-by:desc;")}]])
+
+(defn or-common-scientific [org]
+  (or (:common-name org) (:scientific-name org)))
 
 (defn view-output-graph [dbs ref-org uniprotids oth-orgs]
-  (let [[ret-proteins ret-interactions]
-        (network/fetch-protein-network-strings
-          dbs ref-org uniprotids oth-orgs)
+  (let [ref-organism
+          (orgn/inparanoid-organism-by-id-or-shortname ref-org)
+        proteins
+          (map (partial prot/->Protein ref-organism)
+               uniprotids)
+        other-organisms
+          (map orgn/inparanoid-organism-by-id-or-shortname oth-orgs)
+        [ret-proteins ret-interactions]
+        (network/fetch-protein-network
+          dbs ref-organism proteins other-organisms)
         nodes-edges (graph/to-graph-data ret-proteins ret-interactions)]
-    (view-graph-json nodes-edges)))
+    (view-layout
+      [:nav.navbar.navbar-expand-lg.navbar-light.bg-light
+        [:a.navbar-brand {:href "/"} "Ppi-Query"]
+        [:button.navbar-toggler
+          {:type "button"
+           :data-toggle "collapse" :data-target "#navbarText"
+           :aria-controls "navbarText" :aria-expanded "false"
+           :aria-label "Toggle navigation"}
+          [:span.navbar-toggler-icon ""]]
+        [:div#navbarText.collapse.navbar-collapse
+          [:span.navbar-text
+            {:style "margin-right:8px;"}
+            "Graph generated for " (str/join ", " uniprotids)
+            " (" (or-common-scientific ref-organism) ") "
+            "with orthologs: "
+            (str/join ", " (map or-common-scientific other-organisms))
+            ". DBs: "
+            (str/join ", " dbs)]
+          [:form.form-inline
+            [:a.btn.btn-outline-danger {:href (href-back-objs dbs ref-organism proteins other-organisms)}
+               "Back"]]]]
+      (view-graph-json nodes-edges))))
 
 (def view-output view-output-graph)
