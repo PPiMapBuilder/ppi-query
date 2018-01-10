@@ -10,34 +10,6 @@
   (:import java.net.URI
            java.net.URLEncoder))
 
-(defn select-orgs [name & {mult :multiple sel :selected plac :placeholder :as args}]
-  (let [selected
-        (set (if (coll? sel) sel [sel]))]
-    (into []
-     (concat
-      [:select {:name name :id name :multiple mult :placeholder plac}]
-      (map (fn [{id :taxon-id com :common-name scient :scientific-name :as org}]
-             (vector
-               :option {:value id
-                        :selected (or (contains? selected id)
-                                      (contains? selected com)
-                                      (contains? selected scient))}
-                       (or scient com)))
-           (sort-by :scientific-name orgn/inparanoid-organism-repository))))))
-
-
-(defn select-dbs [name & {mult :multiple sel :selected plac :placeholder :as args}]
-  (let [selected
-        (set (if (coll? sel) sel [sel]))]
-    (into []
-     (concat
-      [:select {:name name :id name :multiple mult :placeholder plac}]
-      (map (fn [db]
-             (vector :option {:value db
-                              :selected (contains? selected db)}
-                             db))
-           (sort (keys (reg/get-registry!))))))))
-
 (defn view-layout [& content]
   (html
     (doctype :xhtml-strict)
@@ -69,7 +41,41 @@
                     ;"https://unpkg.com/aframe-forcegraph-component/dist/aframe-forcegraph-component.js")]
                     "/js/aframe-forcegraph-component.min.js"
                     "/js/aframe-gamepad-controls.min.js")]
-     [:body content])))
+     [:body content]
+     [:script "$(function () {$('[data-toggle=\"tooltip\"]').tooltip()});"])))
+
+
+
+
+(defn select-orgs [name & {mult :multiple sel :selected plac :placeholder :as args}]
+  (let [selected
+        (set (if (coll? sel) sel [sel]))]
+    (into []
+     (concat
+      [:select {:name name :id name :multiple mult :placeholder plac}]
+      (map (fn [{id :taxon-id com :common-name scient :scientific-name :as org}]
+             (let [short (orgn/get-shortname org)]
+               (vector
+                 :option {:value id
+                          :selected (or (contains? selected id)
+                                        (contains? selected com)
+                                        (contains? selected short)
+                                        (contains? selected scient))}
+                         (or scient short com))))
+           (sort-by :scientific-name orgn/inparanoid-organism-repository))))))
+
+
+(defn select-dbs [name & {mult :multiple sel :selected plac :placeholder :as args}]
+  (let [selected
+        (set (if (coll? sel) sel [sel]))]
+    (into []
+     (concat
+      [:select {:name name :id name :multiple mult :placeholder plac}]
+      (map (fn [db]
+             (vector :option {:value db
+                              :selected (contains? selected db)}
+                             db))
+           (sort (keys (reg/get-registry!))))))))
 
 (defn view-input [dbs ref-org uniprotids oth-orgs]
   (view-layout
@@ -194,7 +200,21 @@
                      "link-auto-color-by:desc;")}]])
 
 (defn or-common-scientific [org]
-  (or (:common-name org) (:scientific-name org)))
+  (or (:common-name org) (orgn/get-shortname org) (:scientific-name org)))
+
+(defn span-org [org]
+  [:span.badge.badge-info
+    {:data-toggle "tooltip" :data-placement "bottom"
+     :title (str (:scientific-name org)
+                 (if-let [com (:common-name org)] (str " (Common name: " com ")"))
+                 " (Taxon: " (:taxon-id org) ")")}
+    (orgn/get-shortname org)])
+
+(defn span-prot [uniprotid]
+  [:span.badge.badge-primary uniprotid])
+
+(defn span-db [db]
+  [:span.badge.badge-success db])
 
 (defn view-output-graph [dbs ref-org uniprotids oth-orgs]
   (let [ref-organism
@@ -220,12 +240,13 @@
         [:div#navbarText.collapse.navbar-collapse
           [:span.navbar-text
             {:style "margin-right:8px;"}
-            "Graph generated for " (str/join ", " uniprotids)
-            " (" (or-common-scientific ref-organism) ") "
+            "Graph generated for "
+            (into [:span] (interpose ", " (map span-prot uniprotids)))
+            " (" (span-org ref-organism) ") "
             "with orthologs: "
-            (str/join ", " (map or-common-scientific other-organisms))
+            (into [:span] (interpose " " (map span-org other-organisms)))
             ". DBs: "
-            (str/join ", " dbs)]
+            (into [:span] (interpose ", " (map span-db dbs)))]
           [:form.form-inline
             [:a.btn.btn-outline-danger {:href (href-back-objs dbs ref-organism proteins other-organisms)}
                "Back"]]]]
