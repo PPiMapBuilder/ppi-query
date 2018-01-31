@@ -14,6 +14,8 @@
                  [org.clojure/java.data "0.1.1"]
                  [org.clojure/data.zip "0.1.2"]
                  [org.clojure/data.json "0.2.6"]
+                 [org.clojure/core.async "0.4.474"]
+                 [com.climate/claypoole "1.1.4"]
                  [com.taoensso/nippy "2.13.0"]
 
                  ; HTTP client
