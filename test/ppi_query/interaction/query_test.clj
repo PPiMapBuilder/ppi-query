@@ -3,6 +3,7 @@
             [clojure.pprint :refer :all]
             [clojure.spec.alpha :as s]
             [clojure.spec.test :as stest]
+            [clojure.core.async :as async]
             [ppi-query.test.utils :refer :all]
             [ppi-query.interaction.data :as intrd]
             [ppi-query.interaction.query :as intrq]
@@ -41,6 +42,7 @@
 ; See /interaction_example.txt for a full interaction
 (def test-client-1 (reg/get-client "IntAct"))
 (def test-all-clients (reg/get-clients ["IntAct"]))
+(def test-all-clients2 (reg/get-clients ["IntAct", "InnateDB"]))
 (def test-query-1-res (intrq/get-by-query test-client-1 test-query-1))
 (def do-test-query-2 false) ; Warning: Long !
 (def test-query-2-res
@@ -114,3 +116,14 @@
   (is (= test-query-3-res
          (intrq/fetch-by-query-all-clients
             test-all-clients test-query-3))))
+
+(comment
+  (dotimes [_ 5]
+    (time
+      (->>
+        (intrq/dbs-get-by-query> ["IntAct", "InnateDB"] test-query-1)
+        (async/into [])
+        (async/<!!)
+        (map :source)
+        (frequencies)
+        (println)))))
