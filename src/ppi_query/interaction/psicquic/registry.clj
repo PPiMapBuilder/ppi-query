@@ -21,14 +21,14 @@
 ; PSICQUIC registry XML specs
 (s/def ::service-xml
   (s/cat
-    :name (pxml/text-node :name)
+    :name (s/? (pxml/text-node :name))
     :soapUrl (s/? (pxml/text-node :soapUrl))
-    :restUrl (pxml/text-node :restUrl)
+    :restUrl (s/? (pxml/text-node :restUrl))
     :restExample (s/? (pxml/text-node :restExample))
-    :active (pxml/text-node :active)
+    :active (s/? (pxml/text-node :active))
     :count (s/? (pxml/text-node :count))
     :version (s/? (pxml/text-node :version))
-    :organizationUrl (pxml/text-node :organizationUrl)
+    :organizationUrl (s/? (pxml/text-node :organizationUrl))
     :description (s/? (pxml/text-node :description))
     :restricted (s/? (pxml/text-node :restricted))
     :tags (s/* (pxml/text-node :tag))))
