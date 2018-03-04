@@ -3,35 +3,35 @@
            (psidev.psi.mi.tab PsimiTabReader))
   (:require [clojure.java.data :refer :all]
             [clojure.spec.alpha :as s]
-            [ppi-query.interaction.data :as intrd]
-            [com.climate.claypoole :as cp]
-            [clojure.core.async :as async]
-            [ppi-query.interaction.psicquic.registry :as reg]
-            [ppi-query.utils :as utils]))
+            [clojure.tools.logging :as log]
+            [ppi-query.interaction.data :as intrd]))
+
+(s/def ::page-size int?)
+(s/def ::page-offset int?)
+(s/def ::retry int?)
+
+(def ^:const DEFAULT-PAGE-SIZE 100)
+(def ^:const DEFAULT-RETRY-COUNT 4)
 
 ; Psimi Reader
 (def reader (new PsimiTabReader))
 
-(defn print-exception [exception client & query]
-  (println "Warning: A request failed with an exception:")
-  (println (.toString exception))
-  (println "Client:" client)
-  (println "The query was: ")
-  (apply println query)
-  (println "")
+(defn- print-exception [exception client & query]
+  (log/error
+    "Warning: A request failed with an exception:" (.toString exception)
+    "Client:" client
+    "The query was: " (apply str query))
   '())
 
-(def retry-count 4)
-(defn retry-wait [retry]
+(defn- retry-wait [retry]
   (Thread/sleep
-    (* 300 (max 0
-                 (- retry-count
-                    retry)))))
+    (* 300 (max 0 (- DEFAULT-RETRY-COUNT retry)))))
+
 
 (defn get-by-query
   "Get lazy sequence of interactions by query (with psicquic client)"
   ([client query]
-   (get-by-query client query retry-count))
+   (get-by-query client query DEFAULT-RETRY-COUNT))
   ([client query retry]
    (try
      (let [result-stream (.getByQuery client query)
@@ -41,11 +41,11 @@
      (catch Exception ex
        (if (<= retry 1)
          (print-exception ex client "getByQuery" query)
-         (do (println "Retry getByQuery" retry)
+         (do (log/debug "Retry getByQuery" retry)
              (retry-wait retry)
              (get-by-query client query (dec retry)))))))
   ([client query max-results first-result]
-   (get-by-query client query max-results first-result retry-count))
+   (get-by-query client query max-results first-result DEFAULT-RETRY-COUNT))
   ([client query max-results first-result retry]
    (try
      (let [result-stream (.getByQuery client query PsicquicSimpleClient/MITAB25
@@ -55,9 +55,9 @@
        result-clj)
      (catch Exception ex
        (if (<= retry 1)
-         (print-exception ex client "getByQuery" query
-             "\nWith first & max results:" first-result max-results)
-         (do (println "Retry getByQuery" retry)
+         (print-exception ex client "getByQuery" query "\n"
+             "With first & max results:" first-result max-results)
+         (do (log/debug "Retry getByQuery" retry)
              (retry-wait retry)
              (get-by-query client query first-result max-results (dec retry))))))))
 
@@ -69,30 +69,32 @@
 
 (defn count-by-query
   ([client query]
-   (count-by-query client query retry-count))
+   (count-by-query client query DEFAULT-RETRY-COUNT))
   ([client query retry]
    (try
      (.countByQuery client query)
      (catch Exception ex
        (if (<= retry 1)
          (print-exception ex client "countByQuery" query)
-         (do (println "Retry countByQuery" retry)
+         (do (log/debug "Retry countByQuery" retry)
              (retry-wait retry)
              (count-by-query client query (dec retry))))))))
+
 
 ; https://github.com/PSICQUIC/psicquic-simple-client/blob/master/src/example/
 ; java/org/hupo/psi/mi/psicquic/wsclient/PsicquicSimpleExampleLimited.java
 (defn fetch-by-query
   "Handle pagination doing get-by-query (with psicquic client)"
   ([client query] (fetch-by-query client query 100))
-  ([client query pagesize]
-   (mapcat (partial get-by-query client query pagesize)
-      (range 0 (count-by-query client query) pagesize))))
+  ([client query page-size]
+   (mapcat (partial get-by-query client query page-size)
+      (range 0 (count-by-query client query) page-size))))
 
 (s/fdef fetch-by-query
   :args (s/cat :client ::intrd/client :query ::intrd/query
                :optional-pagesize (s/? pos-int?))
   :ret ::intrd/interactions)
+
 
 (defn fetch-by-query-all-clients [clients query]
   "Apply the same query on all the clients and merge the result in
@@ -105,11 +107,8 @@
   :args (s/cat :clients ::intrd/clients :query ::intrd/query)
   :ret  ::intrd/interactions)
 
-(def ^:const DEFAULT-RETRY-COUNT 4)
-(def ^:const DEFAULT-PAGE-SIZE 100)
-(def ^:const DEFAULT-THREAD-POOL-SIZE (+ 1 (cp/ncpus)))
 
-(defn get-by-query2
+(defn lazy-get-by-query
   "Get interaction by query returning a lazy sequence of interactions.
    Retries on error"
   [client query & {:keys [page-offset, page-size, retry]
@@ -124,49 +123,15 @@
          (map from-java))
     (catch Exception ex
       (if (<= retry 1)
-        (print-exception ex client "getByQuery" query
-                         "\nWith first & max results:" page-offset page-size)
-        (do (println "Retry getByQuery" retry)
+        (print-exception ex client "getByQuery" query "\n"
+                         "With first & max results:" page-offset page-size)
+        (do (log/debug "Retry getByQuery" retry)
             (retry-wait retry)
-            (get-by-query2 client query
-                           :page-offset page-offset
-                           :page-size page-size
-                           :retry (dec retry)))))))
+            (lazy-get-by-query client query
+              :page-offset page-offset :page-size page-size
+              :retry (dec retry)))))))
 
-(defn prepare-requests
-  "Prepares page requests for a database"
-  [out query page-size db]
-  (let [client (reg/get-client db)
-        total-count (count-by-query client query)
-        page-offsets (range 0 total-count page-size)
-
-        ; Post-process interaction (assoc source db) & put on output channel
-        output-interaction (comp #(async/>!! out %)
-                                 #(assoc % :source db))]
-    ; Prepare get-by-query requests
-    (map
-      (fn [page-offset]
-        #(->> (get-by-query2 client query
-                             :page-offset page-offset
-                             :page-size page-size)
-              (map output-interaction)
-              (doall)))
-      page-offsets)))
-
-(defn dbs-get-by-query>
-  "Asynchronously execute query on databases in a thread pool.
-   Returns a channel of interactions "
-  [dbs query & {:keys [threads, page-size]
-                :or   {threads DEFAULT-THREAD-POOL-SIZE,
-                       page-size DEFAULT-PAGE-SIZE}}]
-  (let [out (async/chan (* threads page-size))]
-    (async/thread
-      (let [pool (cp/threadpool threads)
-            prepare-requests2 (partial prepare-requests out query page-size)
-            requests (cp/upmap pool prepare-requests2 dbs)]
-        (->> (reduce concat requests)
-             (cp/upmap pool #(apply % []))
-             (doall))
-        (async/close! out)
-        (cp/shutdown! pool)))
-    out))
+(s/fdef lazy-get-by-query
+  :args (s/cat :client ::intrd/client :query ::intrd/query
+               :options (s/keys* :opt-un [::page-offset, ::page-size, ::retry]))
+  :ret (s/* ::intrd/interaction))
