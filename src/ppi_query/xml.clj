@@ -10,11 +10,11 @@
 (s/def ::document (s/or :text string? :node ::node :nil nil?))
 
 (defmacro node [& {:keys [tag attrs content]}]
-  "Creates an xml node spec describind its tag, attibutes and content."
-  `(ps/map-spec :tag ~tag
+  "Creates an xml node spec describing its tag, attributes and content."
+  `(ps/map-spec :tag ~(or tag `::tag)
                 :attrs ~(or attrs `::attrs)
                 :content ~(or content `::content)))
 
 (defmacro text-node [tag]
   "Spec for xml node containing only text."
-  `(node :tag #{~tag} :content (s/tuple string?)))
+  `(node :tag #{~tag} :content (s/nilable (s/coll-of string?))))

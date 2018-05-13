@@ -9,11 +9,19 @@
   ; Avoid random exception when using clojure.spec.test/check with clojure.test
   :monkeypatch-clojure-test false
 
+  ; Test selectors (integration are not run by default)
+  :test-selectors {:default (complement :integration)
+                   :integration :integration}
+
   :dependencies [[org.clojure/clojure "1.9.0-alpha15"]
                  [org.clojure/spec.alpha "0.1.123"]
+
+                 [org.clojure/tools.logging "0.4.0"]
                  [org.clojure/java.data "0.1.1"]
                  [org.clojure/data.zip "0.1.2"]
                  [org.clojure/data.json "0.2.6"]
+                 [org.clojure/core.async "0.4.474"]
+                 [com.climate/claypoole "1.1.4"]
                  [com.taoensso/nippy "2.13.0"]
 
                  ; HTTP client
